@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Button from './Button'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const Label = styled.label`
   display: block;
@@ -9,7 +9,6 @@ const Label = styled.label`
   letter-spacing: 0.1rem;
   color: #333333;
 `;
-
 const Input = styled.input`
   width: 100%;
   padding-top: 0.5rem;
@@ -22,7 +21,6 @@ const Input = styled.input`
     outline:none;
   }
 `;
-
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -34,37 +32,41 @@ const InputWrapper = styled.div`
     border-bottom: 2px solid #FF625D; 
   }
 `;
+const Tip = styled.p`
+  display: block;
+  visibility: ${({ $valid }) => $valid ? 'hidden' : 'visible'};
+  white-space: nowrap;
+  color:#90949B;
+  font-weight: 600;
+  font-size: 0.6rem;
+`;
 
 
-const TextInput = ({ label, ...props }) => {
+const TextInput = ({ label, buttonLabel, tip, idValid, idRef, passwordValid, passwordRef, ...props }) => {
 
-  const [activeInput, setActiveInput] = useState(false);
-
-  const handleInput = (event) => {
-    if (event.target.value) {
-      setActiveInput(true);
-    } else {
-      setActiveInput(false);
-    }
-  }
+  const idRef = useRef();
+  const passwordRef = useRef();
 
   return (
     <div>
       {label && <Label>{label}</Label>}
       {(label === '아이디') ?
         <InputWrapper>
-          <Input
-            onChange={handleInput} {...props} />
+          <Input ref={idRef} {...props} />
           <Button
-            bgColor={activeInput ? 'coral' : 'gray'}
-            textColor={activeInput ? 'white' : 'black'}
-            size={'small'}>
-            중복 확인하기
+            bgColor={idValid ? 'gray' : 'coral'}
+            textColor={idValid ? 'black' : 'white'}
+            size={'small'}
+            onClick={handleValidId}>
+            {buttonLabel}
           </Button>
         </InputWrapper> :
-        <InputWrapper>
-          <Input type="password" {...props} />
-        </InputWrapper>
+        <>
+          <InputWrapper>
+            <Input type="password" ref={passwordRef} {...props} />
+          </InputWrapper>
+          <Tip $valid={passwordValid}>{tip}</Tip>
+        </>
       }
     </div>
   );
