@@ -1,72 +1,54 @@
-import styled from 'styled-components'
-import Button from './Button'
-import { useState, useRef } from 'react';
+import styled from "styled-components";
+import Button from "../common/Button";
+import { useId } from "react";
 
 const Label = styled.label`
-  display: block;
-  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.1rem;
   color: #333333;
 `;
+
 const Input = styled.input`
   width: 100%;
-  padding-top: 0.5rem;
-  background-color: transparent;
+  padding-top: 1rem;
   color: #333333;
   font-size: 1rem;
-  border:none;
+  border: none;
 
-  &:focus { 
-    outline:none;
+  &:focus {
+    outline: none;
   }
 `;
+
 const InputWrapper = styled.div`
   display: flex;
-  align-items: center;
-  width: 100%;
-  border-bottom: 1px solid #D9D9D9; 
+  /* align-items: center; */
+  border-bottom: 1px solid #d9d9d9;
   padding-bottom: 0.3rem;
-  
-  &:focus-within { 
-    border-bottom: 2px solid #FF625D; 
+
+  &:focus-within {
+    border-bottom: 2px solid #ff625d;
   }
 `;
-const Tip = styled.p`
-  display: block;
-  visibility: ${({ $valid }) => $valid ? 'hidden' : 'visible'};
-  white-space: nowrap;
-  color:#90949B;
-  font-weight: 600;
-  font-size: 0.6rem;
-`;
 
-
-const TextInput = ({ label, buttonLabel, tip, idValid, idRef, handleValidId, passwordValid, passwordRef, ...props }) => {
-
+const TextInput = ({ label, buttonLabel, buttonClickHandler, ...props }) => {
+  const id = useId();
   return (
     <div>
-      {label && <Label>{label}</Label>}
-      {(label === '아이디') ?
-        <InputWrapper>
-          <Input ref={idRef} {...props} />
+      {label && <Label htmlFor={id}>{label}</Label>}
+      <InputWrapper>
+        <Input id={id} {...props} />
+        {buttonLabel && (
           <Button
-            bgColor={idValid ? 'gray' : 'coral'}
-            textColor={idValid ? 'black' : 'white'}
-            size={'small'}
-            onClick={handleValidId}>
+            bgColor="coral"
+            textColor="white"
+            size="small"
+            onClick={buttonClickHandler}>
             {buttonLabel}
           </Button>
-        </InputWrapper> :
-        <>
-          <InputWrapper>
-            <Input type="password" ref={passwordRef} {...props} />
-          </InputWrapper>
-          <Tip $valid={passwordValid}>{tip}</Tip>
-        </>
-      }
+        )}
+      </InputWrapper>
     </div>
   );
-}
+};
 
 export default TextInput;

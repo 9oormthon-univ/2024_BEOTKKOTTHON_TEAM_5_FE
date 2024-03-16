@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import useDetectClose from "../../hooks/useDetectClose";
+import useDetectClose from "../hooks/useDetectClose";
 
 const Dropdown = ({placeholder, types, }) => {
   const [selected, setSelected] = useState("");
