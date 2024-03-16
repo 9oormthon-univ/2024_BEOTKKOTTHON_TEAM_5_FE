@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import mediaButton from '../assets/media-button.png';
-import sendButton from '../assets/send-button.png';
 
 const MeassageInputContainer = styled.div`
   display: flex;
@@ -45,12 +43,12 @@ const MessageInput = () => {
   return (
     <MeassageInputContainer>
       <WrapButton>
-        <img src={mediaButton} alt="Media" />
+        <img src={'/assets/media-button.png'} alt="Media" />
       </WrapButton>
       <WrapInputForm>
         <Input />
         <WrapButton>
-          <img src={sendButton} alt="Media" />
+          <img src={'/assets/send-button.png'} alt="Send" />
         </WrapButton>  
       </WrapInputForm>
     </MeassageInputContainer>

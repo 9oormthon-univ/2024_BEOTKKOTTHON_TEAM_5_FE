@@ -2,8 +2,6 @@ import styled from 'styled-components'
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import Button from './Button';
 
-import CancelButton from '../assets/cancel-button.png';
-
 const StyledDialog = styled.dialog`
   border: none;
   border-radius: 8px;
@@ -29,7 +27,7 @@ const WrapContent = styled.div`
   display: flex;
 `;
 
-const Modal = forwardRef(({ modalId, content, buttonLabel }, ref) => {
+const Modal = forwardRef(({ content, buttonLabel }, ref) => {
 
   const dialog = useRef();
   const handleCloseModal = () => {
@@ -52,7 +50,7 @@ const Modal = forwardRef(({ modalId, content, buttonLabel }, ref) => {
       <StyledDialog ref={dialog}>
         <div>
           <CloseButton type="button" onClick={handleCloseModal}>
-            <img src={CancelButton} alt="Close" />
+            <img src={'/assets/cancel-button.png'} alt="Close" />
           </CloseButton>
           <WrapContent>
             {content}
@@ -61,7 +59,6 @@ const Modal = forwardRef(({ modalId, content, buttonLabel }, ref) => {
             bgColor={"coral"}
             textColor={"white"}
             size={"medium"}
-            form={modalId}
             onClick={handleCloseModal}>
             {buttonLabel}
           </Button>
