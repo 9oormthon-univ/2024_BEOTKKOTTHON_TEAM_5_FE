@@ -42,10 +42,7 @@ const Tip = styled.p`
 `;
 
 
-const TextInput = ({ label, buttonLabel, tip, idValid, idRef, passwordValid, passwordRef, ...props }) => {
-
-  const idRef = useRef();
-  const passwordRef = useRef();
+const TextInput = ({ label, buttonLabel, tip, idValid, idRef, handleValidId, passwordValid, passwordRef, ...props }) => {
 
   return (
     <div>
