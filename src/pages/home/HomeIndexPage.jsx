@@ -1,8 +1,13 @@
 import React from "react";
+import Header from "../../components/common/Header";
+import styled from 'styled-components'
+
+
 
 const HomeIndexPage = () => {
   return (
     <div>
+      <Header/>
       <div style={{ display: "flex" }}>
         <div
           style={{
