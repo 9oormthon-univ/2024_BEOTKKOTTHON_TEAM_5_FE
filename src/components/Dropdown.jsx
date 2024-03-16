@@ -2,9 +2,6 @@ import React, { useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import useDetectClose from "../hooks/useDetectClose";
 
-import dropUp from '../assets/drop-up.png';
-import dropDown from '../assets/drop-down.png';
-
 const Dropdown = ({placeholder, types, }) => {
   const [selected, setSelected] = useState("");
   const dropdownRef = useRef(null);
@@ -14,7 +11,7 @@ const Dropdown = ({placeholder, types, }) => {
     <div ref={dropdownRef}>
       <DropdownButton onClick={() => setIsOpen(!isOpen)} $isOpen={isOpen}>
         {selected || placeholder}
-        <img src={isOpen ? dropUp : dropDown} />
+        <img src={isOpen ? '/assets/drop-up.png' : '/assets/drop-down.png'} />
       </DropdownButton>
       {isOpen && (
         <DropdownContent>
@@ -67,10 +64,7 @@ const fadeIn = keyframes`
 `;
 
 const DropdownContent = styled.div`
-
-
   width: 100%;
-  height: 256px;
   overflow: auto;
   background-color: #ffffff;
   z-index: 1;
