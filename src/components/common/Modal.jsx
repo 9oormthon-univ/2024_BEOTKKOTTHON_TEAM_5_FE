@@ -3,6 +3,7 @@ import { useRef, forwardRef, useImperativeHandle } from 'react';
 import Button from './Button';
 
 const StyledDialog = styled.dialog`
+  width: 60%;
   border: none;
   border-radius: 8px;
   padding: 20px;

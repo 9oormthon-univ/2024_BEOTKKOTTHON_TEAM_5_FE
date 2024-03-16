@@ -20,32 +20,37 @@ const ReloadButton = styled.img`
 `;
 
 const WrapContent = styled.div`
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
 `;
 const CharacterDiv = styled.div`
-  width: 100%;
+  width: 50%;
   display: flex;
+  margin: 0 auto;
+  padding-bottom: 1rem;
 `;
 const StyledImage = styled.img`
   width: 100%;
 `;
 const TextDiv = styled.div`
-  padding: 10px;
+  width: 100%;
+  text-align: center;
+  color: #333333;
 
   .text-major {
-    white-space: nowrap;
-    font-size: 1.4rem;
+    font-size: 2rem;
     font-weight: 800;
+    white-space: nowrap;
   }
   .text-mbti {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
   }
   .text-tags {
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-top: 0.8rem;
+    width: 90%;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 1.5rem auto;
   }
 `;
 
