@@ -40,9 +40,9 @@ const TextDiv = styled.div`
   }
 `;
 
-const Profile = ({ side, profile}) => {
+const Profile = ({ side, profile, ...props}) => {
   return (
-    <WrapPofile>
+    <WrapPofile {...props}>
       <CharacterDiv>
         <StyledImage $side={side} src={profile.character} />
       </CharacterDiv>
