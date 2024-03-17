@@ -19,7 +19,7 @@ const CloseButton = styled.img`
   padding: 10px;
 `;
 
-const Modal = forwardRef(({ content, buttonLabel }, ref) => {
+const Modal = forwardRef(({ content, buttonLabel,onCreateRoom }, ref) => {
 
   const dialog = useRef();
   const handleCloseModal = () => {
@@ -49,7 +49,7 @@ const Modal = forwardRef(({ content, buttonLabel }, ref) => {
           bgColor={"coral"}
           textColor={"white"}
           size={"medium"}
-          onClick={handleCloseModal}>
+          onClick={onCreateRoom}>
           {buttonLabel}
         </Button>
       </StyledDialog>
