@@ -1,13 +1,13 @@
-import styled from 'styled-components'
-import { useRef, forwardRef, useImperativeHandle } from 'react';
-import Button from './Button';
+import styled from "styled-components";
+import { useRef, forwardRef, useImperativeHandle } from "react";
+import Button from "./Button";
 
 const StyledDialog = styled.dialog`
   width: 60%;
   border: none;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0px 4px 10px 10px #3333334D;
+  box-shadow: 0px 4px 10px 10px #3333334d;
   position: relative;
 `;
 
@@ -19,23 +19,12 @@ const CloseButton = styled.img`
   padding: 10px;
 `;
 
-const Modal = forwardRef(({ content, buttonLabel,onCreateRoom }, ref) => {
-
-  const dialog = useRef();
-  const handleCloseModal = () => {
-    dialog.current.close();
-  }
-
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        dialog.current.showModal();
-      },
-      close() {
-        dialog.current.close();
-      }
+const Modal = forwardRef(
+  ({ content, buttonLabel, closeButton = true, title = "" }, ref) => {
+    const dialog = useRef();
+    const handleCloseModal = () => {
+      dialog.current.close();
     };
-  });
 
   return (
     <>
