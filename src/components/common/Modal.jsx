@@ -3,6 +3,7 @@ import { useRef, forwardRef, useImperativeHandle } from 'react';
 import Button from './Button';
 
 const StyledDialog = styled.dialog`
+  width: 60%;
   border: none;
   border-radius: 8px;
   padding: 20px;
@@ -10,21 +11,12 @@ const StyledDialog = styled.dialog`
   position: relative;
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled.img`
   flex: 1;
-  background: none;
-  border: none;
-
-  img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
-  }
-`;
-
-const WrapContent = styled.div`
-  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
 `;
 
 const Modal = forwardRef(({ content, buttonLabel }, ref) => {
@@ -48,21 +40,18 @@ const Modal = forwardRef(({ content, buttonLabel }, ref) => {
   return (
     <>
       <StyledDialog ref={dialog}>
-        <div>
-          <CloseButton type="button" onClick={handleCloseModal}>
-            <img src={'/assets/cancel-button.png'} alt="Close" />
-          </CloseButton>
-          <WrapContent>
-            {content}
-          </WrapContent>
-          <Button
-            bgColor={"coral"}
-            textColor={"white"}
-            size={"medium"}
-            onClick={handleCloseModal}>
-            {buttonLabel}
-          </Button>
-        </div>
+        <CloseButton
+          onClick={handleCloseModal}
+          src={'/assets/cancel-button.png'}
+          alt="Close" />
+        {content}
+        <Button
+          bgColor={"coral"}
+          textColor={"white"}
+          size={"medium"}
+          onClick={handleCloseModal}>
+          {buttonLabel}
+        </Button>
       </StyledDialog>
     </>
   )
