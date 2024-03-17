@@ -10,6 +10,7 @@ import DonePage from "./pages/register/DonePage";
 import ProfileRegisterPage from "./pages/register/ProfileRegisterPage";
 import ChatPage from "./pages/chat/ChatPage";
 import NavLayout from "./layouts/NavLayout";
+import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/festival" element={<FestivalIndexPage />} />
 
           <Route path="/mypage" element={<MyIndexPage />} />
+          <Route path='/mypage/profile' element={<ProfileEditPage/>} />
         </Route>
       </Routes>
     </BrowserRouter>
