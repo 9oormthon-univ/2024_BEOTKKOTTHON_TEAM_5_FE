@@ -20,11 +20,22 @@ const CloseButton = styled.img`
 `;
 
 const Modal = forwardRef(
-  ({ content, buttonLabel, closeButton = true, title = "" }, ref) => {
+  ({ content, buttonLabel, onCreateRoom, closeButton = true, title = "" }, ref) => {
     const dialog = useRef();
     const handleCloseModal = () => {
       dialog.current.close();
     };
+
+    useImperativeHandle(ref, () => {
+      return {
+        open() {
+          dialog.current.showModal();
+        },
+        close() {
+          dialog.current.close();
+        },
+      };
+    });
 
   return (
     <>
@@ -35,10 +46,8 @@ const Modal = forwardRef(
           alt="Close" />
         {content}
         <Button
-          bgColor={"coral"}
-          textColor={"white"}
           size={"medium"}
-          onClick={handleCloseModal}>
+          onClick={onCreateRoom}>
           {buttonLabel}
         </Button>
       </StyledDialog>

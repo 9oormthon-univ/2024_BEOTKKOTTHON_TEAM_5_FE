@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
-import HeaderLogo from "../../components/common/HeaderLogo";
+import Header from "../../components/common/Header";
 
 const MyPageContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -38,7 +38,7 @@ const MyIndexPage = () => {
 
   return (
     <MyPageContainer>
-      <HeaderLogo />
+      <Header />
       <WrapMenu>
         <div className="title">마이페이지</div>
         <WrapButton>

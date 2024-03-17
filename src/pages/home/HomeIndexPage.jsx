@@ -1,6 +1,10 @@
 import React from "react";
-import { useRef, useState } from 'react';
 import styled from 'styled-components'
+import { useRef, useState } from 'react';
+import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { urlState } from '../../store/urlDataState';
+
 import Header from "../../components/common/Header";
 import Profile from '../../components/home/Profile';
 import Modal from '../../components/common/Modal';
@@ -17,6 +21,10 @@ const ReloadButton = styled.img`
   position: fixed;
   right: 1.5rem;
   bottom: 4.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 8px 0px #33333366;
 `;
 
 const WrapContent = styled.div`
@@ -57,24 +65,28 @@ const TextDiv = styled.div`
 
 const profiles = [
   {
+    id: 0,
     character: '/assets/home/profile-dog.png',
     major: '산업경영공학과',
     mbti: 'ENTJ',
     tags: ['활발한', '계획적인', '유머러스한', '운동', '클라이밍'],
   },
   {
+    id: 1,
     character: '/assets/home/profile-cat.png',
     major: '국어국문학과',
     mbti: 'INFP',
     tags: ['신중한', '감성적', '배려심', 'OTT', '자기계발'],
   },
   {
+    id: 3,
     character: '/assets/home/profile-fox.png',
     major: '전자공학과',
     mbti: 'ISTP',
     tags: ['안정적', '독립심', '솔직한', '러닝', '농구'],
   },
   {
+    id: 4,
     character: '/assets/home/profile-bear.png',
     major: '사학과',
     mbti: 'ESFJ',
@@ -87,6 +99,7 @@ const HomeIndexPage = () => {
 
   const profileModal = useRef();
   const [selectedProfile, setSelectedProfile] = useState();
+  const URL = useRecoilValue(urlState);
 
   const content = () => {
 
@@ -113,12 +126,29 @@ const HomeIndexPage = () => {
     profileModal.current.open();
   }
 
+  const handleCreateChatRoom = () => {
+    axios.post(`${URL}/chatroom/create`, {
+      "memberId": selectedProfile.id,
+      "roomName": selectedProfile.major,
+    }, {
+      headers: {
+        Authorization: token
+      }
+    }).then(response => {
+      console.log(response);
+    })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <>
       <Modal
         ref={profileModal}
         content={content()}
         buttonLabel="메세지 보내기"
+        onCreateRoom={handleCreateChatRoom}
       />
       <HomeContainer>
         <Header />
