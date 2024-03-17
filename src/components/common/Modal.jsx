@@ -3,6 +3,7 @@ import { useRef, forwardRef, useImperativeHandle } from "react";
 import Button from "./Button";
 
 const StyledDialog = styled.dialog`
+  width: 60%;
   border: none;
   border-radius: 8px;
   padding: 20px;
@@ -10,21 +11,12 @@ const StyledDialog = styled.dialog`
   position: relative;
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled.img`
   flex: 1;
-  background: none;
-  border: none;
-
-  img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
-  }
-`;
-
-const WrapContent = styled.div`
-  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
 `;
 
 const Modal = forwardRef(
@@ -34,38 +26,24 @@ const Modal = forwardRef(
       dialog.current.close();
     };
 
-    useImperativeHandle(ref, () => {
-      return {
-        open() {
-          dialog.current.showModal();
-        },
-        close() {
-          dialog.current.close();
-        },
-      };
-    });
-
-    return (
-      <>
-        <StyledDialog ref={dialog}>
-          <div>
-            {title && <h2>{title}</h2>}
-            {closeButton && (
-              <CloseButton type="button" onClick={handleCloseModal}>
-                <img src={"/assets/cancel-button.png"} alt="Close" />
-              </CloseButton>
-            )}
-            <WrapContent>{content}</WrapContent>
-            {buttonLabel && (
-              <Button size="medium" onClick={handleCloseModal}>
-                {buttonLabel}
-              </Button>
-            )}
-          </div>
-        </StyledDialog>
-      </>
-    );
-  }
-);
+  return (
+    <>
+      <StyledDialog ref={dialog}>
+        <CloseButton
+          onClick={handleCloseModal}
+          src={'/assets/cancel-button.png'}
+          alt="Close" />
+        {content}
+        <Button
+          bgColor={"coral"}
+          textColor={"white"}
+          size={"medium"}
+          onClick={handleCloseModal}>
+          {buttonLabel}
+        </Button>
+      </StyledDialog>
+    </>
+  )
+})
 
 export default Modal;
