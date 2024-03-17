@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef, useState } from 'react';
 import styled from 'styled-components'
-import HeaderLogo from "../../components/common/HeaderLogo";
+import Header from "../../components/common/Header";
 import Profile from '../../components/home/Profile';
 import Modal from '../../components/common/Modal';
 
@@ -121,7 +121,7 @@ const HomeIndexPage = () => {
         buttonLabel="메세지 보내기"
       />
       <HomeContainer>
-        <HeaderLogo />
+        <Header />
         <ProfileContainer>
           {profiles.map((profile, index) => (
             <Profile

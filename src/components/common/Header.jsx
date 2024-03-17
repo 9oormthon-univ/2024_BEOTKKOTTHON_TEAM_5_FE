@@ -8,7 +8,7 @@ const WrapHeader = styled.header`
   }
 `;
 
-const HeaderGoPrev = () => {
+const Header = () => {
 
   return (
     <WrapHeader>
@@ -17,4 +17,4 @@ const HeaderGoPrev = () => {
   );
 }
 
-export default HeaderGoPrev;
+export default Header;
