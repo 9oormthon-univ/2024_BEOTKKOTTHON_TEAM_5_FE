@@ -7,10 +7,11 @@ import { registerDataState } from "../../store/registerDataState";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UnivRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
-  const [univ, setUniv] = useState("");
+  const [school, setSchool] = useState("");
   const [college, setCollege] = useState("");
   const [department, setDepartment] = useState("");
   const navigate = useNavigate();
@@ -26,17 +27,41 @@ const UnivRegisterPage = () => {
   };
 
   useEffect(() => {
-    setRegisterData({
-      ...registerData,
-      univ,
-      college,
-      department,
-    });
-  }, [univ, college, department]);
+    setRegisterData((prev) => ({ ...prev, school, college, department }));
+  }, [school, college, department]);
 
-  useEffect(() => {
-    console.log(registerData);
-  }, [registerData]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post("http://43.202.149.135:8080/member/signup", {
+        loginId: registerData.loginId,
+        password: registerData.password,
+        checkPassword: registerData.checkPassword,
+        gender: registerData.gender,
+        telNum: registerData.telNum,
+        school: registerData.school,
+        college: registerData.college,
+        department: registerData.department,
+        schoolEmail: registerData.schoolEmail,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/register/done");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const isDisabled =
+    !registerData.agreeTerms ||
+    !registerData.agreePrivacy ||
+    !registerData.school ||
+    !registerData.college ||
+    !registerData.department ||
+    !registerData.schoolEmail;
 
   const UNIV_PLACEHOLDER = "학교를 선택해주세요.";
   const UNIV_TYPES = [
@@ -71,7 +96,7 @@ const UnivRegisterPage = () => {
         label="학교"
         placeholder={UNIV_PLACEHOLDER}
         types={UNIV_TYPES}
-        setState={setUniv}
+        setState={setSchool}
       />
 
       <Dropdown
@@ -90,12 +115,14 @@ const UnivRegisterPage = () => {
 
       <TextInput
         label="학생메일 인증하기"
-        name="email"
+        name="schoolEmail"
         type="email"
         buttonLabel="메일 보내기"
-        value={registerData.email}
+        value={registerData.schoolEmail}
         onChange={handleChange}
-        buttonClickHandler={() => {}}
+        buttonClickHandler={() => {
+          alert("인증되었습니다.");
+        }}
       />
 
       <WrapCheckbox>
@@ -113,11 +140,7 @@ const UnivRegisterPage = () => {
         />
       </WrapCheckbox>
 
-      <Button
-        size="large"
-        onClick={() => {
-          navigate("/register/done");
-        }}>
+      <Button size="large" disabled={isDisabled} onClick={handleSubmit}>
         가입 완료하기
       </Button>
     </WrapContent>

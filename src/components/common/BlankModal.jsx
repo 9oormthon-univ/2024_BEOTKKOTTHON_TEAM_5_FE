@@ -6,7 +6,6 @@ const BlankModal = forwardRef(({ children }, ref) => {
 
   useImperativeHandle(ref, () => {
     return {
-      contains(e) {},
       open() {
         modalRef.current.showModal();
       },
@@ -22,7 +21,7 @@ const BlankModal = forwardRef(({ children }, ref) => {
 export default BlankModal;
 
 const StyledDialog = styled.dialog`
-  max-width: 75%;
+  max-width: 80%;
   border: none;
   padding: 0;
   border-radius: 8px;
