@@ -127,19 +127,7 @@ const HomeIndexPage = () => {
   }
 
   const handleCreateChatRoom = () => {
-    axios.post(`${URL}/chatroom/create`, {
-      "memberId": selectedProfile.id,
-      "roomName": selectedProfile.major,
-    }, {
-      headers: {
-        Authorization: token
-      }
-    }).then(response => {
-      console.log(response);
-    })
-      .catch(err => {
-        console.log(err);
-      });
+    //방만들기
   }
 
   return (
