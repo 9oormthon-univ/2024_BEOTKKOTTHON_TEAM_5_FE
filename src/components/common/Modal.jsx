@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRef, forwardRef, useImperativeHandle } from "react";
+import { useRef, forwardRef } from "react";
 import Button from "./Button";
 
 const StyledDialog = styled.dialog`
@@ -26,24 +26,26 @@ const Modal = forwardRef(
       dialog.current.close();
     };
 
-  return (
-    <>
-      <StyledDialog ref={dialog}>
-        <CloseButton
-          onClick={handleCloseModal}
-          src={'/assets/cancel-button.png'}
-          alt="Close" />
-        {content}
-        <Button
-          bgColor={"coral"}
-          textColor={"white"}
-          size={"medium"}
-          onClick={handleCloseModal}>
-          {buttonLabel}
-        </Button>
-      </StyledDialog>
-    </>
-  )
-})
+    return (
+      <>
+        <StyledDialog ref={dialog}>
+          <CloseButton
+            onClick={handleCloseModal}
+            src={"/assets/cancel-button.png"}
+            alt="Close"
+          />
+          {content}
+          <Button
+            bgColor={"coral"}
+            textColor={"white"}
+            size={"medium"}
+            onClick={handleCloseModal}>
+            {buttonLabel}
+          </Button>
+        </StyledDialog>
+      </>
+    );
+  }
+);
 
 export default Modal;

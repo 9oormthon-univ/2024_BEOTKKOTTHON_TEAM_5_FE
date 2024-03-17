@@ -21,7 +21,6 @@ const Input = styled.input`
 
 const InputWrapper = styled.div`
   display: flex;
-  /* align-items: center; */
   border-bottom: 1px solid #d9d9d9;
   padding-bottom: 0.3rem;
 
@@ -30,7 +29,13 @@ const InputWrapper = styled.div`
   }
 `;
 
-const TextInput = ({ label, buttonLabel, buttonClickHandler, ...props }) => {
+const TextInput = ({
+  label,
+  buttonLabel,
+  buttonClickHandler,
+  buttonDisabled,
+  ...props
+}) => {
   const id = useId();
   return (
     <div>
@@ -38,7 +43,10 @@ const TextInput = ({ label, buttonLabel, buttonClickHandler, ...props }) => {
       <InputWrapper>
         <Input id={id} {...props} />
         {buttonLabel && (
-          <Button size="small" onClick={buttonClickHandler}>
+          <Button
+            size="small"
+            disabled={buttonDisabled}
+            onClick={buttonClickHandler}>
             {buttonLabel}
           </Button>
         )}

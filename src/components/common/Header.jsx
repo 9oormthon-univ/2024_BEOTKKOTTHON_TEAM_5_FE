@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const WrapHeader = styled.header`
   padding-bottom: 1rem;
@@ -9,12 +9,11 @@ const WrapHeader = styled.header`
 `;
 
 const Header = () => {
-
   return (
     <WrapHeader>
-      <img src={'/assets/logo-pink.png'} />
+      <img src="/assets/logo-pink.png" alt="디스턴스 로고" />
     </WrapHeader>
   );
-}
+};
 
 export default Header;

@@ -11,8 +11,7 @@ const UserRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
   const [idTestFlag, setIdTestFlag] = useState(false);
   const [pwTestFlag, setPwTestFlag] = useState(false);
-  const [pwConfirmTestFlag, setPwConfirmTestFlag] = useState(false);
-
+  const [checkPwTestFlag, setCheckPwTestFlag] = useState(false);
   const [toggleState, setToggleState] = useState("");
 
   const ID_REGEX = /^[a-z0-9]{5,20}$/;
@@ -24,7 +23,7 @@ const UserRegisterPage = () => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
 
-    if (name === "id") {
+    if (name === "loginId") {
       if (ID_REGEX.test(value)) {
         setIdTestFlag(false);
       } else {
@@ -40,21 +39,31 @@ const UserRegisterPage = () => {
       }
     }
 
-    if (name === "passwordConfirm") {
+    if (name === "checkPassword") {
       if (value !== registerData.password) {
-        setPwConfirmTestFlag(true);
+        setCheckPwTestFlag(true);
       } else {
-        setPwConfirmTestFlag(false);
+        setCheckPwTestFlag(false);
       }
     }
   };
+
+  const isDisabled =
+    idTestFlag ||
+    pwTestFlag ||
+    checkPwTestFlag ||
+    !toggleState ||
+    !registerData.telNum;
 
   useEffect(() => {
     console.log(registerData);
   }, [registerData]);
 
   useEffect(() => {
-    setRegisterData({ ...registerData, gender: toggleState });
+    setRegisterData((prev) => ({
+      ...prev,
+      gender: toggleState,
+    }));
   }, [toggleState]);
 
   return (
@@ -68,10 +77,10 @@ const UserRegisterPage = () => {
       <div>
         <TextInput
           label="아이디"
-          name="id"
+          name="loginId"
           type="text"
           buttonLabel={"중복 확인"}
-          value={registerData.id}
+          value={registerData.loginId}
           onChange={handleChange}
         />
         {idTestFlag && (
@@ -97,12 +106,12 @@ const UserRegisterPage = () => {
       <div>
         <TextInput
           label="비밀번호 확인"
-          name="passwordConfirm"
+          name="checkPassword"
           type="password"
-          value={registerData.passwordConfirm}
+          value={registerData.checkPassword}
           onChange={handleChange}
         />
-        {pwConfirmTestFlag && <Tip>비밀번호가 일치하지 않아요.</Tip>}
+        {checkPwTestFlag && <Tip>비밀번호가 일치하지 않아요.</Tip>}
       </div>
 
       <Toggle
@@ -114,14 +123,15 @@ const UserRegisterPage = () => {
 
       <TextInput
         label="전화번호"
-        name="tel"
-        type="tel"
-        value={registerData.tel}
+        name="telNum"
+        type="number"
+        value={registerData.telNum}
         onChange={handleChange}
       />
 
       <Button
         size="large"
+        disabled={isDisabled}
         onClick={() => {
           navigate("/register/univ");
         }}>
