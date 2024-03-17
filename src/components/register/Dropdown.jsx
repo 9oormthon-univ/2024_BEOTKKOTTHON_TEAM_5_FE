@@ -1,35 +1,39 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import useDetectClose from "../hooks/useDetectClose";
+import useDetectClose from "../../hooks/useDetectClose";
 
-const Dropdown = ({placeholder, types, }) => {
+const Dropdown = ({ label, placeholder, types, setState }) => {
   const [selected, setSelected] = useState("");
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
 
+  useEffect(() => {
+    setState(selected);
+  }, [selected]);
+
   return (
     <div ref={dropdownRef}>
+      <Label>{label}</Label>
       <DropdownButton onClick={() => setIsOpen(!isOpen)} $isOpen={isOpen}>
         {selected || placeholder}
-        <img src={isOpen ? '/assets/drop-up.png' : '/assets/drop-down.png'} />
+        <img src={isOpen ? "/assets/drop-up.png" : "/assets/drop-down.png"} />
+        {isOpen && (
+          <DropdownContent>
+            <WrapItems>
+              {types.map((type) => (
+                <DropdownItem
+                  key={type}
+                  onClick={() => {
+                    setSelected(type);
+                    setIsOpen(false);
+                  }}>
+                  {type}
+                </DropdownItem>
+              ))}
+            </WrapItems>
+          </DropdownContent>
+        )}
       </DropdownButton>
-      {isOpen && (
-        <DropdownContent>
-          <WrapItems>
-            {types.map((type) => (
-              <DropdownItem
-                key={type}
-                onClick={() => {
-                  setSelected(type);
-                  setIsOpen(false);
-                }}>
-                {type}
-              </DropdownItem>
-            ))}
-          </WrapItems>
-
-        </DropdownContent>
-      )}
     </div>
   );
 };
@@ -41,7 +45,7 @@ const DropdownButton = styled.div`
   border-radius: 8px;
   border: 1px solid #d9d9d9;
   margin-bottom: 1rem;
-  color: ${({$isOpen}) => $isOpen ? '#ff625d' : '#000000' };
+  color: ${({ $isOpen }) => ($isOpen ? "#ff625d" : "#000000")};
 
   img {
     position: absolute;
@@ -65,6 +69,11 @@ const fadeIn = keyframes`
 
 const DropdownContent = styled.div`
   width: 100%;
+  max-height: 256px;
+  color: #000000;
+  position: absolute;
+  top: 3.5rem;
+  left: 0;
   overflow: auto;
   background-color: #ffffff;
   z-index: 1;
@@ -75,6 +84,7 @@ const WrapItems = styled.div`
   border-radius: 8px;
   animation: ${fadeIn} 0.2s ease-out;
 `;
+
 const DropdownItem = styled.div`
   padding: 0.75rem 1.25rem;
   &:hover {
@@ -82,5 +92,11 @@ const DropdownItem = styled.div`
   }
 `;
 
+const Label = styled.label`
+  display: block;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0.5rem;
+`;
 
 export default Dropdown;
