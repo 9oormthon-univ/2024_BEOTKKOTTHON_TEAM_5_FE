@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const ToggleContainer = styled.div`
@@ -10,8 +10,8 @@ const ToggleOption = styled.div`
   flex: 1;
   padding: 10px 20px;
   text-align: center;
-  background-color: ${({ isActive }) => (isActive ? "#FF625D" : "#FBFBFB")};
-  color: ${({ isActive }) => (isActive ? "white" : "black")};
+  background-color: ${({ $isActive }) => ($isActive ? "#FF625D" : "#FBFBFB")};
+  color: ${({ $isActive }) => ($isActive ? "white" : "black")};
   transition: background-color 0.3s, color 0.3s;
 `;
 
@@ -22,13 +22,12 @@ const Label = styled.label`
   margin-bottom: 1rem;
 `;
 
-const ToggleSwitch = ({
-  label,
-  options = ["남", "여"],
-  registerData,
-  setRegisterData,
-}) => {
+const ToggleSwitch = ({ label, options = ["남", "여"], setState }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setState(activeIndex === 1 ? "F" : "M");
+  }, [setState, activeIndex]);
 
   return (
     <div>
@@ -37,14 +36,8 @@ const ToggleSwitch = ({
         {options.map((option, index) => (
           <ToggleOption
             key={index}
-            isActive={index === activeIndex}
-            onClick={() => {
-              setActiveIndex(index);
-              setRegisterData({
-                ...registerData,
-                ["gender"]: activeIndex === 1 ? "M" : "F",
-              });
-            }}>
+            $isActive={index === activeIndex}
+            onClick={() => setActiveIndex(index)}>
             {option}
           </ToggleOption>
         ))}

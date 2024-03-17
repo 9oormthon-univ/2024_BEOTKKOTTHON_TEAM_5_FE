@@ -13,6 +13,8 @@ const UserRegisterPage = () => {
   const [pwTestFlag, setPwTestFlag] = useState(false);
   const [pwConfirmTestFlag, setPwConfirmTestFlag] = useState(false);
 
+  const [toggleState, setToggleState] = useState("");
+
   const ID_REGEX = /^[a-z0-9]{5,20}$/;
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
 
@@ -50,6 +52,10 @@ const UserRegisterPage = () => {
   useEffect(() => {
     console.log(registerData);
   }, [registerData]);
+
+  useEffect(() => {
+    setRegisterData({ ...registerData, gender: toggleState });
+  }, [toggleState]);
 
   return (
     <WrapContent>
@@ -101,6 +107,7 @@ const UserRegisterPage = () => {
 
       <Toggle
         label="성별"
+        setState={setToggleState}
         registerData={registerData}
         setRegisterData={setRegisterData}
       />
@@ -114,11 +121,9 @@ const UserRegisterPage = () => {
       />
 
       <Button
-        bgColor="coral"
         size="large"
-        textColor="white"
         onClick={() => {
-          navigate("register/univ");
+          navigate("/register/univ");
         }}>
         학교 선택하기
       </Button>
