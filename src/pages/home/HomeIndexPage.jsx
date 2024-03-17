@@ -1,9 +1,6 @@
 import React from "react";
 import styled from 'styled-components'
 import { useRef, useState } from 'react';
-import axios from 'axios';
-import { useRecoilValue } from 'recoil';
-import { urlState } from '../../store/urlDataState';
 
 import Header from "../../components/common/Header";
 import Profile from '../../components/home/Profile';
@@ -99,7 +96,6 @@ const HomeIndexPage = () => {
 
   const profileModal = useRef();
   const [selectedProfile, setSelectedProfile] = useState();
-  const URL = useRecoilValue(urlState);
 
   const content = () => {
 
@@ -127,19 +123,7 @@ const HomeIndexPage = () => {
   }
 
   const handleCreateChatRoom = () => {
-    axios.post(`${URL}/chatroom/create`, {
-      "memberId": selectedProfile.id,
-      "roomName": selectedProfile.major,
-    }, {
-      headers: {
-        Authorization: token
-      }
-    }).then(response => {
-      console.log(response);
-    })
-      .catch(err => {
-        console.log(err);
-      });
+    //방만들기
   }
 
   return (

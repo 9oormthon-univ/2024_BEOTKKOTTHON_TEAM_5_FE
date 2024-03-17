@@ -46,11 +46,11 @@ const MyIndexPage = () => {
             className="menu"
             onClick={() => navigate("/mypage/profile")}>
             <div>프로필 수정</div>
-            <img src="/assets/mypage/arrow-gray-button.png" />
+            <img src="/assets/mypage/arrow-gray-button.png" alt="Edit Profile" />
           </div>
           <div className="menu border">
             <div>계정 관리</div>
-            <img src="/assets/mypage/arrow-gray-button.png" />
+            <img src="/assets/mypage/arrow-gray-button.png" alt="Edit Account" />
           </div>
           <div className="menu">피드백</div>
           <div className="menu">이용약관</div>
