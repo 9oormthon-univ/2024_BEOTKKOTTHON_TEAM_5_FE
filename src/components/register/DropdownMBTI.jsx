@@ -1,11 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import useDetectClose from "../../hooks/useDetectClose";
 
-const DropdownMBTI = () => {
+const DropdownMBTI = ({ setState }) => {
   const [selected, setSelected] = useState("");
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
+
+  useEffect(() => {
+    setState(selected);
+  }, [selected]);
 
   return (
     <DropdownContainer ref={dropdownRef}>

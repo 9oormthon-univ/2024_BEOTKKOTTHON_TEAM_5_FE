@@ -4,9 +4,8 @@ const ButtonStyle = styled.button`
   width: 100%;
   white-space: nowrap;
   font-weight: 600;
-  color: ${({ $textColor }) => ($textColor === "white" ? "#FBFBFB" : "#333333")};
-  background-color: ${({ $bgColor }) =>
-    $bgColor === "coral" ? "#FF625D" : "#D9D9D9"};
+  color: #fbfbfb;
+  background-color: #ff625d;
   border: none;
   border-radius: ${({ $size }) => ($size === "large" ? "1rem" : "0.5rem")};
   padding: ${({ $size }) =>
@@ -25,11 +24,16 @@ const ButtonStyle = styled.button`
       : $size === "small"
       ? "0.8rem"
       : "1rem"};
+
+  &:disabled {
+    background-color: #d9d9d9;
+    color: #333333;
+  }
 `;
 
-const Button = ({ children, bgColor, textColor, size, ...props }) => {
+const Button = ({ children, size, ...props }) => {
   return (
-    <ButtonStyle $bgColor={bgColor} $textColor={textColor} $size={size} {...props}>
+    <ButtonStyle size={size} {...props}>
       {children}
     </ButtonStyle>
   );

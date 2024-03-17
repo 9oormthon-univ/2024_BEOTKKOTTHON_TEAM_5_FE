@@ -38,11 +38,7 @@ const TextInput = ({ label, buttonLabel, buttonClickHandler, ...props }) => {
       <InputWrapper>
         <Input id={id} {...props} />
         {buttonLabel && (
-          <Button
-            bgColor="coral"
-            textColor="white"
-            size="small"
-            onClick={buttonClickHandler}>
+          <Button size="small" onClick={buttonClickHandler}>
             {buttonLabel}
           </Button>
         )}
