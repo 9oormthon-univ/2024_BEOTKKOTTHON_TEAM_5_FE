@@ -21,6 +21,10 @@ const ReloadButton = styled.img`
   position: fixed;
   right: 1.5rem;
   bottom: 4.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 8px 0px #33333366;
 `;
 
 const WrapContent = styled.div`
