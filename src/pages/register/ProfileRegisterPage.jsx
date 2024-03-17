@@ -6,6 +6,9 @@ import BlankModal from "../../components/common/BlankModal";
 import Button from "../../components/common/Button";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 
+/**
+ * @todo 코드 분리
+ */
 const ProfileRegisterPage = () => {
   const [selectedAnimal, setSelectedAnimal] = useState("");
   const [selectedMBTI, setSelectedMBTI] = useState("");
@@ -75,14 +78,12 @@ const ProfileRegisterPage = () => {
 
         <div>
           <Label>해시태그 선택하기</Label>
-          <div
-            style={{ color: "#90949B", fontSize: "12px", fontWeight: "600" }}>
-            최소 3개, 최대 3개까지 고를 수 있어요!
-          </div>
+          <Tip>최소 3개, 최대 3개까지 고를 수 있어요!</Tip>
 
+          <br />
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>저는 이런 매력이 있어요!</div>
-            <button onClick={openAttractivenessModal}>+ 추가하기</button>
+            <AddButton onClick={openAttractivenessModal}>+ 추가하기</AddButton>
           </div>
           <BadgeContainer>
             {attractiveness.map((value, index) => (
@@ -94,7 +95,7 @@ const ProfileRegisterPage = () => {
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>저는 이런 취미가 있어요!</div>
-            <button onClick={openHobbyModal}>+ 추가하기</button>
+            <AddButton onClick={openHobbyModal}>+ 추가하기</AddButton>
           </div>
           <BadgeContainer>
             {hobby.map((value, index) => (
@@ -161,6 +162,7 @@ const ProfileRegisterPage = () => {
 };
 
 const Badge = styled.div`
+  height: fit-content;
   background-color: #ff625d;
   padding: 0.5rem 1rem;
   color: #ffffff;
@@ -169,6 +171,10 @@ const Badge = styled.div`
 
 const BadgeContainer = styled.div`
   display: flex;
+  align-items: center;
+  box-shadow: 0 0 5px 1px #e0e0e0;
+  margin: 1em 0;
+  height: 96px;
   gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
@@ -205,6 +211,20 @@ const ListItem = styled.div`
   color: ${(props) => (props.color ? "#FF0000" : "black")};
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid #e0e0e0;
+`;
+
+const Tip = styled.div`
+  color: #90949b;
+  font-size: 12px;
+  margin-top: -1em;
+  font-weight: 600;
+`;
+
+const AddButton = styled.button`
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #d9d9d9;
+  padding: 4px;
 `;
 
 export default ProfileRegisterPage;
