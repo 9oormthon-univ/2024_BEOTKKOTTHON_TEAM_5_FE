@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRef, forwardRef, useImperativeHandle } from "react";
+import { useRef, forwardRef } from "react";
 import Button from "./Button";
 
 const StyledDialog = styled.dialog`
@@ -25,7 +25,7 @@ const Modal = forwardRef(
     const handleCloseModal = () => {
       dialog.current.close();
     };
-
+    
     useImperativeHandle(ref, () => {
       return {
         open() {
@@ -53,6 +53,6 @@ const Modal = forwardRef(
       </StyledDialog>
     </>
   )
-})
+});
 
 export default Modal;

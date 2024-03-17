@@ -9,7 +9,7 @@ const DropdownMBTI = ({ setState }) => {
 
   useEffect(() => {
     setState(selected);
-  }, [selected]);
+  }, [setState, selected]);
 
   return (
     <DropdownContainer ref={dropdownRef}>

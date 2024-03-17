@@ -14,6 +14,7 @@ const ProfileRegisterPage = () => {
   const [selectedMBTI, setSelectedMBTI] = useState("");
   const [attractiveness, setAttractiveness] = useState([]);
   const [hobby, setHobby] = useState([]);
+  const [hashtagCount, setHashtagCount] = useState(0);
 
   const attractivenessModalRef = useRef();
   const hobbyModalRef = useRef();
@@ -50,14 +51,11 @@ const ProfileRegisterPage = () => {
     setSelectedAnimal(e.target.value);
   };
 
-  useEffect(() => {
-    console.log(selectedMBTI);
-    console.log(selectedAnimal);
-  }, [selectedAnimal, selectedMBTI]);
+  const isDisabled =
+    !selectedAnimal || !selectedMBTI || hashtagCount < 3 || hashtagCount > 5;
 
   useEffect(() => {
-    console.log(attractiveness);
-    console.log(hobby);
+    setHashtagCount(attractiveness.length + hobby.length);
   }, [attractiveness, hobby]);
 
   return (
@@ -78,7 +76,7 @@ const ProfileRegisterPage = () => {
 
         <div>
           <Label>해시태그 선택하기</Label>
-          <Tip>최소 3개, 최대 3개까지 고를 수 있어요!</Tip>
+          <Tip>최소 3개, 최대 5개까지 고를 수 있어요!</Tip>
 
           <br />
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -118,9 +116,10 @@ const ProfileRegisterPage = () => {
               {ATTRACTIVENESS.map((value, index) => (
                 <ListItem
                   key={index}
-                  color={attractiveness.includes(value)}
+                  color={attractiveness.includes(value) ? "#FF0000" : "black"}
                   onClick={() => {
-                    if (attractiveness.includes(value)) return;
+                    if (attractiveness.includes(value) || hashtagCount >= 5)
+                      return;
                     setAttractiveness([...attractiveness, value]);
                     closeAttractivenessModal();
                   }}>
@@ -143,9 +142,9 @@ const ProfileRegisterPage = () => {
               {HOBBY.map((value, index) => (
                 <ListItem
                   key={index}
-                  color={hobby.includes(value)}
+                  color={hobby.includes(value) ? "#FF0000" : "black"}
                   onClick={() => {
-                    if (hobby.includes(value)) return;
+                    if (hobby.includes(value) || hashtagCount >= 5) return;
                     setHobby([...hobby, value]);
                     closeHobbyModal();
                   }}>
@@ -155,7 +154,9 @@ const ProfileRegisterPage = () => {
             </ListContainer>
           </BlankModal>
         </div>
-        <Button size="large">시작하기</Button>
+        <Button disabled={isDisabled} size="large">
+          시작하기
+        </Button>
       </WrapContent>
     </div>
   );
@@ -208,7 +209,7 @@ const ListContainer = styled.div`
 `;
 
 const ListItem = styled.div`
-  color: ${(props) => (props.color ? "#FF0000" : "black")};
+  color: ${(props) => props.color};
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid #e0e0e0;
 `;

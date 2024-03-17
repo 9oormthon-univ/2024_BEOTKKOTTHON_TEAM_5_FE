@@ -16,7 +16,10 @@ const Dropdown = ({ label, placeholder, types, setState }) => {
       <Label>{label}</Label>
       <DropdownButton onClick={() => setIsOpen(!isOpen)} $isOpen={isOpen}>
         {selected || placeholder}
-        <img src={isOpen ? "/assets/drop-up.png" : "/assets/drop-down.png"} />
+        <img
+          src={isOpen ? "/assets/drop-up.png" : "/assets/drop-down.png"}
+          alt="드롭다운 아이콘"
+        />
         {isOpen && (
           <DropdownContent>
             <WrapItems>

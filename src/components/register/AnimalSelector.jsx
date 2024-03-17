@@ -51,6 +51,11 @@ const Wrapper = styled.div`
   min-height: 56px;
   overflow-x: scroll;
   gap: 1rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const StyledInput = styled.label`

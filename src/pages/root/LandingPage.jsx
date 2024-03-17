@@ -16,7 +16,7 @@ const LandingPage = () => {
             }}>
             학생 메일로 가입하기
           </LongButton>
-          <StyledLink to="">로그인</StyledLink>
+          <StyledLink to="/login">로그인</StyledLink>
         </WrapButton>
       </WrapContent>
     </Background>
