@@ -10,12 +10,15 @@ import DonePage from "./pages/register/DonePage";
 import ProfileRegisterPage from "./pages/register/ProfileRegisterPage";
 import ChatPage from "./pages/chat/ChatPage";
 import NavLayout from "./layouts/NavLayout";
+import LoginPage from "./pages/root/LoginPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/register/user" element={<UserRegisterPage />} />
         <Route path="/register/univ" element={<UnivRegisterPage />} />
