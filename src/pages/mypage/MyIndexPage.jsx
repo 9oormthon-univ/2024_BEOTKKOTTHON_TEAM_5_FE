@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
-import Header from "../../components/common/Header";
+import { useNavigate } from "react-router-dom";
+import HeaderLogo from "../../components/common/HeaderLogo";
 
 const MyPageContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -15,7 +16,6 @@ const WrapMenu = styled.nav`
   }
 `;
 const WrapButton = styled.div`
-
   .menu {
     display: flex;
     justify-content: space-between;
@@ -33,14 +33,18 @@ const WrapButton = styled.div`
 `;
 
 const MyIndexPage = () => {
-  
+
+  const navigate = useNavigate();
+
   return (
     <MyPageContainer>
-      <Header />
+      <HeaderLogo />
       <WrapMenu>
         <div className="title">마이페이지</div>
         <WrapButton>
-          <div className="menu">
+          <div
+            className="menu"
+            onClick={() => navigate("/mypage/profile")}>
             <div>프로필 수정</div>
             <img src="/assets/mypage/arrow-gray-button.png" />
           </div>
