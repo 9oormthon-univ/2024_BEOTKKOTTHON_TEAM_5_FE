@@ -13,7 +13,7 @@ const CardDiv = styled.div`
   display: flex;
   overflow: auto;
   white-space: nowrap;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 1rem 0;
 `;
 const TextDiv = styled.div`
