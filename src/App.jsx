@@ -30,13 +30,14 @@ function App() {
           <Route path="/home" element={<HomeIndexPage />} />
 
           <Route path="/chat" element={<ChatIndexPage />} />
-          <Route path="/chat/:chatRoomId" element={<ChatPage />} />
 
           <Route path="/festival" element={<FestivalIndexPage />} />
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />
         </Route>
+
+        <Route path="/chat/:chatRoomId" element={<ChatPage />} />
       </Routes>
     </BrowserRouter>
   );

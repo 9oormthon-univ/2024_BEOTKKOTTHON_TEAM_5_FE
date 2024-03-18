@@ -104,7 +104,8 @@ const Messages = () => {
 
 const MessagesWrapper = styled.div`
   overflow: auto;
-  flex: auto;
+  flex: 1;
+  min-height: 0;
 `;
 
 const Announcement = styled.div`
