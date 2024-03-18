@@ -1,5 +1,5 @@
-import axios from "axios";
 import { atom } from "recoil";
+import { defaultInstance } from '../store/api';
 
 export const isLoggedInState = atom({
   key: "isLoggedInState",
@@ -7,7 +7,7 @@ export const isLoggedInState = atom({
 });
 
 export const login = async (value) => {
-  const response = await axios.post("http://43.202.149.135:8080/login", {
+  const response = await defaultInstance.post("/login", {
     loginId: value.id,
     password: value.password,
   });
