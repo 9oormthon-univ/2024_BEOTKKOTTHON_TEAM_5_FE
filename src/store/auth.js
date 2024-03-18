@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { defaultInstance } from '../store/api';
+import { defaultInstance } from "../api/instance";
 
 export const isLoggedInState = atom({
   key: "isLoggedInState",

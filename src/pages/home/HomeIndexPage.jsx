@@ -1,11 +1,11 @@
 import React from "react";
-import styled from 'styled-components'
-import { useRef, useState } from 'react';
-import { authInstance } from '../../store/api'
+import styled from "styled-components";
+import { useRef, useState } from "react";
+import { authInstance } from "../../api/instance";
 
 import Header from "../../components/common/Header";
-import Profile from '../../components/home/Profile';
-import Modal from '../../components/common/Modal';
+import Profile from "../../components/home/Profile";
+import Modal from "../../components/common/Modal";
 
 const HomeContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -60,80 +60,77 @@ const TextDiv = styled.div`
   }
 `;
 
-
 const profiles = [
   {
     id: 0,
-    character: '/assets/home/profile-dog.png',
-    major: '산업경영공학과',
-    mbti: 'ENTJ',
-    tags: ['활발한', '계획적인', '유머러스한', '운동', '클라이밍'],
+    character: "/assets/home/profile-dog.png",
+    major: "산업경영공학과",
+    mbti: "ENTJ",
+    tags: ["활발한", "계획적인", "유머러스한", "운동", "클라이밍"],
   },
   {
     id: 1,
-    character: '/assets/home/profile-cat.png',
-    major: '국어국문학과',
-    mbti: 'INFP',
-    tags: ['신중한', '감성적', '배려심', 'OTT', '자기계발'],
+    character: "/assets/home/profile-cat.png",
+    major: "국어국문학과",
+    mbti: "INFP",
+    tags: ["신중한", "감성적", "배려심", "OTT", "자기계발"],
   },
   {
     id: 3,
-    character: '/assets/home/profile-fox.png',
-    major: '전자공학과',
-    mbti: 'ISTP',
-    tags: ['안정적', '독립심', '솔직한', '러닝', '농구'],
+    character: "/assets/home/profile-fox.png",
+    major: "전자공학과",
+    mbti: "ISTP",
+    tags: ["안정적", "독립심", "솔직한", "러닝", "농구"],
   },
   {
     id: 4,
-    character: '/assets/home/profile-bear.png',
-    major: '사학과',
-    mbti: 'ESFJ',
-    tags: ['적극적', '밝음', '친화력', '맛집', '음악'],
-  }
+    character: "/assets/home/profile-bear.png",
+    major: "사학과",
+    mbti: "ESFJ",
+    tags: ["적극적", "밝음", "친화력", "맛집", "음악"],
+  },
 ];
 
-
 const HomeIndexPage = () => {
-
   const profileModal = useRef();
   const [selectedProfile, setSelectedProfile] = useState();
 
   const content = () => {
-
-    return selectedProfile && (
-      <WrapContent>
-        <CharacterDiv>
-          <StyledImage src={selectedProfile.character} />
-        </CharacterDiv>
-        <TextDiv>
-          <div className="text-major">{selectedProfile.major}</div>
-          <div className="text-mbti">{selectedProfile.mbti}</div>
-          <div className="text-tags">
-            {selectedProfile.tags.map((tag, index) => {
-              return <span key={index}>#{tag} </span>
-            })}
-          </div>
-        </TextDiv>
-      </WrapContent>
-    )
-  }
+    return (
+      selectedProfile && (
+        <WrapContent>
+          <CharacterDiv>
+            <StyledImage src={selectedProfile.character} />
+          </CharacterDiv>
+          <TextDiv>
+            <div className="text-major">{selectedProfile.major}</div>
+            <div className="text-mbti">{selectedProfile.mbti}</div>
+            <div className="text-tags">
+              {selectedProfile.tags.map((tag, index) => {
+                return <span key={index}>#{tag} </span>;
+              })}
+            </div>
+          </TextDiv>
+        </WrapContent>
+      )
+    );
+  };
 
   const handleSelectProfile = (profile) => {
-    setSelectedProfile(profile)
+    setSelectedProfile(profile);
     profileModal.current.open();
-  }
+  };
 
   const handleCreateChatRoom = async () => {
     try {
-      await authInstance.post('/chatroom/create', {
-        "memberId": 0,
-        "roomName": "roomName1"
-    })
+      await authInstance.post("/chatroom/create", {
+        memberId: 0,
+        roomName: "roomName1",
+      });
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   return (
     <>
@@ -149,7 +146,7 @@ const HomeIndexPage = () => {
           {profiles.map((profile, index) => (
             <Profile
               key={index}
-              side={index % 2 === 0 ? 'left' : 'right'}
+              side={index % 2 === 0 ? "left" : "right"}
               profile={profile}
               onClick={() => handleSelectProfile(profile)}
             />
