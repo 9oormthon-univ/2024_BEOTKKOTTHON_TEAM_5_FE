@@ -1,9 +1,7 @@
 import axios from "axios";
 import { baseURL } from "../constants/baseURL";
 
-const token = localStorage.getItem("token")
-  ? localStorage.getItem("token")
-  : "";
+const token = localStorage.getItem("token");
 
 const axiosApi = (url, options) => {
   const instance = axios.create({ baseURL: url, ...options, timeout: 5000 });

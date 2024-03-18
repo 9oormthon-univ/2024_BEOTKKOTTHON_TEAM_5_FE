@@ -124,8 +124,8 @@ const HomeIndexPage = () => {
   const handleCreateChatRoom = async () => {
     try {
       await authInstance.post("/chatroom/create", {
-        memberId: 0,
-        roomName: "roomName1",
+        memberId:3,
+        roomName:"roomName1",
       });
     } catch (error) {
       console.log(error);
