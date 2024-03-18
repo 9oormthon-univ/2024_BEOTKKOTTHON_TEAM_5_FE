@@ -7,7 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { defaultInstance } from "../../api/instance";
 
 const UnivRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -33,8 +33,8 @@ const UnivRegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
-      .post("http://43.202.149.135:8080/member/signup", {
+    await defaultInstance
+      .post("/member/signup", {
         loginId: registerData.loginId,
         password: registerData.password,
         checkPassword: registerData.checkPassword,

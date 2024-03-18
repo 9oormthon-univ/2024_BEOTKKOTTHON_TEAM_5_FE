@@ -12,7 +12,6 @@ import ChatPage from "./pages/chat/ChatPage";
 import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
-import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -27,18 +26,16 @@ function App() {
         <Route path="/register/done" element={<DonePage />} />
         <Route path="/register/profile" element={<ProfileRegisterPage />} />
 
-        <Route element={<PrivateRoute />}>
-          <Route element={<NavLayout />}>
-            <Route path="/home" element={<HomeIndexPage />} />
+        <Route element={<NavLayout />}>
+          <Route path="/home" element={<HomeIndexPage />} />
 
-            <Route path="/chat" element={<ChatIndexPage />} />
-            <Route path="/chat/:chatRoomId" element={<ChatPage />} />
+          <Route path="/chat" element={<ChatIndexPage />} />
+          <Route path="/chat/:chatRoomId" element={<ChatPage />} />
 
-            <Route path="/festival" element={<FestivalIndexPage />} />
+          <Route path="/festival" element={<FestivalIndexPage />} />
 
-            <Route path="/mypage" element={<MyIndexPage />} />
-            <Route path='/mypage/profile' element={<ProfileEditPage />} />
-          </Route>
+          <Route path="/mypage" element={<MyIndexPage />} />
+          <Route path="/mypage/profile" element={<ProfileEditPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
