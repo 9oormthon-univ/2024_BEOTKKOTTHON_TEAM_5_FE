@@ -3,7 +3,8 @@ import { useState } from "react";
 import styled, {keyframes} from 'styled-components';
 
 import Header from "../../components/common/Header";
-import BriefInfoCard from "../../components/festival/\BriefInfoCard";
+import BriefInfoCard from "../../components/festival/BriefInfoCard";
+import GuideForm from "../../components/festival/GuideForm"
 
 const FestivalContainer = styled.div`
   padding: 2rem 1.5rem;
@@ -38,7 +39,11 @@ const WrapCards = styled.div`
   flex-direction: column;
   gap: 1rem;
 `
-
+const Partition = styled.div`
+  width: 100%;
+  height: 0.3rem;
+  background-color: #D9D9D9;
+`;
 
 const FestivalIndexPage = () => {
 
@@ -66,14 +71,20 @@ const FestivalIndexPage = () => {
     {
       content: (
         <>
-          <Title>팔씨름</Title>
+          <Title>타임테이블</Title>
         </>
       )
     },
     {
       content: (
         <>
-          <Title>타임테이블</Title>
+          <GuideForm/>
+          <Partition/>
+          <GuideForm/>
+          <Partition/>
+          <GuideForm/>
+          
+
         </>
       )
     },
