@@ -46,14 +46,15 @@ const TextDiv = styled.div`
 `;
 
 
-const BriefInfoCard = () => {
+const BriefInfoCard = ({onClick}) => {
+
   return (
-    <WrapCard>
+    <WrapCard onClick={onClick}>
       <img
         src={'/assets/festival/temp-img.png'}
         alt="festival image" />
       <TextDiv>
-        <div className="title">가든 싱어</div>
+        <div className="title">팔씨름</div>
         <div className="date">2023.09.20 ~ 2023.09.21</div>
         <br />
         <div className="location">
