@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 import Header from "../../components/common/Header";
 import BriefInfoCard from "../../components/festival/BriefInfoCard";
@@ -47,7 +48,14 @@ const Partition = styled.div`
 
 const FestivalIndexPage = () => {
 
+  const navigate = useNavigate();
   const [tabMenuState, setTabMenuState] = useState(0);
+  
+  
+  const handleRouter = () => {
+    navigate("/festival/:pageId");
+  }
+  
   const contentState = [
     {
       content: (
@@ -55,15 +63,15 @@ const FestivalIndexPage = () => {
           <Title>구름톤대학교</Title>
           <Date>9월 20일</Date>
           <WrapCards>
-            <BriefInfoCard/>
-            <BriefInfoCard/>
-            <BriefInfoCard/>
+            <BriefInfoCard onClick={handleRouter} />
+            <BriefInfoCard />
+            <BriefInfoCard />
           </WrapCards>
           <Date className="cardsDate">9월 20일</Date>
           <WrapCards>
-            <BriefInfoCard/>
-            <BriefInfoCard/>
-            <BriefInfoCard/>
+            <BriefInfoCard />
+            <BriefInfoCard />
+            <BriefInfoCard />
           </WrapCards>
         </>
       )
@@ -78,22 +86,17 @@ const FestivalIndexPage = () => {
     {
       content: (
         <>
-          <GuideForm/>
-          <Partition/>
-          <GuideForm/>
-          <Partition/>
-          <GuideForm/>
-          
-
+          <GuideForm />
+          <Partition />
+          <GuideForm />
+          <Partition />
+          <GuideForm />
         </>
       )
     },
 
   ];
 
-  const handleTabMenuState = () => {
-
-  }
 
   return (
     <FestivalContainer>
