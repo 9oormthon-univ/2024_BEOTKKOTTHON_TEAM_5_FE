@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components'
 import { useRef, useState } from 'react';
+import { authInstance } from '../../store/api'
 
 import Header from "../../components/common/Header";
 import Profile from '../../components/home/Profile';
@@ -122,9 +123,17 @@ const HomeIndexPage = () => {
     profileModal.current.open();
   }
 
-  const handleCreateChatRoom = () => {
-    //방만들기
+  const handleCreateChatRoom = async () => {
+    try {
+      await authInstance.post('/chatroom/create', {
+        "memberId": 0,
+        "roomName": "roomName1"
+    })
+    } catch (error) {
+      console.log(error);
+    }
   }
+
 
   return (
     <>
