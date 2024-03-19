@@ -73,8 +73,8 @@ const HomeIndexPage = () => {
   const handleCreateChatRoom = async () => {
     try {
       await authInstance.post("/chatroom/create", {
-        memberId: 0,
-        roomName: "roomName1",
+        memberId:3,
+        roomName:"roomName1",
       });
     } catch (error) {
       console.log(error);
@@ -116,7 +116,7 @@ const HomeIndexPage = () => {
             />
           ))}
         </ProfileContainer>
-        <ReloadButton src="/assets/home/reload-button.png" />
+        <ReloadButton src="/assets/home/reload-button.png" alt="Reload button" />
       </HomeContainer>
     </>
   );

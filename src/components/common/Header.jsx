@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const WrapHeader = styled.header`
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
 
   img {
     width: 8rem;
