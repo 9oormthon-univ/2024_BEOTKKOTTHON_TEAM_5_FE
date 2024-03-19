@@ -3,21 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { isLoggedInState, login } from "../../store/auth";
 import { useSetRecoilState } from "recoil";
 import { useLocation } from 'react-router-dom';
+import styled from "styled-components";
+import HeaderPrev from "../../components/common/HeaderPrev";
+import TextInput from "../../components/register/TextInput";
+import Button from "../../components/common/Button";
+
 
 const LoginPage = () => {
+
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-
   const location = useLocation();
 
-  const [value, setValue] = useState({
+  const [loginValue, setLoginValue] = useState({
     id: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setValue({
-      ...value,
+    console.log(e.target.value);
+    setLoginValue({
+      ...loginValue,
       [e.target.name]: e.target.value,
     });
   };
@@ -25,7 +31,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    login(value)
+    login(loginValue)
       .then(() => {
         setIsLoggedIn(true);
       })
@@ -35,33 +41,57 @@ const LoginPage = () => {
       .catch((err) => console.error(err));
   };
 
-  const isDisabled = value.id === "" || value.password === "";
+  const isDisabled = loginValue.id === "" || loginValue.password === "";
 
   return (
-    <div>
+    <WrapContent onSubmit={handleSubmit}>
       {location.state?.alert && alert("로그인이 필요합니다.")}
-      <Link to={"/"}>홈으로</Link>
-      <h1>로그인 페이지</h1>
-      <p>아이디와 비밀번호를 입력해주세요.</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+      <HeaderPrev
+        title={
+          <>
+            <div className="title-big">축제를 200% 즐기기</div>
+            <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
+          </>
+        } navigateTo={"/"} />
+
+      <div>
+        <TextInput
+          label="아이디"
           name="id"
-          placeholder="아이디"
+          type="text"
           onChange={handleChange}
         />
-        <input
-          type="password"
+      </div>
+
+      <div>
+        <TextInput
+          label="비밀번호"
           name="password"
-          placeholder="비밀번호"
+          type="password"
           onChange={handleChange}
+          placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
         />
-        <button type="submit" disabled={isDisabled}>
-          로그인
-        </button>
-      </form>
-    </div>
+        {/* {idTestFlag && pwTestFlag && (
+          <Tip>아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.</Tip>
+        )} */}
+      </div>
+
+      <Button size="large" type="submit" disabled={isDisabled}>
+        로그인하기
+      </Button>
+    </WrapContent>
   );
 };
 
 export default LoginPage;
+
+const WrapContent = styled.form`
+  display: grid;
+  gap: 2rem;
+  padding: 2rem;
+`;
+const Tip = styled.small`
+  font-size: 12px;
+  color: #FF625D;
+  font-weight: 700;
+`;

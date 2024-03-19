@@ -9,6 +9,16 @@ const WrapHeader = styled.header`
     max-width: 1rem;
     object-fit: contain;
   }
+
+  .title-big {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .title-small {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #979797;
+  }
 `;
 
 const HeaderPrev = ({title, navigateTo}) => {
