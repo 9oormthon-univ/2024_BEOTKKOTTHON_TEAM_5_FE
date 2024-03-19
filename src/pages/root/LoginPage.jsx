@@ -15,14 +15,40 @@ const LoginPage = () => {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const location = useLocation();
 
+  const [idTestFlag, setIdTestFlag] = useState(false);
+  const [pwTestFlag, setPwTestFlag] = useState(false);
+  const [loginResult, setLoginResult] = useState();
+  const [showWarning, setShowWarning] = useState();
+
+  const ID_REGEX = /^[a-z0-9]{5,20}$/;
+  const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+
   const [loginValue, setLoginValue] = useState({
     id: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    console.log(e.target.value);
-    setLoginValue({
+
+    const { name, value } = e.target;
+
+    if(name === "id") {
+      if (ID_REGEX.test(value)) {
+        setIdTestFlag(false);
+      } else {
+        setIdTestFlag(true);
+      }
+    }
+
+    if (name === "password") {
+      if (PW_REGEX.test(value)) {
+        setPwTestFlag(false);
+      } else {
+        setPwTestFlag(true);
+      }
+    }
+
+    !idTestFlag && !pwTestFlag && setLoginValue({
       ...loginValue,
       [e.target.name]: e.target.value,
     });
@@ -31,64 +57,90 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    login(loginValue)
+    const result = login(loginValue)
       .then(() => {
         setIsLoggedIn(true);
       })
       .then(() => {
         navigate("/home");
       })
-      .catch((err) => console.error(err));
+      .catch((err) => err.response.data);
+      setLoginResult(result);
   };
 
-  const isDisabled = loginValue.id === "" || loginValue.password === "";
-
   return (
-    <WrapContent onSubmit={handleSubmit}>
-      {location.state?.alert && alert("로그인이 필요합니다.")}
-      <HeaderPrev
-        title={
-          <>
-            <div className="title-big">축제를 200% 즐기기</div>
-            <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
-          </>
-        } navigateTo={"/"} />
+    <WrapForm onSubmit={handleSubmit}>
+      <WrapContent>
 
-      <div>
-        <TextInput
-          label="아이디"
-          name="id"
-          type="text"
-          onChange={handleChange}
-        />
-      </div>
+        {location.state?.alert && alert("로그인이 필요합니다.")}
+        <HeaderPrev
+          title={
+            <>
+              <div className="title-big">축제를 200% 즐기기</div>
+              <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
+            </>
+          } navigateTo={"/"} />
 
-      <div>
-        <TextInput
-          label="비밀번호"
-          name="password"
-          type="password"
-          onChange={handleChange}
-          placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
-        />
-        {/* {idTestFlag && pwTestFlag && (
+        <div>
+          <TextInput
+            label="아이디"
+            name="id"
+            type="text"
+            onChange={handleChange}
+            placeholder={"영어, 숫자 조합 5자 이상 20자 이하"}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="비밀번호"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
+          />
+          {(loginResult!==200) && (
           <Tip>아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.</Tip>
-        )} */}
-      </div>
+        )}
+        </div>
 
-      <Button size="large" type="submit" disabled={isDisabled}>
+      </WrapContent>
+      <WrapText>
+        비밀번호를 잊으셨나요?<span>비밀번호 찾기</span>
+      </WrapText>
+
+
+      <Button 
+        size="large" 
+        type="submit"
+        >
         로그인하기
       </Button>
-    </WrapContent>
+    </WrapForm>
   );
 };
 
 export default LoginPage;
 
-const WrapContent = styled.form`
+const WrapForm = styled.form`
+  padding: 2rem;
+`;
+const WrapContent = styled.div`
   display: grid;
   gap: 2rem;
-  padding: 2rem;
+
+`;
+const WrapText = styled.div`
+  display: flex;  
+  justify-content: center;
+  color: #979797;
+  padding: 1rem 0 4rem 0;
+
+  span {
+    color: #000000;
+    font-weight: 700;
+  }
+  
 `;
 const Tip = styled.small`
   font-size: 12px;
