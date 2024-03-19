@@ -95,16 +95,16 @@ const HomeIndexPage = () => {
           <button
             style={{ height: "100px" }}
             onClick={() => {
-              navigate("/chat/12", { state: { memId: 5 } });
+              navigate("/chat/13", { state: { memId: 5 } });
             }}>
-            준석
+            준석13
           </button>
           <button
             style={{ height: "100px" }}
             onClick={() => {
-              navigate("/chat/12", { state: { memId: 4 } });
+              navigate("/chat/13", { state: { memId: 4 } });
             }}>
-            주영
+            주영13
           </button>
 
           {profiles.map((profile, index) => (
