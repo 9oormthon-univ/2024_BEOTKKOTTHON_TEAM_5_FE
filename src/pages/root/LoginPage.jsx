@@ -17,8 +17,9 @@ const LoginPage = () => {
 
   const [idTestFlag, setIdTestFlag] = useState(false);
   const [pwTestFlag, setPwTestFlag] = useState(false);
+  // const [isDisabled, setIsDisabled] = useState(true)
   const [loginResult, setLoginResult] = useState();
-  const [showWarning, setShowWarning] = useState();
+  const [showWarning, setShowWarning] = useState(false);
 
   const ID_REGEX = /^[a-z0-9]{5,20}$/;
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
@@ -28,44 +29,43 @@ const LoginPage = () => {
     password: "",
   });
 
+  const isDisabled = loginValue.id === "" || loginValue.password === "";
+
   const handleChange = (e) => {
 
     const { name, value } = e.target;
+    setShowWarning(false);
 
-    if(name === "id") {
-      if (ID_REGEX.test(value)) {
-        setIdTestFlag(false);
-      } else {
-        setIdTestFlag(true);
-      }
+    if (name === "id") {
+      setIdTestFlag(!ID_REGEX.test(value));
     }
-
     if (name === "password") {
-      if (PW_REGEX.test(value)) {
-        setPwTestFlag(false);
-      } else {
-        setPwTestFlag(true);
-      }
+      setPwTestFlag(!PW_REGEX.test(value));
     }
 
-    !idTestFlag && !pwTestFlag && setLoginValue({
-      ...loginValue,
-      [e.target.name]: e.target.value,
-    });
+    setLoginValue(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = login(loginValue)
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .then(() => {
-        navigate("/home");
-      })
-      .catch((err) => err.response.data);
-      setLoginResult(result);
+    if (idTestFlag || pwTestFlag) {
+      setShowWarning(true);
+      return;
+    }
+
+    try {
+      await login(loginValue);
+      setIsLoggedIn(true);
+      navigate("/home");
+    } catch (err) {
+      setShowWarning(true);
+      setLoginResult(err.response?.status || 'Login failed');
+    }
+
   };
 
   return (
@@ -99,9 +99,9 @@ const LoginPage = () => {
             onChange={handleChange}
             placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
           />
-          {(loginResult!==200) && (
-          <Tip>아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.</Tip>
-        )}
+          {showWarning && ((loginResult !== 200) && (
+            <Tip>아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.</Tip>
+          ))}
         </div>
 
       </WrapContent>
@@ -110,10 +110,11 @@ const LoginPage = () => {
       </WrapText>
 
 
-      <Button 
-        size="large" 
+      <Button
+        size="large"
         type="submit"
-        >
+        disabled={isDisabled}
+      >
         로그인하기
       </Button>
     </WrapForm>
