@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { isLoggedInState, login } from "../../store/auth";
 import { useSetRecoilState } from "recoil";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 
-
 const LoginPage = () => {
-
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const location = useLocation();
@@ -52,7 +50,9 @@ const LoginPage = () => {
             <div className="title-big">축제를 200% 즐기기</div>
             <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
           </>
-        } navigateTo={"/"} />
+        }
+        navigateTo={"/"}
+      />
 
       <div>
         <TextInput
@@ -92,6 +92,6 @@ const WrapContent = styled.form`
 `;
 const Tip = styled.small`
   font-size: 12px;
-  color: #FF625D;
+  color: #ff625d;
   font-weight: 700;
 `;

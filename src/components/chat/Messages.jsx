@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import styled from "styled-components";
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, myId }) => {
   const messageRef = useRef();
 
   const scrollToBottom = () => {
@@ -31,6 +31,7 @@ const Messages = ({ messages }) => {
               content={message.body.chatMessage}
               time={message.body.sendDt}
               read={!!message.body.unreadCount}
+              sentByMe={message.body.senderId === myId}
             />
           );
         })}

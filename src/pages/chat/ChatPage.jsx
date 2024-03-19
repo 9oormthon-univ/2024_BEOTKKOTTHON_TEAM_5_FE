@@ -29,6 +29,10 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
+    console.log(messages);
+  }, [messages]);
+
+  useEffect(() => {
     const fetchStaleMessages = async () => {
       console.log("roomId");
       console.log(roomId);
@@ -122,7 +126,7 @@ const ChatPage = () => {
         staleMessages.map((msg, index) => (
           <div key={index}>{msg.chatMessage}</div>
         ))}
-      <Messages messages={messages} />
+      <Messages messages={messages} myId={myId} />
       <MessageInput
         value={draftMessage}
         changeHandler={handleChange}
