@@ -73,8 +73,8 @@ const HomeIndexPage = () => {
   const handleCreateChatRoom = async () => {
     try {
       await authInstance.post("/chatroom/create", {
-        memberId:3,
-        roomName:"roomName1",
+        memberId: 3,
+        roomName: "roomName1",
       });
     } catch (error) {
       console.log(error);
@@ -95,14 +95,14 @@ const HomeIndexPage = () => {
           <button
             style={{ height: "100px" }}
             onClick={() => {
-              navigate("/chat/11", { state: { memId: 2 } });
+              navigate("/chat/12", { state: { memId: 5 } });
             }}>
             준석
           </button>
           <button
             style={{ height: "100px" }}
             onClick={() => {
-              navigate("/chat/11", { state: { memId: 4 } });
+              navigate("/chat/12", { state: { memId: 4 } });
             }}>
             주영
           </button>
@@ -116,7 +116,10 @@ const HomeIndexPage = () => {
             />
           ))}
         </ProfileContainer>
-        <ReloadButton src="/assets/home/reload-button.png" alt="Reload button" />
+        <ReloadButton
+          src="/assets/home/reload-button.png"
+          alt="Reload button"
+        />
       </HomeContainer>
     </>
   );

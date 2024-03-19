@@ -33,12 +33,12 @@ const ChatPage = () => {
         ]);
       };
 
-      newClient.subscribe("/topic/chatroom/11", subscription_callback);
+      newClient.subscribe("/topic/chatroom/12", subscription_callback);
     };
 
     var headers = {
       Authorization: `Bearer ${token}`,
-      chatRoomId: 11,
+      chatRoomId: 12,
       memberId: memId,
     };
 
@@ -59,7 +59,7 @@ const ChatPage = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     client.publish({
-      destination: "/app/chat/11",
+      destination: "/app/chat/12",
       body: JSON.stringify({
         chatMessage: draftMessage,
         senderId: opponentId,
