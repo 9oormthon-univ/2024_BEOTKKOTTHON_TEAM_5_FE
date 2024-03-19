@@ -1,5 +1,21 @@
 import styled from "styled-components";
 
+const MessageInput = ({ value, changeHandler, submitHandler }) => {
+  return (
+    <MeassageInputContainer>
+      <WrapButton>
+        <img src={"/assets/media-button.png"} alt="Media" />
+      </WrapButton>
+      <WrapInputForm onSubmit={submitHandler}>
+        <Input value={value} onChange={changeHandler} />
+        <WrapButton type="submit">
+          <img src={"/assets/send-button.png"} alt="Send" />
+        </WrapButton>
+      </WrapInputForm>
+    </MeassageInputContainer>
+  );
+};
+
 const MeassageInputContainer = styled.div`
   display: flex;
   gap: 0.8rem;
@@ -28,32 +44,15 @@ const WrapInputForm = styled.form`
   padding: 0.2rem 0.4rem;
 `;
 
-const WrapButton = styled.div`
+const WrapButton = styled.button`
   display: flex;
   align-items: center;
+  border: none;
+  background-color: transparent;
 
   img {
     width: 1.5rem;
   }
 `;
-
-const MessageInput = () => {
-  return (
-    <MeassageInputContainer>
-      <WrapButton>
-        <img src={"/assets/media-button.png"} alt="Media" />
-      </WrapButton>
-      <WrapInputForm
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}>
-        <Input />
-        <WrapButton>
-          <img src={"/assets/send-button.png"} alt="Send" />
-        </WrapButton>
-      </WrapInputForm>
-    </MeassageInputContainer>
-  );
-};
 
 export default MessageInput;

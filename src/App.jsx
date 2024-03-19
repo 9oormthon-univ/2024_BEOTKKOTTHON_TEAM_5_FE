@@ -12,7 +12,7 @@ import ChatPage from "./pages/chat/ChatPage";
 import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
-import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
+import ChatInboxPage from "./pages/chat/ChatInboxPage";
 
 function App() {
   return (
@@ -31,9 +31,9 @@ function App() {
           <Route path="/home" element={<HomeIndexPage />} />
 
           <Route path="/chat" element={<ChatIndexPage />} />
+          <Route path="/inbox" element={<ChatInboxPage />} />
 
           <Route path="/festival" element={<FestivalIndexPage />} />
-          <Route path="/festival/:pageId" element={<FestivalDetailPage />} />
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />

@@ -2,12 +2,71 @@ import React, { useEffect, useState } from "react";
 import Messages from "../../components/chat/Messages";
 import MessageInput from "../../components/chat/MessageInput";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Stomp } from "@stomp/stompjs";
 
 const ChatPage = () => {
   const [distance, setDistance] = useState(0);
   const [isCallActive, setIsCallActive] = useState(false);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const memId = location.state.memId;
+  const opponentId = memId === 2 ? 4 : 2;
+
+  const [client, setClient] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [draftMessage, setDraftMessage] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const newClient = Stomp.client("wss://api.dis-tance.com/meet");
+
+    const connect_callback = function (frame) {
+      console.log("Connected: " + frame);
+      let subscription_callback = function (message) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          JSON.parse(message.body),
+        ]);
+      };
+
+      newClient.subscribe("/topic/chatroom/11", subscription_callback);
+    };
+
+    var headers = {
+      Authorization: `Bearer ${token}`,
+      chatRoomId: 11,
+      memberId: memId,
+    };
+
+    newClient.connect(headers, connect_callback);
+
+    newClient.activate();
+    setClient(newClient);
+
+    return () => {
+      newClient.deactivate();
+    };
+  }, []);
+
+  const handleChange = (e) => {
+    setDraftMessage(e.target.value);
+  };
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    client.publish({
+      destination: "/app/chat/11",
+      body: JSON.stringify({
+        chatMessage: draftMessage,
+        senderId: opponentId,
+      }),
+    });
+    setDraftMessage("");
+  };
 
   useEffect(() => {
     setDistance(200);
@@ -35,8 +94,12 @@ const ChatPage = () => {
           )}
         </CallButton>
       </TopBar>
-      <Messages />
-      <MessageInput />
+      <Messages messages={messages} />
+      <MessageInput
+        value={draftMessage}
+        changeHandler={handleChange}
+        submitHandler={sendMessage}
+      />
     </Container>
   );
 };

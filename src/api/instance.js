@@ -12,7 +12,7 @@ const axiosAuthApi = (url, options) => {
   const instance = axios.create({
     baseURL: url,
     timeout: 5000,
-    headers: { Authorization: token },
+    headers: { Authorization: `Bearer ${token}` },
     ...options,
   });
   return instance;
