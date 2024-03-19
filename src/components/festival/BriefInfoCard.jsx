@@ -8,16 +8,14 @@ const WrapCard = styled.div`
   width: 100%;
   border-radius: 1rem;
   box-shadow: 0px 5px 50px 1px #33333333;
-  overflow: hidden; 
-  
+  overflow: hidden;
+
   img {
     width: 25%;
     object-fit: cover;
-
   }
 `;
 const TextDiv = styled.div`
-
   width: 100%;
   align-items: center;
 
@@ -27,7 +25,7 @@ const TextDiv = styled.div`
     line-height: 1.5rem;
   }
   .date {
-    font-size: 0.7rem; 
+    font-size: 0.7rem;
     font-weight: 600;
     line-height: 1rem;
   }
@@ -45,27 +43,21 @@ const TextDiv = styled.div`
   }
 `;
 
-
-const BriefInfoCard = ({onClick}) => {
-
+const BriefInfoCard = ({ onClick }) => {
   return (
     <WrapCard onClick={onClick}>
-      <img
-        src={'/assets/festival/temp-img.png'}
-        alt="festival image" />
+      <img src={"/assets/festival/temp-img.png"} alt="festival" />
       <TextDiv>
         <div className="title">팔씨름</div>
         <div className="date">2023.09.20 ~ 2023.09.21</div>
         <br />
         <div className="location">
-          <img
-            src='/assets/festival/icon-location.svg'
-            alt="location icon" />
+          <img src="/assets/festival/icon-location.svg" alt="location icon" />
           전남대학교 5.18 광장부스
         </div>
       </TextDiv>
     </WrapCard>
-  )
-}
+  );
+};
 
 export default BriefInfoCard;
