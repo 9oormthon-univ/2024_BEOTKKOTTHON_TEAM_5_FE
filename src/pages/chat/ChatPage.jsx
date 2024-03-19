@@ -4,6 +4,7 @@ import MessageInput from "../../components/chat/MessageInput";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
+import { authInstance } from "../../api/instance";
 
 const ChatPage = () => {
   const [distance, setDistance] = useState(0);
@@ -12,12 +13,34 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const memId = location.state.memId;
-  const opponentId = memId === 2 ? 4 : 2;
+  const myId = location.state.myId;
+  const opponentId = location.state.opponentId;
+  const roomId = location.state.roomId;
 
   const [client, setClient] = useState(null);
+  const [staleMessages, setStaleMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
+
+  useEffect(() => {
+    console.log("myId", myId);
+    console.log("opponentId", opponentId);
+    console.log("roomId", roomId);
+  }, []);
+
+  useEffect(() => {
+    const fetchStaleMessages = async () => {
+      console.log("roomId");
+      console.log(roomId);
+      const msg = await authInstance
+        .get(`/chatroom/${roomId}`)
+        .then((res) => res.data);
+
+      setStaleMessages(msg);
+    };
+
+    fetchStaleMessages();
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,19 +50,20 @@ const ChatPage = () => {
     const connect_callback = function (frame) {
       console.log("Connected: " + frame);
       let subscription_callback = function (message) {
+        console.log("subscribe 연결됨!");
         setMessages((prevMessages) => [
           ...prevMessages,
           JSON.parse(message.body),
         ]);
       };
 
-      newClient.subscribe("/topic/chatroom/13", subscription_callback);
+      newClient.subscribe(`/topic/chatroom/${roomId}`, subscription_callback);
     };
 
     var headers = {
       Authorization: `Bearer ${token}`,
-      chatRoomId: 13,
-      memberId: memId,
+      chatRoomId: roomId,
+      memberId: myId,
     };
 
     newClient.connect(headers, connect_callback);
@@ -59,7 +83,7 @@ const ChatPage = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     client.publish({
-      destination: "/app/chat/13",
+      destination: `/app/chat/${roomId}`,
       body: JSON.stringify({
         chatMessage: draftMessage,
         senderId: opponentId,
@@ -94,6 +118,10 @@ const ChatPage = () => {
           )}
         </CallButton>
       </TopBar>
+      {staleMessages.length > 0 &&
+        staleMessages.map((msg, index) => (
+          <div key={index}>{msg.chatMessage}</div>
+        ))}
       <Messages messages={messages} />
       <MessageInput
         value={draftMessage}
