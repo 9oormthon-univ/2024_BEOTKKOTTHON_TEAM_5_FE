@@ -22,9 +22,6 @@ const Tab = styled.div`
   border-bottom: ${props => props.$isSelected ? "3px solid #FF625D" : "3px solid transparent"};
   transition: all 200ms;
 `;
-const WrapContent = styled.section`
-
-`;
 const Title = styled.div`
   font-size: 36px;
   font-weight: 700;
@@ -112,9 +109,9 @@ const FestivalIndexPage = () => {
           $isSelected={tabMenuState === 2}
           onClick={() => setTabMenuState(2)}>안내사항</Tab>
       </TabMenu>
-      <WrapContent>
+      <div>
         {contentState[tabMenuState].content}
-      </WrapContent>
+      </div>
     </FestivalContainer>
   )
 };
