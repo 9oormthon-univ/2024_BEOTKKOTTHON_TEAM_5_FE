@@ -6,13 +6,12 @@ import styled from "styled-components";
  * @param {string} content - 메시지 내용
  * @param {string} time - 메시지를 보낸 시간
  * @param {boolean} read - 메시지를 읽었는지 여부
+ * @param {boolean} sentByMe - 메시지를 내가 보냈는지 여부
  */
-const Message = ({ nickname, content, time, read }) => {
-  let isSentByCurrentUser = false;
-
+const Message = ({ nickname, content, time, read, sentByMe }) => {
   return (
     <>
-      {isSentByCurrentUser ? (
+      {sentByMe ? (
         <MessageByMe>
           <div className="message-container">
             <div className="wrapper">
