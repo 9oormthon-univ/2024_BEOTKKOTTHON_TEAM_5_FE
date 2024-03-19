@@ -1,31 +1,72 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { authInstance } from "../../api/instance";
 
+/**
+ * @todo LINE 61: localStorage에 저장된 대화 내역 삭제
+ */
 const ChatIndexPage = () => {
+  const navigate = useNavigate();
+  const [response, setResponse] = useState(null);
+
+  const fetchChatList = async () => {
+    const res = await authInstance.get("/chatroom").then((res) => res.data);
+
+    setResponse(res);
+  };
+
+  useEffect(() => {
+    fetchChatList();
+  }, []);
+
   return (
     <ChatContainer>
       <Header />
 
-      <div>요청함</div>
+      <WrapInboxButton>
+        <InboxButton
+          onClick={() => {
+            navigate("/inbox");
+          }}>
+          <div>요청함</div>
+          <img src="/assets/arrow-pink-right.svg" alt="화살표 아이콘" />
+        </InboxButton>
+      </WrapInboxButton>
+      {response &&
+        response.map((chat) => {
+          return (
+            <ChatRoomContainer>
+              <div className="left-section">
+                <ImageContainer>
+                  {/* characer에 따라 src 변경 */}
+                  <img src="/assets/home/profile-bear.png" alt="캐릭터" />
+                </ImageContainer>
 
-      <ChatRoomContainer>
-        <div className="left-section">
-          <ImageContainer>
-            <img src="/assets/home/profile-bear.png" alt="캐릭터" />
-          </ImageContainer>
+                <div className="profile-section">
+                  <Profile>{chat.roomName}</Profile>
+                  <Message>{chat.lastMessage}</Message>
+                </div>
+              </div>
 
-          <div className="profile-section">
-            <Profile>경영학과, ENTJ</Profile>
-            <Message>오 그러겡 ㅎㅎ 신기하당</Message>
-          </div>
-        </div>
-
-        <div className="right-section">
-          <Time>14:29</Time>
-          <LeaveButton>나가기</LeaveButton>
-        </div>
-      </ChatRoomContainer>
+              <div className="right-section">
+                <Time>{chat.modifyDt}</Time>
+                <LeaveButton
+                  onClick={async () => {
+                    await authInstance
+                      .delete(`api/chatroom/${chat.chatRoomId}`)
+                      .then((res) => {
+                        console.log(res);
+                        // localStorage에 저장된 대화 내역 삭제
+                      });
+                  }}>
+                  나가기
+                </LeaveButton>
+              </div>
+            </ChatRoomContainer>
+          );
+        })}
     </ChatContainer>
   );
 };
@@ -97,6 +138,18 @@ const LeaveButton = styled.button`
   border: none;
   border-radius: 9999px;
   padding: 6px 12px;
+  font-weight: 600;
+`;
+
+const WrapInboxButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const InboxButton = styled.div`
+  color: #333333;
+  display: flex;
+  gap: 8px;
   font-weight: 600;
 `;
 

@@ -5,6 +5,8 @@ import AnimalSelector from "../../components/register/AnimalSelector";
 import BlankModal from "../../components/common/BlankModal";
 import Button from "../../components/common/Button";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
+import { authInstance } from "../../api/instance";
+import { useNavigate } from "react-router-dom";
 
 /**
  * @todo 코드 분리
@@ -15,6 +17,29 @@ const ProfileRegisterPage = () => {
   const [attractiveness, setAttractiveness] = useState([]);
   const [hobby, setHobby] = useState([]);
   const [hashtagCount, setHashtagCount] = useState(0);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await authInstance
+      .post("/member/info", {
+        mbti: selectedMBTI,
+        memberCharacter: selectedAnimal,
+        memberHobbyDto: hobby.map((value) => ({ hobby: value })),
+        memberTagDto: attractiveness.map((value) => ({ tag: value })),
+      })
+      .then(() => {
+        alert("회원정보 등록이 완료되었습니다.");
+      })
+      .then(() => {
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const attractivenessModalRef = useRef();
   const hobbyModalRef = useRef();
@@ -154,7 +179,7 @@ const ProfileRegisterPage = () => {
             </ListContainer>
           </BlankModal>
         </div>
-        <Button disabled={isDisabled} size="large">
+        <Button disabled={isDisabled} onClick={handleSubmit} size="large">
           시작하기
         </Button>
       </WrapContent>
