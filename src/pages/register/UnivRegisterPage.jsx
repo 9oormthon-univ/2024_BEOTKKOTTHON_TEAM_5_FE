@@ -8,6 +8,7 @@ import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { defaultInstance } from "../../api/instance";
+import HeaderPrev from "../../components/common/HeaderPrev";
 
 const UnivRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -90,7 +91,9 @@ const UnivRegisterPage = () => {
 
   return (
     <WrapContent>
-      <h2>학교를 인증해주세요 🏫</h2>
+      <HeaderPrev 
+        title={"학교를 인증해주세요 🏫"}
+        navigateTo="/register/user"/>
 
       <Dropdown
         label="학교"
