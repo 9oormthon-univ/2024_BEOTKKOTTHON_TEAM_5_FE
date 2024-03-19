@@ -152,7 +152,7 @@ const HomeIndexPage = () => {
             />
           ))}
         </ProfileContainer>
-        <ReloadButton src="/assets/home/reload-button.png" />
+        <ReloadButton src="/assets/home/reload-button.png" alt="Reload button" />
       </HomeContainer>
     </>
   );
