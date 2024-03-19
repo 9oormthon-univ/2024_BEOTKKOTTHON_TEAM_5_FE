@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { registerDataState } from "../../store/registerDataState";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
+import HeaderPrev from "../../components/common/HeaderPrev";
 
 const UserRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -68,11 +69,14 @@ const UserRegisterPage = () => {
 
   return (
     <WrapContent>
-      <h2>
-        처음 오셨나요?
-        <br />
-        학생메일로 가입해보세요!
-      </h2>
+      <HeaderPrev
+        title={
+          <>
+            처음 오셨나요?
+            <br />
+            학생메일로 가입해보세요!
+          </>}
+        navigateTo="/" />
 
       <div>
         <TextInput
@@ -125,6 +129,7 @@ const UserRegisterPage = () => {
         label="전화번호"
         name="telNum"
         type="number"
+        placeholder="예시) 01012345678"
         value={registerData.telNum}
         onChange={handleChange}
       />

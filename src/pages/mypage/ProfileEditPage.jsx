@@ -5,6 +5,7 @@ import DropdownMBTI from "../../components/register/DropdownMBTI";
 import BlankModal from "../../components/common/BlankModal";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 import Button from "../../components/common/Button";
+import HeaderPrev from "../../components/common/HeaderPrev";
 
 const ProfileEditPage = () => {
   const [selectedAnimal, setSelectedAnimal] = useState("");
@@ -58,7 +59,9 @@ const ProfileEditPage = () => {
   return (
     <div>
       <WrapContent>
-        <h2>프로필 수정하기</h2>
+        <HeaderPrev 
+          title="프로필 수정하기"
+          navigateTo={"/mypage"}/>
       </WrapContent>
       <AnimalSelector
         label="캐릭터 선택하기"
