@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isLoggedInState, login } from "../../store/auth";
 import { useSetRecoilState } from "recoil";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 
-import {Helmet} from "react-helmet-async";
-
+import { Helmet } from "react-helmet-async";
+import { authInstance } from "../../api/instance";
 
 const LoginPage = () => {
-
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const location = useLocation();
@@ -34,7 +33,6 @@ const LoginPage = () => {
   const isDisabled = loginValue.id === "" || loginValue.password === "";
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
     setShowWarning(false);
 
@@ -45,7 +43,7 @@ const LoginPage = () => {
       setPwTestFlag(!PW_REGEX.test(value));
     }
 
-    setLoginValue(prev => ({
+    setLoginValue((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -61,31 +59,32 @@ const LoginPage = () => {
 
     try {
       await login(loginValue);
+      await authInstance.get("/member/id").then((res) => {
+        localStorage.setItem("memberId", res.data);
+      });
       setIsLoggedIn(true);
       navigate("/home");
     } catch (err) {
       setShowWarning(true);
-      setLoginResult(err.response?.status || 'Login failed');
+      setLoginResult(err.response?.status || "Login failed");
     }
-
   };
 
   return (
     <WrapForm onSubmit={handleSubmit}>
-
       <Helmet>
         <title>로그인 페이지</title>
-        <meta property='og:type' content='website' />
-        <meta property="og:url" content="https://dis-tance.com/festival/detail" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://dis-tance.com/festival/detail"
+        />
         <meta property="og:title" content="축제 상세 페이지" />
         <meta property="og:description" content="축제 정보 보러가기" />
         {/* <meta property="og:image" content={temp}/> */}
       </Helmet>
 
-
-
       <WrapContent>
-
         {location.state?.alert && alert("로그인이 필요합니다.")}
         <HeaderPrev
           title={
@@ -93,7 +92,9 @@ const LoginPage = () => {
               <div className="title-big">축제를 200% 즐기기</div>
               <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
             </>
-          } navigateTo={"/"} />
+          }
+          navigateTo={"/"}
+        />
 
         <div>
           <TextInput
@@ -113,22 +114,18 @@ const LoginPage = () => {
             onChange={handleChange}
             placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
           />
-          {showWarning && ((loginResult !== 200) && (
-            <Tip>아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.</Tip>
-          ))}
+          {showWarning && loginResult !== 200 && (
+            <Tip>
+              아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.
+            </Tip>
+          )}
         </div>
-
       </WrapContent>
       <WrapText>
         비밀번호를 잊으셨나요?<span>비밀번호 찾기</span>
       </WrapText>
 
-
-      <Button
-        size="large"
-        type="submit"
-        disabled={isDisabled}
-      >
+      <Button size="large" type="submit" disabled={isDisabled}>
         로그인하기
       </Button>
     </WrapForm>
@@ -143,10 +140,9 @@ const WrapForm = styled.form`
 const WrapContent = styled.div`
   display: grid;
   gap: 2rem;
-
 `;
 const WrapText = styled.div`
-  display: flex;  
+  display: flex;
   justify-content: center;
   color: #979797;
   padding: 1rem 0 4rem 0;
@@ -155,10 +151,9 @@ const WrapText = styled.div`
     color: #000000;
     font-weight: 700;
   }
-  
 `;
 const Tip = styled.small`
   font-size: 12px;
-  color: #FF625D;
+  color: #ff625d;
   font-weight: 700;
 `;
