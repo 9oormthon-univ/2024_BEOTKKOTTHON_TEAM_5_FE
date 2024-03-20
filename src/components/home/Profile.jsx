@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Characters from '../../constants/character';
 
 const WrapPofile = styled.article`
   width: 100%;
@@ -41,19 +42,20 @@ const TextDiv = styled.div`
 `;
 
 const Profile = ({ side, profile, ...props}) => {
+
   return (
     <WrapPofile {...props}>
       <CharacterDiv>
-        <StyledImage $side={side} src={profile.character} />
+        <StyledImage $side={side} src={Characters[profile.memberCharacter]} />
       </CharacterDiv>
       <TextDiv>
-        <div className="text-major">{profile.major}</div>
+        <div className="text-major">{profile.department}</div>
         <div className="text-mbti">{profile.mbti}</div>
-        <div className="text-tags">
+        {/* <div className="text-tags">
           {profile.tags.map((tag, index) => {
             return <span key={index}>#{tag} </span>
           })}
-        </div>
+        </div> */}
       </TextDiv>
     </WrapPofile>
   )
