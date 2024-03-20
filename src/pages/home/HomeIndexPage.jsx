@@ -55,6 +55,8 @@ const HomeIndexPage = () => {
   const [selectedProfile, setSelectedProfile] = useState();
   const navigate = useNavigate();
 
+  const memberId = localStorage.getItem('memberId');
+
   const content = () => {
     return (
       selectedProfile && (
@@ -101,6 +103,14 @@ const HomeIndexPage = () => {
   useEffect(() => {
     console.log(chatroomIdToEnter);
   }, [chatroomIdToEnter]);
+  
+  useEffect( async () => {
+    await authInstance
+      .get(`/gps/matching/${memberId}`)
+      .then((res) => console.log(res.data))
+      .catch((error) => console.log(error));
+  }, [])
+
 
   const handleSelectProfile = (profile) => {
     setSelectedProfile(profile);
