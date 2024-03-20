@@ -8,37 +8,6 @@ import Profile from "../../components/home/Profile";
 import Modal from "../../components/common/Modal";
 import { useNavigate } from "react-router-dom";
 
-const profiles = [
-  {
-    id: 0,
-    character: "/assets/home/profile-dog.png",
-    major: "산업경영공학과",
-    mbti: "ENTJ",
-    tags: ["활발한", "계획적인", "유머러스한", "운동", "클라이밍"],
-  },
-  {
-    id: 1,
-    character: "/assets/home/profile-cat.png",
-    major: "국어국문학과",
-    mbti: "INFP",
-    tags: ["신중한", "감성적", "배려심", "OTT", "자기계발"],
-  },
-  {
-    id: 3,
-    character: "/assets/home/profile-fox.png",
-    major: "전자공학과",
-    mbti: "ISTP",
-    tags: ["안정적", "독립심", "솔직한", "러닝", "농구"],
-  },
-  {
-    id: 4,
-    character: "/assets/home/profile-bear.png",
-    major: "사학과",
-    mbti: "ESFJ",
-    tags: ["적극적", "밝음", "친화력", "맛집", "음악"],
-  },
-];
-
 const HomeIndexPage = () => {
   const [chatroomCreate, setChatroomCreate] = useState({
     memberId: "",
@@ -56,22 +25,23 @@ const HomeIndexPage = () => {
   const navigate = useNavigate();
 
   const memberId = localStorage.getItem('memberId');
+  const [memberState, setMemberState] = useState([]);
 
   const content = () => {
     return (
       selectedProfile && (
         <WrapContent>
           <CharacterDiv>
-            <StyledImage src={selectedProfile.character} />
+            <StyledImage src={selectedProfile.memberCharacter} />
           </CharacterDiv>
           <TextDiv>
-            <div className="text-major">{selectedProfile.major}</div>
+            <div className="text-major">{selectedProfile.department}</div>
             <div className="text-mbti">{selectedProfile.mbti}</div>
-            <div className="text-tags">
+            {/* <div className="text-tags">
               {selectedProfile.tags.map((tag, index) => {
                 return <span key={index}>#{tag} </span>;
               })}
-            </div>
+            </div> */}
           </TextDiv>
         </WrapContent>
       )
@@ -101,16 +71,20 @@ const HomeIndexPage = () => {
     chatroomIdToEnter.chatRoomId === "";
 
   useEffect(() => {
-    console.log(chatroomIdToEnter);
-  }, [chatroomIdToEnter]);
-  
-  useEffect( async () => {
-    await authInstance
-      .get(`/gps/matching/${memberId}`)
-      .then((res) => console.log(res.data))
-      .catch((error) => console.log(error));
-  }, [])
+    console.log(memberState);
+  }, [memberState]);
 
+  const fetchGetMembers = async () => {
+    const matchedUsers = await authInstance
+    .get(`/gps/matching/${memberId}`)
+    .then((res) => res.data.matchedUsers)
+    .catch((error) => console.log(error));
+    setMemberState(matchedUsers);
+  }
+
+  useEffect(() => {
+    fetchGetMembers();
+  }, []);
 
   const handleSelectProfile = (profile) => {
     setSelectedProfile(profile);
@@ -219,18 +193,19 @@ const HomeIndexPage = () => {
         <br />
 
         <ProfileContainer>
-          {profiles.map((profile, index) => (
+          {memberState.map((profile, index) => (
             <Profile
               key={index}
               side={index % 2 === 0 ? "left" : "right"}
-              profile={profile}
-              onClick={() => handleSelectProfile(profile)}
+              profile={memberState[index]}
+              onClick={() => handleSelectProfile(memberState[index])}
             />
           ))}
         </ProfileContainer>
         <ReloadButton
           src="/assets/home/reload-button.png"
           alt="Reload button"
+          onClick={fetchGetMembers}
         />
       </HomeContainer>
     </>
