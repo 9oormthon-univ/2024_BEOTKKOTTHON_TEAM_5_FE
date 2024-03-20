@@ -47,8 +47,21 @@ const NavLayout = () => {
     });
   };
 
+  const checkProfileRegistered = async () => {
+    const isRegistered = await authInstance
+      .get("/member/check/profile")
+      .then((res) => res.data);
+
+    if (!isRegistered) {
+      alert("프로필을 등록해주세요.");
+      return <Navigate to="/profile" />;
+    }
+  };
+
   useEffect(() => {
     getMemberId();
+    checkProfileRegistered();
+
     if (!navigator.geolocation) {
       setCurLocation({
         ...curLocation,
