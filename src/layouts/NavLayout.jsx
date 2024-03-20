@@ -6,6 +6,7 @@ import { DISTANCE } from "../constants/location";
 import { calculateDistanceInMeter } from "../utils/calculateDistanceInMeter";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState } from "../store/auth";
+import { authInstance } from "../api/instance";
 
 const NavLayout = () => {
   const [curLocation, setCurLocation] = useState({
@@ -42,9 +43,11 @@ const NavLayout = () => {
 
   useEffect(() => {
     console.log("lat: " + curLocation.lat + " lng: " + curLocation.lng);
-    // authInstance.post("/gps/update", {
-    //   curLocation.lat, curLocation.lng
-    // })
+    const memberId = localStorage.getItem("memberId");
+    authInstance.post(`/gps/update/${memberId}`, {
+      latitude: curLocation.lat,
+      longitude: curLocation.lng,
+    });
   }, [curLocation]);
 
   useEffect(() => {
