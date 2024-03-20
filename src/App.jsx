@@ -15,6 +15,7 @@ import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
 import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
 import { Helmet } from "react-helmet-async";
+import './firebaseConfig';
 
 
 function App() {
