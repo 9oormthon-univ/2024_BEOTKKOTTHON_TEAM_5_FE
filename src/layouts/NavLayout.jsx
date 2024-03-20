@@ -41,16 +41,14 @@ const NavLayout = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("lat: " + curLocation.lat + " lng: " + curLocation.lng);
-    const memberId = localStorage.getItem("memberId");
-    authInstance.post(`/gps/update/${memberId}`, {
-      latitude: curLocation.lat,
-      longitude: curLocation.lng,
+  const getMemberId = async () => {
+    await authInstance.get("/member/id").then((res) => {
+      localStorage.setItem("memberId", res.data);
     });
-  }, [curLocation]);
+  };
 
   useEffect(() => {
+    getMemberId();
     if (!navigator.geolocation) {
       setCurLocation({
         ...curLocation,
@@ -62,6 +60,14 @@ const NavLayout = () => {
       return () => navigator.geolocation.clearWatch(watcher);
     }
   }, []);
+
+  useEffect(() => {
+    const memberId = localStorage.getItem("memberId");
+    authInstance.post(`/gps/update/${memberId}`, {
+      latitude: curLocation.lat,
+      longitude: curLocation.lng,
+    });
+  }, [curLocation]);
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
 

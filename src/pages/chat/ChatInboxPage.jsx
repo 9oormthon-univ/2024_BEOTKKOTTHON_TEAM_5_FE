@@ -1,35 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
+import { authInstance } from "../../api/instance";
 
 const ChatInboxPage = () => {
-  // const [inboxList, setInboxList] = useState([]);
+  const [inboxList, setInboxList] = useState([]);
 
-  // const fetchInboxList = async () => {
-  // const res = await authInstance
-  //   .get("/chatroom")
-  //   .then((res) => res.data)
-  //   .then((data) => {
-  //     const tempResponse = [...data];
-  //     tempResponse.sort(
-  //       (a, b) => new Date(b.modifyDt) - new Date(a.modifyDt)
-  //     );
-  //     return tempResponse;
-  //   });
-  // setInboxList(res);
-  //
-  // const res = await authInstance.get("/대기열").then((res) => res.data);
-  // setInboxList(res);
-  // };
+  const fetchInboxList = async () => {
+    const res = await authInstance.get("/waiting").then((res) => res.data);
+    setInboxList(res);
+  };
 
   const handleAcceptChat = async (chatId) => {
-    // 채팅 수락 API 호출
     console.log("채팅 수락 API 호출");
   };
 
-  // useEffect(() => {
-  //   fetchInboxList();
-  // }, []);
+  useEffect(() => {
+    fetchInboxList();
+  }, []);
 
   return (
     <PagePadding>
@@ -37,27 +25,35 @@ const ChatInboxPage = () => {
       {/* map()으로 inboxList를 순회하며 ChatRoomContainer를 렌더링합니다. */}
       <Spacer>
         <Title>요청함</Title>
-        <InboxContainer>
-          <ImageContainer>
-            <img src="/assets/home/profile-bear.png" alt="캐릭터" />
-          </ImageContainer>
+        {inboxList &&
+          inboxList.map((inbox, index) => {
+            return (
+              <InboxContainer>
+                <ImageContainer>
+                  <img src="/assets/home/profile-bear.png" alt="캐릭터" />
+                </ImageContainer>
 
-          <div className="right-section">
-            <div className="upper-area">
-              <Profile>수학과, ISTJ</Profile>
-              <LeaveButton
-                onClick={() => {
-                  const isAccepted = window.confirm("대화를 수락하시겠습니까?");
-                  if (isAccepted) {
-                    handleAcceptChat(); // 인자로 chatId 넘겨주기
-                  }
-                }}>
-                수락하기
-              </LeaveButton>
-            </div>
-            <Message>'수락하기'를 누르면 대화를 시작할 수 있어요!</Message>
-          </div>
-        </InboxContainer>
+                <div className="right-section">
+                  <div className="upper-area">
+                    <Profile>{inbox.myRoomName}</Profile>
+                    <LeaveButton
+                      onClick={() => {
+                        const isAccepted =
+                          window.confirm("대화를 수락하시겠습니까?");
+                        if (isAccepted) {
+                          handleAcceptChat(inbox.waitingRoomId); // 인자로 chatId 넘겨주기
+                        }
+                      }}>
+                      수락하기
+                    </LeaveButton>
+                  </div>
+                  <Message>
+                    '수락하기'를 누르면 대화를 시작할 수 있어요!
+                  </Message>
+                </div>
+              </InboxContainer>
+            );
+          })}
       </Spacer>
     </PagePadding>
   );

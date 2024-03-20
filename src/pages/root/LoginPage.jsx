@@ -59,9 +59,6 @@ const LoginPage = () => {
 
     try {
       await login(loginValue);
-      await authInstance.get("/member/id").then((res) => {
-        localStorage.setItem("memberId", res.data);
-      });
       setIsLoggedIn(true);
       navigate("/home");
     } catch (err) {
