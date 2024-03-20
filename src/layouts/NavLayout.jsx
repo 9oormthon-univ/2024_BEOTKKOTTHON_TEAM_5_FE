@@ -76,10 +76,12 @@ const NavLayout = () => {
 
   useEffect(() => {
     const memberId = localStorage.getItem("memberId");
-    authInstance.post(`/gps/update/${memberId}`, {
-      latitude: curLocation.lat,
-      longitude: curLocation.lng,
-    });
+    if (memberId) {
+      authInstance.post(`/gps/update/${memberId}`, {
+        latitude: curLocation.lat,
+        longitude: curLocation.lng,
+      });
+    }
   }, [curLocation]);
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
