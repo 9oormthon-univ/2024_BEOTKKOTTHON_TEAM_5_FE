@@ -21,17 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postbuild": "react-snap"
-  },
-  "reactSnap": {
-    "timeout": 60000,
-    "inlineCss": true,
-    "minifyHtml": true,
-    "include": [
-      "/",
-      "/login"
-    ]
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
