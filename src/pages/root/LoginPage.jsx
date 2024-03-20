@@ -90,8 +90,9 @@ const WrapContent = styled.form`
   gap: 2rem;
   padding: 2rem;
 `;
-const Tip = styled.small`
-  font-size: 12px;
-  color: #ff625d;
-  font-weight: 700;
-`;
+
+// const Tip = styled.small`
+//   font-size: 12px;
+//   color: #ff625d;
+//   font-weight: 700;
+// `;

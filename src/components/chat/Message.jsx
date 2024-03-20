@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { parseTime } from "../../utils/parseTime";
 
 /**
  * @param {string} nickname - 메시지를 보낸 사람의 닉네임
@@ -15,8 +16,8 @@ const Message = ({ nickname, content, time, read, sentByMe }) => {
         <MessageByMe>
           <div className="message-container">
             <div className="wrapper">
-              <div className="read">{!read && "1"}</div>
-              <div className="time">{time}</div>
+              <div className="read">{read !== 0 ? read : ""}</div>
+              <div className="time">{parseTime(time)}</div>
             </div>
             <div className="tail"></div>
             <div className="message">{content}</div>
@@ -29,8 +30,8 @@ const Message = ({ nickname, content, time, read, sentByMe }) => {
             <div className="tail"></div>
             <div className="message">{content}</div>
             <div className="wrapper">
-              <div className="read">{!read && "1"}</div>
-              <div className="time">{time}</div>
+              <div className="read">{read !== 0 ? read : ""}</div>
+              <div className="time">{parseTime(time)}</div>
             </div>
           </div>
         </MessageByOther>
