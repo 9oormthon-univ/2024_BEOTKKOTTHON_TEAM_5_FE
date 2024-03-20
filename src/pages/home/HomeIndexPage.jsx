@@ -90,8 +90,7 @@ const HomeIndexPage = () => {
     });
   };
 
-  const chatroomDisabled =
-    chatroomCreate.memberId === "" || chatroomCreate.roomName === "";
+  const chatroomDisabled = chatroomCreate.memberId === "";
 
   const chatroomIdDisabled =
     chatroomIdToEnter.myId === "" ||
@@ -125,7 +124,6 @@ const HomeIndexPage = () => {
     await authInstance
       .post("/chatroom/create", {
         memberId: chatroomCreate.memberId,
-        roomName: chatroomCreate.roomName,
       })
       .then((res) => alert(`${res.data}번 방이 성공적으로 생성되었습니다!`))
       .catch((error) => console.log(error));

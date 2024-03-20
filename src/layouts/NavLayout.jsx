@@ -41,16 +41,27 @@ const NavLayout = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("lat: " + curLocation.lat + " lng: " + curLocation.lng);
-    const memberId = localStorage.getItem("memberId");
-    authInstance.post(`/gps/update/${memberId}`, {
-      latitude: curLocation.lat,
-      longitude: curLocation.lng,
+  const getMemberId = async () => {
+    await authInstance.get("/member/id").then((res) => {
+      localStorage.setItem("memberId", res.data);
     });
-  }, [curLocation]);
+  };
+
+  const checkProfileRegistered = async () => {
+    const isRegistered = await authInstance
+      .get("/member/check/profile")
+      .then((res) => res.data);
+
+    if (!isRegistered) {
+      alert("프로필을 등록해주세요.");
+      return <Navigate to="/profile" />;
+    }
+  };
 
   useEffect(() => {
+    getMemberId();
+    checkProfileRegistered();
+
     if (!navigator.geolocation) {
       setCurLocation({
         ...curLocation,
@@ -62,6 +73,16 @@ const NavLayout = () => {
       return () => navigator.geolocation.clearWatch(watcher);
     }
   }, []);
+
+  useEffect(() => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId) {
+      authInstance.post(`/gps/update/${memberId}`, {
+        latitude: curLocation.lat,
+        longitude: curLocation.lng,
+      });
+    }
+  }, [curLocation]);
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
 

@@ -9,7 +9,6 @@ import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 
 import { Helmet } from "react-helmet-async";
-import { authInstance } from "../../api/instance";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -59,9 +58,6 @@ const LoginPage = () => {
 
     try {
       await login(loginValue);
-      await authInstance.get("/member/id").then((res) => {
-        localStorage.setItem("memberId", res.data);
-      });
       setIsLoggedIn(true);
       navigate("/home");
     } catch (err) {
