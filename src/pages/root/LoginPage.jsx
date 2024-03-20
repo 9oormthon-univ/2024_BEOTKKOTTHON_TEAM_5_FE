@@ -8,6 +8,8 @@ import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 
+import {Helmet} from "react-helmet-async";
+
 
 const LoginPage = () => {
 
@@ -70,6 +72,18 @@ const LoginPage = () => {
 
   return (
     <WrapForm onSubmit={handleSubmit}>
+
+      <Helmet>
+        <title>로그인 페이지</title>
+        <meta property='og:type' content='website' />
+        <meta property="og:url" content="https://dis-tance.com/festival/detail" />
+        <meta property="og:title" content="축제 상세 페이지" />
+        <meta property="og:description" content="축제 정보 보러가기" />
+        {/* <meta property="og:image" content={temp}/> */}
+      </Helmet>
+
+
+
       <WrapContent>
 
         {location.state?.alert && alert("로그인이 필요합니다.")}

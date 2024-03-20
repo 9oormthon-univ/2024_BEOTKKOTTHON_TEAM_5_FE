@@ -10,6 +10,7 @@
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.4",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
@@ -20,7 +21,17 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "react-snap"
+  },
+  "reactSnap": {
+    "timeout": 60000,
+    "inlineCss": true,
+    "minifyHtml": true,
+    "include": [
+      "/",
+      "/login"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -42,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-snap": "^1.23.0"
   }
 }

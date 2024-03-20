@@ -50,14 +50,14 @@ const FestivalIndexPage = () => {
   
   
   const handleRouter = () => {
-    navigate("/festival/:pageId");
+    navigate("/festival/detail");
   }
   
   const contentState = [
     {
       content: (
         <>
-          <Title>구름톤대학교</Title>
+          <Title>구름대학교</Title>
           <Date>9월 20일</Date>
           <WrapCards>
             <BriefInfoCard onClick={handleRouter} />
@@ -104,7 +104,7 @@ const FestivalIndexPage = () => {
           onClick={() => setTabMenuState(0)}>프로그램</Tab>
         <Tab
           $isSelected={tabMenuState === 1}
-          onClick={() => setTabMenuState(1)}>공연</Tab>
+          onClick={() => setTabMenuState(1)}>일정</Tab>
         <Tab
           $isSelected={tabMenuState === 2}
           onClick={() => setTabMenuState(2)}>안내사항</Tab>
