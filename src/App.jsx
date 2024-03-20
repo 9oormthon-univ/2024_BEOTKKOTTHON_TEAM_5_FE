@@ -13,10 +13,23 @@ import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
+import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
+import { Helmet } from "react-helmet-async";
+
 
 function App() {
   return (
+
     <BrowserRouter>
+      <Helmet>
+        <title>디폴트</title>
+        <meta property='og:type' content='website' />
+        <meta property="og:url" content="https://dis-tance.com/" />
+        <meta property="og:title" content="Distance" />
+        <meta property="og:description" content="축제를 200% 즐기는 방법5" />
+        <meta property="og:image" content="https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228092421948485.jpg" />
+      </Helmet>
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
@@ -34,6 +47,7 @@ function App() {
           <Route path="/inbox" element={<ChatInboxPage />} />
 
           <Route path="/festival" element={<FestivalIndexPage />} />
+          <Route path="/festival/detail" element={<FestivalDetailPage />} />
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />
@@ -42,6 +56,7 @@ function App() {
         <Route path="/chat/:chatRoomId" element={<ChatPage />} />
       </Routes>
     </BrowserRouter>
+
   );
 }
 
