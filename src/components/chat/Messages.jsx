@@ -13,7 +13,22 @@ const Messages = ({ messages, myId }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [messages]);
+
+  // 날짜별로 분류
+  const groupMessagesByDate = (messages) => {
+    const groupedMessages = {};
+    messages.forEach((message) => {
+      const date = message.sendDt.split("T")[0]; // 날짜 부분만 추출
+      if (!groupedMessages[date]) {
+        groupedMessages[date] = [];
+      }
+      groupedMessages[date].push(message);
+    });
+    return groupedMessages;
+  };
+
+  const groupedMessages = groupMessagesByDate(messages);
 
   return (
     <MessagesWrapper ref={messageRef}>
@@ -22,19 +37,29 @@ const Messages = ({ messages, myId }) => {
           📢 잠깐만요! 채팅 상대는 소중한 학우입니다. 사이버 예절을 지켜 주세요.
         </div>
       </Announcement>
-      {messages &&
-        messages.map((message, index) => {
-          return (
+      {Object.entries(groupedMessages).map(([date, messages]) => (
+        <React.Fragment key={date}>
+          <Announcement>
+            <div className="content">
+              {new Date(date).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+          </Announcement>
+          {messages.map((message, index) => (
             <Message
               key={index}
-              nickname={message.body.senderId}
-              content={message.body.chatMessage}
-              time={message.body.sendDt}
-              read={!!message.body.unreadCount}
-              sentByMe={message.body.senderId === myId}
+              nickname={message.senderId}
+              content={message.chatMessage}
+              time={message.sendDt}
+              read={message.unreadCount}
+              sentByMe={message.senderId !== Number(myId)}
             />
-          );
-        })}
+          ))}
+        </React.Fragment>
+      ))}
     </MessagesWrapper>
   );
 };

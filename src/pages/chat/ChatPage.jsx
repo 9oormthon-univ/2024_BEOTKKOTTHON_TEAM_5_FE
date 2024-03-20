@@ -18,60 +18,67 @@ const ChatPage = () => {
   const roomId = location.state.roomId;
 
   const [client, setClient] = useState(null);
-  const [staleMessages, setStaleMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
 
   useEffect(() => {
-    console.log("myId", myId);
-    console.log("opponentId", opponentId);
-    console.log("roomId", roomId);
-  }, []);
+    const token = localStorage.getItem("token");
+    const newClient = Stomp.client("wss://api.dis-tance.com/meet");
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
+    const fetchMessages = () => {
+      const staleMessages = localStorage.getItem("staleMessages");
+      if (staleMessages) {
+        const parsedStaleMessages = JSON.parse(staleMessages);
+        if (parsedStaleMessages[roomId]) {
+          setMessages(JSON.parse(parsedStaleMessages[roomId]));
+        }
+      }
+    };
 
-  useEffect(() => {
-    const fetchStaleMessages = async () => {
-      console.log("roomId");
-      console.log(roomId);
+    fetchMessages();
+
+    const fetchUnreadMessages = async () => {
       const msg = await authInstance
         .get(`/chatroom/${roomId}`)
         .then((res) => res.data);
 
-      setStaleMessages(msg);
+      if (msg.length === 0) return;
+      setMessages([...messages, msg]);
     };
 
-    fetchStaleMessages();
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    const newClient = Stomp.client("wss://api.dis-tance.com/meet");
+    fetchUnreadMessages();
 
     const connect_callback = function (frame) {
-      console.log("Connected: " + frame);
       let subscription_callback = function (message) {
-        console.log("subscribe 연결됨!");
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          JSON.parse(message.body),
-        ]);
+        const parsedMessage = JSON.parse(message.body);
+        setMessages((prevMessages) => {
+          let lastIndexChange = -1;
+          const oldMessages = [...prevMessages];
+          for (let i = oldMessages.length - 2; i >= 0; i--) {
+            if (oldMessages[i].senderId !== oldMessages[i + 1].senderId) {
+              lastIndexChange = i;
+              break;
+            }
+          }
+          if (lastIndexChange !== -1) {
+            for (let i = 0; i <= lastIndexChange; i++) {
+              oldMessages[i].unreadCount = 0;
+            }
+          }
+          return [...oldMessages, parsedMessage.body];
+        });
       };
 
       newClient.subscribe(`/topic/chatroom/${roomId}`, subscription_callback);
     };
 
-    var headers = {
+    let headers = {
       Authorization: `Bearer ${token}`,
       chatRoomId: roomId,
       memberId: myId,
     };
 
     newClient.connect(headers, connect_callback);
-
     newClient.activate();
     setClient(newClient);
 
@@ -86,6 +93,7 @@ const ChatPage = () => {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    if (!draftMessage) return;
     client.publish({
       destination: `/app/chat/${roomId}`,
       body: JSON.stringify({
@@ -96,10 +104,24 @@ const ChatPage = () => {
     setDraftMessage("");
   };
 
+  // ㅅ
   useEffect(() => {
     setDistance(200);
     setIsCallActive(true);
   }, []);
+
+  useEffect(() => {
+    const saveMessages = () => {
+      const staleMessages =
+        JSON.parse(localStorage.getItem("staleMessages")) || {};
+      staleMessages[roomId] = JSON.stringify(messages); // Save the current state of messages for this room
+      localStorage.setItem("staleMessages", JSON.stringify(staleMessages));
+    };
+
+    if (messages.length > 0) {
+      saveMessages();
+    }
+  }, [messages]);
 
   return (
     <Container>
@@ -122,10 +144,7 @@ const ChatPage = () => {
           )}
         </CallButton>
       </TopBar>
-      {staleMessages.length > 0 &&
-        staleMessages.map((msg, index) => (
-          <div key={index}>{msg.chatMessage}</div>
-        ))}
+
       <Messages messages={messages} myId={myId} />
       <MessageInput
         value={draftMessage}
