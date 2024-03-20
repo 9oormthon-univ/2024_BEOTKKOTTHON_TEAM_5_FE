@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Characters from '../../constants/character';
 
 const WrapPofile = styled.article`
   width: 100%;
@@ -41,10 +42,11 @@ const TextDiv = styled.div`
 `;
 
 const Profile = ({ side, profile, ...props}) => {
+
   return (
     <WrapPofile {...props}>
       <CharacterDiv>
-        <StyledImage $side={side} src={profile.memberCharacter} />
+        <StyledImage $side={side} src={Characters[profile.memberCharacter]} />
       </CharacterDiv>
       <TextDiv>
         <div className="text-major">{profile.department}</div>

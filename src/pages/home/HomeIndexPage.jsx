@@ -75,13 +75,14 @@ const HomeIndexPage = () => {
   }, [memberState]);
 
   const fetchGetMembers = async () => {
-    const matchedUsers = await authInstance
-    .get(`/gps/matching/${memberId}`)
-    .then((res) => res.data.matchedUsers)
-    .catch((error) => console.log(error));
-    setMemberState(matchedUsers);
-  }
-
+    try {
+      const response = await authInstance.get(`/gps/matching/${memberId}`);
+      const matchedUsers = response.data.matchedUsers;
+      setMemberState(matchedUsers);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     fetchGetMembers();
   }, []);
