@@ -28,6 +28,9 @@ const HomeIndexPage = () => {
   const memberId = localStorage.getItem("memberId");
   const [memberState, setMemberState] = useState([]);
 
+  const [isReloadButtonDisabled, setIsReloadButtonDisabled] = useState(false);
+  const [remainingTimeToReload, setRemainingTimeToReload] = useState(0);
+
   const content = () => {
     return (
       selectedProfile && (
@@ -86,13 +89,38 @@ const HomeIndexPage = () => {
 
   const fetchGetMembers = async () => {
     try {
-      const response = await authInstance.get(`/gps/matching`);
-      const matchedUsers = response.data.matchedUsers;
-      setMemberState(matchedUsers);
+      const res = await authInstance.get("/gps/matching");
+      setMemberState(res.data.matchedUsers);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const reloadMembers = async () => {
+    try {
+      setIsReloadButtonDisabled(true); // 버튼 비활성화
+      setRemainingTimeToReload(3); // 초기 남은 시간 설정
+
+      const res = await authInstance.get("/gps/matching");
+      setMemberState(res.data.matchedUsers);
+
+      // 매초마다 남은 시간 업데이트
+      const intervalId = setInterval(() => {
+        setRemainingTimeToReload((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(intervalId); // 남은 시간이 0이 되면 인터벌 정지
+            setIsReloadButtonDisabled(false); // 버튼 활성화
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      setIsReloadButtonDisabled(false); // 에러 발생 시 버튼 활성화
+    }
+  };
+
   useEffect(() => {
     fetchGetMembers();
   }, []);
@@ -244,11 +272,12 @@ const HomeIndexPage = () => {
             />
           ))}
         </ProfileContainer>
-        <ReloadButton
-          src="/assets/home/reload-button.png"
-          alt="Reload button"
-          onClick={fetchGetMembers}
-        />
+        <ReloadButton onClick={reloadMembers} disabled={isReloadButtonDisabled}>
+          {isReloadButtonDisabled && (
+            <div className="time-remaining">{remainingTimeToReload}</div>
+          )}
+          <img src="/assets/home/reload-button.png" alt="Reload button" />
+        </ReloadButton>
       </HomeContainer>
     </>
   );
@@ -264,14 +293,37 @@ const ProfileContainer = styled.div`
   gap: 1rem;
 `;
 
-const ReloadButton = styled.img`
+const ReloadButton = styled.button`
   position: fixed;
   right: 1.5rem;
   bottom: 4.5rem;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
   box-shadow: 0px 2px 8px 0px #33333366;
+
+  > .time-remaining {
+    position: absolute;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:disabled {
+    filter: brightness(0.4);
+  }
 `;
 
 const WrapContent = styled.div`
