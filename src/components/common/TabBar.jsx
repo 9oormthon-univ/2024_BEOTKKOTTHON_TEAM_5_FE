@@ -14,26 +14,26 @@ const BottomNavBar = () => {
     {
       name: "홈",
       path: "/home",
-      icon: "/assets/home.png",
-      iconActive: "/assets/home-fill.png",
+      icon: "/assets/home.svg",
+      iconActive: "/assets/home-fill.svg",
     },
     {
       name: "채팅",
       path: "/chat",
-      icon: "/assets/chat.png",
-      iconActive: "/assets/chat-fill.png",
+      icon: "/assets/chat.svg",
+      iconActive: "/assets/chat-fill.svg",
     },
     {
       name: "축제정보",
       path: "/festival",
-      icon: "/assets/festival.png",
-      iconActive: "/assets/festival-fill.png",
+      icon: "/assets/festival.svg",
+      iconActive: "/assets/festival-fill.svg",
     },
     {
       name: "마이페이지",
       path: "/mypage",
-      icon: "/assets/user.png",
-      iconActive: "/assets/user-fill.png",
+      icon: "/assets/user.svg",
+      iconActive: "/assets/user-fill.svg",
     },
   ];
 
