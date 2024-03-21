@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Characters from "../../constants/character";
 
 const AnimalSelector = ({ label, clickHandler }) => {
   return (
@@ -7,35 +8,35 @@ const AnimalSelector = ({ label, clickHandler }) => {
       <Label>{label}</Label>
       <Wrapper onClick={clickHandler}>
         <StyledInput>
-          🐶
+          <img src={Characters.DOG} />
           <input type="radio" name="animal" value="DOG" />
         </StyledInput>
         <StyledInput>
-          🐱
+          <img src={Characters.CAT} />
           <input type="radio" name="animal" value="CAT" />
         </StyledInput>
         <StyledInput>
-          🐰
+          <img src={Characters.RABBIT} />
           <input type="radio" name="animal" value="RABBIT" />
         </StyledInput>
         <StyledInput>
-          🐹
+          <img src={Characters.RAT} />
           <input type="radio" name="animal" value="HAMSTER" />
         </StyledInput>
         <StyledInput>
-          🦊
+          <img src={Characters.FOX} />
           <input type="radio" name="animal" value="FOX" />
         </StyledInput>
         <StyledInput>
-          🐵
+          <img src={Characters.MONKEY} />
           <input type="radio" name="animal" value="MONKEY" />
         </StyledInput>
         <StyledInput>
-          🐻
+          <img src={Characters.BEAR} />
           <input type="radio" name="animal" value="BEAR" />
         </StyledInput>
         <StyledInput>
-          🐼
+          <img src={Characters.PANDA} />
           <input type="radio" name="animal" value="PANDA" />
         </StyledInput>
       </Wrapper>
@@ -80,6 +81,10 @@ const StyledInput = styled.label`
       border-radius: 50%;
       background-color: #ff625d;
     }
+  }
+
+  > img {
+    width: 3rem;
   }
 `;
 
