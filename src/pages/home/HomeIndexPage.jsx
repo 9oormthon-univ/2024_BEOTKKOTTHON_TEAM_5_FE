@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useRef, useState } from "react";
 import { authInstance } from "../../api/instance";
 
+import Characters from "../../constants/character";
 import Header from "../../components/common/Header";
 import Profile from "../../components/home/Profile";
 import Modal from "../../components/common/Modal";
@@ -32,16 +33,26 @@ const HomeIndexPage = () => {
       selectedProfile && (
         <WrapContent>
           <CharacterDiv>
-            <StyledImage src={selectedProfile.memberCharacter} />
+            <StyledImage
+              src={Characters[selectedProfile.memberInfoDto.memberCharacter]}
+              alt={Characters[selectedProfile.memberInfoDto.memberCharacter]}
+            />
           </CharacterDiv>
           <TextDiv>
             <div className="text-major">{selectedProfile.department}</div>
-            <div className="text-mbti">{selectedProfile.mbti}</div>
-            {/* <div className="text-tags">
-              {selectedProfile.tags.map((tag, index) => {
-                return <span key={index}>#{tag} </span>;
-              })}
-            </div> */}
+            <div className="text-mbti">
+              {selectedProfile.memberInfoDto.mbti}
+            </div>
+            <div className="text-tags">
+              {selectedProfile.memberInfoDto.memberHobbyDto.map(
+                (tag, index) => (
+                  <div key={index}>#{tag.hobby} </div>
+                )
+              )}
+              {selectedProfile.memberInfoDto.memberTagDto.map((tag, index) => (
+                <div key={index}>#{tag.tag} </div>
+              ))}
+            </div>
           </TextDiv>
         </WrapContent>
       )
@@ -91,15 +102,44 @@ const HomeIndexPage = () => {
     profileModal.current.open();
   };
 
-  const handleCreateChatRoom = async () => {
-    try {
-      await authInstance.post("/chatroom/create", {
-        memberId: 3,
-        roomName: "roomName1",
+  const handleCreateChatRoom = async (opponentMemberId) => {
+    // 방이 성공적으로 생성된 경우
+    // 이미 이사람과 생성된 방이 있는 경우
+    // 내가 이미 3개의 방을 갖고 있는 경우
+    // 상대방이 3개의 방을 갖고 있는 경우
+    // 이외 에러 발생 시
+    await authInstance
+      .post("/chatroom/create", {
+        memberId: opponentMemberId,
+      })
+      .then((res) => {
+        const createdChatRoom = res.data;
+        navigate(`chat/${createdChatRoom}`, {
+          state: {
+            myId: memberId,
+            opponentId: opponentMemberId,
+            roomId: createdChatRoom,
+          },
+        });
+      })
+      .catch((error) => {
+        switch (error.response.data.code) {
+          case "TOO_MANY_MY_CHATROOM":
+            alert(
+              "이미 생성된 채팅방 3개입니다. 기존 채팅방을 지우고 다시 시도해주세요."
+            );
+            break;
+          case "TOO_MANY_OPPONENT_CHATROOM":
+            alert(
+              "상대방이 이미 생성된 채팅방 3개입니다. 상대방이 수락하면 알려드릴게요!"
+            );
+            break;
+          default:
+            alert("채팅방 생성에 실패했습니다. 다시 시도해주세요.");
+            break;
+        }
       });
-    } catch (error) {
-      console.log(error);
-    }
+    profileModal.current.close();
   };
 
   /**
@@ -130,7 +170,9 @@ const HomeIndexPage = () => {
         ref={profileModal}
         content={content()}
         buttonLabel="메세지 보내기"
-        onCreateRoom={handleCreateChatRoom}
+        onCreateRoom={() => {
+          handleCreateChatRoom(selectedProfile.memberId);
+        }}
       />
       <HomeContainer>
         <Header />
@@ -254,8 +296,8 @@ const TextDiv = styled.div`
   color: #333333;
 
   .text-major {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 700;
     white-space: nowrap;
   }
   .text-mbti {
@@ -263,7 +305,10 @@ const TextDiv = styled.div`
     font-weight: 400;
   }
   .text-tags {
-    width: 90%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
     font-size: 1rem;
     font-weight: 400;
     margin: 1.5rem auto;
