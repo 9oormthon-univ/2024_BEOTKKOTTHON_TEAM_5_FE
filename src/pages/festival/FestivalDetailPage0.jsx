@@ -72,14 +72,13 @@ const FestivalDetailPage0 = () => {
   const shareButtonHandler = () => {
     if (navigator.share) {
       navigator.share({
-        title: '개회식', // 공유될 제목 (옵션)
-        text: '개회식에 대한 정보를 확인해 보세요!', // 공유될 텍스트 (옵션)
-        url: window.location.href, // 공유될 URL
+        title: '개회식',
+        text: '개회식에 대한 정보를 확인해 보세요!',
+        url: window.location.href,
       })
-      .then(() => console.log('공유가 성공적으로 완료되었습니다.'))
-      .catch((error) => console.log('공유에 실패했습니다.', error));
+      .then(() => alert('공유가 성공적으로 완료되었습니다.'))
+      .catch((error) => alert('공유에 실패했습니다.', error));
     } else {
-      // navigator.share()를 지원하지 않는 경우
       alert('이 브라우저에서는 공유 기능을 사용할 수 없습니다.');
     }
   };
