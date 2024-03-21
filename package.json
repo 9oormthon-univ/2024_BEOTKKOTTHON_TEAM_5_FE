@@ -25,6 +25,7 @@
     "postbuild": "react-snap"
   },
   "reactSnap": {
+    "source": "./build",
     "inlineCss": true,
     "minifyHtml": true,
     "include": [
