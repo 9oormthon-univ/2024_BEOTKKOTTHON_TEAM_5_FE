@@ -74,7 +74,7 @@ const FestivalDetailPage0 = () => {
     if (navigator.share) {
       navigator.share({
         title: '개회식',
-        text: '개회식에 대한 정보를 확인해 보세요!',
+        text: '벚꽃톤 개회식에 대한 정보를 확인해 보세요!',
         url: window.location.href,
       })
         .then(() => alert('공유가 성공적으로 완료되었습니다.'))
@@ -88,13 +88,11 @@ const FestivalDetailPage0 = () => {
   return (
     <>
       <Helmet>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dis-tance.com/" />
         <meta property="og:title" content="Distance" />
-        <meta property="og:description" content="축제를 200% 즐기는 방법5" />
+        <meta property="og:description" content="축제를 200% 즐기는 방법" />
         <meta
           property="og:image"
-          content="https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228092421948485.jpg"
+          content="https://media.istockphoto.com/id/636379014/ko/%EC%82%AC%EC%A7%84/%EC%86%90-%ED%98%95%EC%84%B1%ED%95%98%EB%8A%94-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EC%84%A0%EC%85%8B-%EC%8B%A4%EB%A3%A8%EC%97%A3.jpg?s=612x612&w=0&k=20&c=rzTelIxMlazDXZt_zNGUMJCXUcFHWIqT37jcQzsl_xw="
         />
       </Helmet>
       <DetailContainer>
