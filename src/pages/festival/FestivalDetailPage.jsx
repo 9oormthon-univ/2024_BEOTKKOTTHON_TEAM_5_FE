@@ -75,12 +75,10 @@ const FestivalDetailPage = () => {
   return (
     <DetailContainer>
 
-  
-
       <Header />
       <TextDiv>
         <div className="title">
-          팔씨름
+          개회식
           <img src={"/assets/festival/share-button.png"} alt="Share button" />
         </div>
         <div className="date">2023.09.20 ~ 2023.09.21</div>

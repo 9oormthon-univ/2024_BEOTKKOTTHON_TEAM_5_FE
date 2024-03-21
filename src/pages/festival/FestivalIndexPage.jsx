@@ -58,13 +58,13 @@ const FestivalIndexPage = () => {
       content: (
         <>
           <Title>구름대학교</Title>
-          <Date>9월 20일</Date>
+          <Date>3월 23일</Date>
           <WrapCards>
             <BriefInfoCard onClick={handleRouter} />
             <BriefInfoCard />
             <BriefInfoCard />
           </WrapCards>
-          <Date className="cardsDate">9월 20일</Date>
+          <Date className="cardsDate">3월 24일</Date>
           <WrapCards>
             <BriefInfoCard />
             <BriefInfoCard />
