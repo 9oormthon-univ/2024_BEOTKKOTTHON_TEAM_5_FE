@@ -21,6 +21,8 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
 
+  const [opponentTelNum, setOpponentTelNum] = useState("");
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const newClient = Stomp.client("wss://api.dis-tance.com/meet");
@@ -87,6 +89,22 @@ const ChatPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("messages.length");
+    console.log(messages.length);
+    if (messages.length > 10) {
+      setIsCallActive(true);
+    }
+  }, [messages]);
+
+  const fetchOpponentTelNum = async () => {
+    if (opponentTelNum !== "") return;
+    const telNum = await authInstance
+      .get(`/member/tel-num/${opponentId}`)
+      .then((res) => res.data.telNum);
+    setOpponentTelNum(telNum);
+  };
+
   const handleChange = (e) => {
     setDraftMessage(e.target.value);
   };
@@ -104,11 +122,15 @@ const ChatPage = () => {
     setDraftMessage("");
   };
 
-  // ㅅ
   useEffect(() => {
     setDistance(200);
-    setIsCallActive(true);
   }, []);
+
+  useEffect(() => {
+    if (isCallActive) {
+      fetchOpponentTelNum();
+    }
+  }, [isCallActive]);
 
   useEffect(() => {
     const saveMessages = () => {
@@ -138,7 +160,13 @@ const ChatPage = () => {
         </WrapTitle>
         <CallButton>
           {isCallActive ? (
-            <img src="/assets/Callicon-active.svg" alt="전화버튼" />
+            <a href={`tel:${opponentTelNum}`}>
+              <img
+                src="/assets/Callicon-active.svg"
+                onClick={() => {}}
+                alt="전화버튼"
+              />
+            </a>
           ) : (
             <img src="/assets/Callicon.svg" alt="전화버튼" />
           )}
