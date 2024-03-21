@@ -70,14 +70,20 @@ const FestivalDetailPage0 = () => {
   const navigate = useNavigate();
 
   const shareButtonHandler = () => {
-    navigate.clipboard.writeText(window.location.href)
-      .then(() => {
-        alert("링크가 복사되었습니다!");
+    if (navigator.share) {
+      navigator.share({
+        title: '개회식', // 공유될 제목 (옵션)
+        text: '개회식에 대한 정보를 확인해 보세요!', // 공유될 텍스트 (옵션)
+        url: window.location.href, // 공유될 URL
       })
-      .catch(err => {
-        console.error("링크 복사에 실패했습니다.", err);
-      });
+      .then(() => console.log('공유가 성공적으로 완료되었습니다.'))
+      .catch((error) => console.log('공유에 실패했습니다.', error));
+    } else {
+      // navigator.share()를 지원하지 않는 경우
+      alert('이 브라우저에서는 공유 기능을 사용할 수 없습니다.');
+    }
   };
+  
 
   return (
     <DetailContainer>
