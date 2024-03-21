@@ -2,9 +2,6 @@ import React from "react";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/common/Header";
-// import {Helmet} from "react-helmet-async";
-
-// import temp from "../../assetsmeta/temp.jpeg";
 
 const DetailContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -12,7 +9,7 @@ const DetailContainer = styled.section`
 const PrevButton = styled.img`
   position: fixed;
   left: 1.5rem;
-  bottom: 4.5rem;
+  bottom: 5rem;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -68,9 +65,19 @@ const ContextDiv = styled.p`
   font-weight: 600;
 `;
 
-const FestivalDetailPage = () => {
+const FestivalDetailPage0 = () => {
 
   const navigate = useNavigate();
+
+  const shareButtonHandler = () => {
+    navigate.clipboard.writeText(window.location.href)
+      .then(() => {
+        alert("링크가 복사되었습니다!");
+      })
+      .catch(err => {
+        console.error("링크 복사에 실패했습니다.", err);
+      });
+  };
 
   return (
     <DetailContainer>
@@ -79,9 +86,9 @@ const FestivalDetailPage = () => {
       <TextDiv>
         <div className="title">
           개회식
-          <img src={"/assets/festival/share-button.png"} alt="Share button" />
+          <img src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler}/>
         </div>
-        <div className="date">2023.09.20 ~ 2023.09.21</div>
+        <div className="date">2024.03.24 (토) 14:00</div>
         <br />
         <div className="location">
           <img
@@ -111,9 +118,9 @@ const FestivalDetailPage = () => {
       <PrevButton
         src="/assets/festival/prev-button.png"
         alt="Prev button"
-        onClick={() => navigate('/festival')} />
+        onClick={() => navigate('/festival/program')} />
     </DetailContainer>
   )
 }
 
-export default FestivalDetailPage;
+export default FestivalDetailPage0;

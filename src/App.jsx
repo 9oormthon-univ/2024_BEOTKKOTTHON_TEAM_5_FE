@@ -13,7 +13,10 @@ import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
-import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
+import FestivalDetailPage0 from "./pages/festival/FestivalDetailPage0";
+import Information from "./components/festival/Information";
+import Schedule from "./components/festival/Schedule";
+import Program from "./components/festival/Program";
 
 
 function App() {
@@ -37,8 +40,14 @@ function App() {
           <Route path="/chat" element={<ChatIndexPage />} />
           <Route path="/inbox" element={<ChatInboxPage />} />
 
-          <Route path="/festival" element={<FestivalIndexPage />} />
-          <Route path="/festival/detail" element={<FestivalDetailPage />} />
+          <Route element={<FestivalIndexPage />}>
+            <Route path="/festival/program" element={<Program />} />
+            <Route path="/festival/schedule" element={<Schedule />} />
+            <Route path="/festival/information" element={<Information />} />
+          </Route>
+          <Route path="/festival/detail/0" element={<FestivalDetailPage0 />} />
+
+
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />

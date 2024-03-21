@@ -296,7 +296,7 @@ const ProfileContainer = styled.div`
 const ReloadButton = styled.button`
   position: fixed;
   right: 1.5rem;
-  bottom: 4.5rem;
+  bottom: 5rem;
   width: 50px;
   height: 50px;
   border-radius: 50%;

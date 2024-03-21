@@ -25,7 +25,7 @@ const BottomNavBar = () => {
     },
     {
       name: "축제정보",
-      path: "/festival",
+      path: "/festival/program",
       icon: "/assets/festival.svg",
       iconActive: "/assets/festival-fill.svg",
     },
