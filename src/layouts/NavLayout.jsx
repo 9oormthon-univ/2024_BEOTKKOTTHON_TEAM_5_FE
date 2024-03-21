@@ -77,7 +77,7 @@ const NavLayout = () => {
   useEffect(() => {
     const memberId = localStorage.getItem("memberId");
     if (memberId) {
-      authInstance.post(`/gps/update/${memberId}`, {
+      authInstance.post(`/gps/update`, {
         latitude: curLocation.lat,
         longitude: curLocation.lng,
       });
