@@ -25,7 +25,6 @@
     "postbuild": "react-snap"
   },
   "reactSnap": {
-    "timeout": 60000,
     "inlineCss": true,
     "minifyHtml": true,
     "include": [
