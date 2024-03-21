@@ -48,7 +48,12 @@ const UnivRegisterPage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          navigate("/register/done");
+          navigate("/register/done", {
+            state: {
+              loginId: registerData.loginId,
+              password: registerData.password,
+            },
+          });
         }
       })
       .catch((err) => {
@@ -91,9 +96,10 @@ const UnivRegisterPage = () => {
 
   return (
     <WrapContent>
-      <HeaderPrev 
+      <HeaderPrev
         title={"학교를 인증해주세요 🏫"}
-        navigateTo="/register/user"/>
+        navigateTo="/register/user"
+      />
 
       <Dropdown
         label="학교"

@@ -6,6 +6,8 @@ import BlankModal from "../../components/common/BlankModal";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 import Button from "../../components/common/Button";
 import HeaderPrev from "../../components/common/HeaderPrev";
+import { useNavigate } from "react-router-dom";
+import { authInstance } from "../../api/instance";
 
 const ProfileEditPage = () => {
   const [selectedAnimal, setSelectedAnimal] = useState("");
@@ -13,6 +15,29 @@ const ProfileEditPage = () => {
   const [attractiveness, setAttractiveness] = useState([]);
   const [hobby, setHobby] = useState([]);
   const [hashtagCount, setHashtagCount] = useState(0);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await authInstance
+      .patch("/member/profile/update", {
+        mbti: selectedMBTI,
+        memberCharacter: selectedAnimal,
+        memberHobbyDto: hobby.map((value) => ({ hobby: value })),
+        memberTagDto: attractiveness.map((value) => ({ tag: value })),
+      })
+      .then(() => {
+        alert("회원정보 수정이 완료되었습니다.");
+      })
+      .then(() => {
+        navigate("/mypage");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const attractivenessModalRef = useRef();
   const hobbyModalRef = useRef();
@@ -59,9 +84,7 @@ const ProfileEditPage = () => {
   return (
     <div>
       <WrapContent>
-        <HeaderPrev 
-          title="프로필 수정하기"
-          navigateTo={"/mypage"}/>
+        <HeaderPrev title="프로필 수정하기" navigateTo={"/mypage"} />
       </WrapContent>
       <AnimalSelector
         label="캐릭터 선택하기"
@@ -154,7 +177,7 @@ const ProfileEditPage = () => {
             </ListContainer>
           </BlankModal>
         </div>
-        <Button disabled={isDisabled} size="large">
+        <Button disabled={isDisabled} onClick={handleSubmit} size="large">
           수정하기
         </Button>
       </WrapContent>

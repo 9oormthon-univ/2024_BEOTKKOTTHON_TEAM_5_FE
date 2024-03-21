@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../components/common/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { isLoggedInState, login } from "../../store/auth";
+import { useSetRecoilState } from "recoil";
 
 const DonePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const loginId = location.state.loginId;
+  const password = location.state.password;
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+
+  useEffect(() => {
+    const instantLogin = async () => {
+      login({ id: loginId, password })
+        .then(() => {
+          setIsLoggedIn(true);
+        })
+        .catch((err) => console.error(err));
+    };
+
+    instantLogin();
+  }, []);
 
   return (
     <Background>

@@ -1,67 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Header from "../../components/common/Header";
+import { authInstance } from "../../api/instance";
 
 const ChatInboxPage = () => {
+  const [inboxList, setInboxList] = useState([]);
+
+  const fetchInboxList = async () => {
+    const res = await authInstance.get("/waiting").then((res) => res.data);
+    setInboxList(res);
+  };
+
+  const handleAcceptChat = async (chatId) => {
+    console.log("채팅 수락 API 호출");
+  };
+
+  useEffect(() => {
+    fetchInboxList();
+  }, []);
+
   return (
-    <InboxContainer>
-      ChatInboxPage
-      <ChatRoomContainer>
-        <div className="left-section">
-          <ImageContainer>
-            {/* characer에 따라 src 변경 */}
-            <img src="/assets/home/profile-bear.png" alt="캐릭터" />
-          </ImageContainer>
+    <PagePadding>
+      <Header />
+      {/* map()으로 inboxList를 순회하며 ChatRoomContainer를 렌더링합니다. */}
+      <Spacer>
+        <Title>요청함</Title>
+        {inboxList &&
+          inboxList.map((inbox, index) => {
+            return (
+              <InboxContainer>
+                <ImageContainer>
+                  <img src="/assets/home/profile-bear.png" alt="캐릭터" />
+                </ImageContainer>
 
-          <div
-            className="profile-section"
-            style={{ flexGrow: 1, backgroundColor: "yellow" }}>
-            <div
-              style={{
-                display: "flex",
-
-                justifyContent: "space-between",
-              }}>
-              <Profile>수학과, ISTJ</Profile>
-              <LeaveButton>수락하기</LeaveButton>
-            </div>
-            <Message>'수락하기'를 누르면 대화를 시작할 수 있어요!</Message>
-          </div>
-        </div>
-
-        {/* <div className="right-section"></div> */}
-      </ChatRoomContainer>
-    </InboxContainer>
+                <div className="right-section">
+                  <div className="upper-area">
+                    <Profile>{inbox.myRoomName}</Profile>
+                    <LeaveButton
+                      onClick={() => {
+                        const isAccepted =
+                          window.confirm("대화를 수락하시겠습니까?");
+                        if (isAccepted) {
+                          handleAcceptChat(inbox.waitingRoomId); // 인자로 chatId 넘겨주기
+                        }
+                      }}>
+                      수락하기
+                    </LeaveButton>
+                  </div>
+                  <Message>
+                    '수락하기'를 누르면 대화를 시작할 수 있어요!
+                  </Message>
+                </div>
+              </InboxContainer>
+            );
+          })}
+      </Spacer>
+    </PagePadding>
   );
 };
 
 export default ChatInboxPage;
 
-const ChatRoomContainer = styled.div`
+const PagePadding = styled.div`
+  padding: 2rem 1.5rem;
+`;
+
+const InboxContainer = styled.div`
   display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
-
-  > .left-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    > .profile-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-  }
 
   > .right-section {
-    display: flex;
-    gap: 12px;
-    flex-direction: column;
-    align-items: flex-end;
+    display: grid;
+    flex: 1;
+    gap: 0.5rem;
+
+    > .upper-area {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 `;
-const InboxContainer = styled.div`
-  padding: 2rem 1.5rem;
+
+const Spacer = styled.div`
+  display: grid;
+  gap: 1rem;
+`;
+
+const Title = styled.div`
+  font-size: 1.5rem;
+  font-weight: 600;
 `;
 
 const ImageContainer = styled.div`

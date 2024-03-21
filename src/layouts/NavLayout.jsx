@@ -6,6 +6,7 @@ import { DISTANCE } from "../constants/location";
 import { calculateDistanceInMeter } from "../utils/calculateDistanceInMeter";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState } from "../store/auth";
+import { authInstance } from "../api/instance";
 
 const NavLayout = () => {
   const [curLocation, setCurLocation] = useState({
@@ -40,14 +41,27 @@ const NavLayout = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("lat: " + curLocation.lat + " lng: " + curLocation.lng);
-    // authInstance.post("/gps/update", {
-    //   curLocation.lat, curLocation.lng
-    // })
-  }, [curLocation]);
+  const getMemberId = async () => {
+    await authInstance.get("/member/id").then((res) => {
+      localStorage.setItem("memberId", res.data);
+    });
+  };
+
+  const checkProfileRegistered = async () => {
+    const isRegistered = await authInstance
+      .get("/member/check/profile")
+      .then((res) => res.data);
+
+    if (!isRegistered) {
+      alert("프로필을 등록해주세요.");
+      return <Navigate to="/profile" />;
+    }
+  };
 
   useEffect(() => {
+    getMemberId();
+    checkProfileRegistered();
+
     if (!navigator.geolocation) {
       setCurLocation({
         ...curLocation,
@@ -59,6 +73,16 @@ const NavLayout = () => {
       return () => navigator.geolocation.clearWatch(watcher);
     }
   }, []);
+
+  useEffect(() => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId) {
+      authInstance.post(`/gps/update`, {
+        latitude: curLocation.lat,
+        longitude: curLocation.lng,
+      });
+    }
+  }, [curLocation]);
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
