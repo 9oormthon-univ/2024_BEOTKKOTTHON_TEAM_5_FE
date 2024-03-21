@@ -77,7 +77,7 @@ const FestivalDetailPage0 = () => {
         url: window.location.href,
       })
       .then(() => alert('공유가 성공적으로 완료되었습니다.'))
-      .catch((error) => alert('공유에 실패했습니다.', error));
+      .catch((error) => console.log('공유에 실패했습니다.', error));
     } else {
       alert('이 브라우저에서는 공유 기능을 사용할 수 없습니다.');
     }
