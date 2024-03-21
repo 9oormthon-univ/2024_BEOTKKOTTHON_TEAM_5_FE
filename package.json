@@ -26,8 +26,6 @@
   },
   "reactSnap": {
     "source": "./build",
-    "inlineCss": true,
-    "minifyHtml": true,
     "include": [
       "/",
       "/login"

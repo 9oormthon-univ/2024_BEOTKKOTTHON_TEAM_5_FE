@@ -14,14 +14,13 @@ import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
 import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
-import { Helmet } from "react-helmet-async";
 
 
 function App() {
   return (
 
     <BrowserRouter>
-    
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
