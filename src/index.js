@@ -7,7 +7,6 @@ import { RecoilRoot } from "recoil";
 import { HelmetProvider } from "react-helmet-async";
 import { hydrate, render } from "react-dom";
 
-
 const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
   hydrate(
@@ -17,15 +16,20 @@ if (rootElement.hasChildNodes()) {
           <App />
         </RecoilRoot>
       </HelmetProvider>
-    </React.StrictMode >, rootElement);
+    </React.StrictMode>,
+    rootElement
+  );
 } else {
-  render(<React.StrictMode>
-    <HelmetProvider>
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    </HelmetProvider>
-  </React.StrictMode>, rootElement);
+  render(
+    <React.StrictMode>
+      <HelmetProvider>
+        <RecoilRoot>
+          <App />
+        </RecoilRoot>
+      </HelmetProvider>
+    </React.StrictMode>,
+    rootElement
+  );
 }
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));

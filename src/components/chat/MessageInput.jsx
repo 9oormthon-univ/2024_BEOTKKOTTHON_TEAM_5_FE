@@ -1,13 +1,24 @@
 import styled from "styled-components";
 
-const MessageInput = ({ value, changeHandler, submitHandler }) => {
+const MessageInput = ({
+  value,
+  changeHandler,
+  submitHandler,
+  focusHandler,
+  blurHandler,
+}) => {
   return (
     <MeassageInputContainer>
       <WrapButton>
         <img src={"/assets/media-button.png"} alt="Media" />
       </WrapButton>
       <WrapInputForm onSubmit={submitHandler}>
-        <Input value={value} onChange={changeHandler} />
+        <Input
+          value={value}
+          onChange={changeHandler}
+          onFocus={focusHandler}
+          onBlur={blurHandler}
+        />
         <WrapButton type="submit">
           <img src={"/assets/send-button.png"} alt="Send" />
         </WrapButton>

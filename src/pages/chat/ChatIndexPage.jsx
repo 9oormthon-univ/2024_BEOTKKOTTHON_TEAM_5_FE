@@ -11,7 +11,6 @@ import { parseTime } from "../../utils/parseTime";
 const ChatIndexPage = () => {
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
-
   const fetchChatList = async () => {
     const res = await authInstance
       .get("/chatroom")
@@ -79,7 +78,7 @@ const ChatIndexPage = () => {
         </InboxButton>
       </WrapInboxButton>
       <Spacer>
-        {chatList &&
+        {chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
               <ChatRoomContainer key={chat.chatRoomId}>
@@ -109,7 +108,10 @@ const ChatIndexPage = () => {
                 </div>
               </ChatRoomContainer>
             );
-          })}
+          })
+        ) : (
+          <div>접속중인 대화방이 없어요!</div>
+        )}
       </Spacer>
     </PagePadding>
   );
