@@ -21,7 +21,16 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "react-snap"
+  },
+  "reactSnap": {
+    "inlineCss": true,
+    "minifyHtml": true,
+    "include": [
+      "/",
+      "/login"
+    ]
   },
   "eslintConfig": {
     "extends": [
