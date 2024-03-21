@@ -9,28 +9,22 @@ import { hydrateRoot, createRoot } from 'react-dom/client';
 const rootElement = document.getElementById('root');
 const isPreRendered = document.body.hasAttribute('data-prerendered');
 
+const app = (
+    <React.StrictMode>
+    <HelmetProvider>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </HelmetProvider>
+  </React.StrictMode >
+);
+
 if (rootElement) {
   if (isPreRendered) {
-      hydrateRoot(rootElement, 
-          <React.StrictMode>
-              <HelmetProvider>
-                  <RecoilRoot>
-                      <App />
-                  </RecoilRoot>
-              </HelmetProvider>
-          </React.StrictMode>
-      );
+      hydrateRoot(rootElement, app);
   } else {
       const root = createRoot(rootElement);
-      root.render(
-          <React.StrictMode>
-              <HelmetProvider>
-                  <RecoilRoot>
-                      <App />
-                  </RecoilRoot>
-              </HelmetProvider>
-          </React.StrictMode>
-      );
+      root.render(app);
   }
 }
 
