@@ -18,12 +18,16 @@ const Messages = ({ messages, myId }) => {
   // 날짜별로 분류
   const groupMessagesByDate = (messages) => {
     const groupedMessages = {};
+
     messages.forEach((message) => {
-      const date = message.sendDt.split("T")[0]; // 날짜 부분만 추출
-      if (!groupedMessages[date]) {
-        groupedMessages[date] = [];
+      // sendDt 속성 확인
+      if (message?.sendDt) {
+        const date = message.sendDt.split("T")[0]; // 날짜 부분만 추출
+        if (!groupedMessages[date]) {
+          groupedMessages[date] = [];
+        }
+        groupedMessages[date].push(message);
       }
-      groupedMessages[date].push(message);
     });
     return groupedMessages;
   };
