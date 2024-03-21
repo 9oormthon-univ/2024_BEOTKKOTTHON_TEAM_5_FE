@@ -8,35 +8,35 @@ const AnimalSelector = ({ label, clickHandler }) => {
       <Label>{label}</Label>
       <Wrapper onClick={clickHandler}>
         <StyledInput>
-          <img src={Characters.DOG} />
+          <img src={Characters.DOG} alt="Dog Character" />
           <input type="radio" name="animal" value="DOG" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.CAT} />
+          <img src={Characters.CAT} alt="Cat Character" />
           <input type="radio" name="animal" value="CAT" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.RABBIT} />
+          <img src={Characters.RABBIT} alt="Rabbit Character" />
           <input type="radio" name="animal" value="RABBIT" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.RAT} />
+          <img src={Characters.RAT} alt="Rat Character" />
           <input type="radio" name="animal" value="HAMSTER" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.FOX} />
+          <img src={Characters.FOX} alt="Fox Character" />
           <input type="radio" name="animal" value="FOX" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.MONKEY} />
+          <img src={Characters.MONKEY} alt="Monkey Character" />
           <input type="radio" name="animal" value="MONKEY" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.BEAR} />
+          <img src={Characters.BEAR} alt="Bear Character" />
           <input type="radio" name="animal" value="BEAR" />
         </StyledInput>
         <StyledInput>
-          <img src={Characters.PANDA} />
+          <img src={Characters.PANDA} alt="Panda Character" />
           <input type="radio" name="animal" value="PANDA" />
         </StyledInput>
       </Wrapper>
