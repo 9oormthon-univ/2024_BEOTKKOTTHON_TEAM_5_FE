@@ -24,7 +24,7 @@ const HomeIndexPage = () => {
   const [selectedProfile, setSelectedProfile] = useState();
   const navigate = useNavigate();
 
-  const memberId = localStorage.getItem('memberId');
+  const memberId = localStorage.getItem("memberId");
   const [memberState, setMemberState] = useState([]);
 
   const content = () => {
@@ -75,7 +75,7 @@ const HomeIndexPage = () => {
 
   const fetchGetMembers = async () => {
     try {
-      const response = await authInstance.get(`/gps/matching/${memberId}`);
+      const response = await authInstance.get(`/gps/matching`);
       const matchedUsers = response.data.matchedUsers;
       setMemberState(matchedUsers);
     } catch (error) {
@@ -168,7 +168,7 @@ const HomeIndexPage = () => {
           onChange={handleChangeChatroomId}
           type="number"
         />
-        <label htmlFor="roomName">상대ID</label>
+        <label htmlFor="opponentId">상대ID</label>
         <input
           style={{ width: "40px" }}
           id="opponentId"
@@ -195,9 +195,10 @@ const HomeIndexPage = () => {
           {memberState.map((profile, index) => (
             <Profile
               key={index}
+              id={profile.memberId}
               side={index % 2 === 0 ? "left" : "right"}
-              profile={memberState[index]}
-              onClick={() => handleSelectProfile(memberState[index])}
+              profile={profile}
+              onClick={() => handleSelectProfile(profile)}
             />
           ))}
         </ProfileContainer>
