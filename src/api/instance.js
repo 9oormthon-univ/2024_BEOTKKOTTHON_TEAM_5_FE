@@ -1,21 +1,20 @@
 import axios from "axios";
 import { baseURL } from "../constants/baseURL";
 
-const axiosApi = (url, options) => {
-  const instance = axios.create({ baseURL: url, ...options, timeout: 5000 });
-  return instance;
-};
+export const defaultInstance = axios.create({
+  baseURL: baseURL,
+  timeout: 5000,
+});
 
-const axiosAuthApi = (url, options) => {
+export const authInstance = axios.create({
+  baseURL: baseURL,
+  timeout: 5000,
+});
+
+authInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  const instance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: { Authorization: `Bearer ${token}` },
-    ...options,
-  });
-  return instance;
-};
-
-export const defaultInstance = axiosApi(baseURL);
-export const authInstance = axiosAuthApi(baseURL);
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
