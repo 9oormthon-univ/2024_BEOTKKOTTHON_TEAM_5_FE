@@ -26,11 +26,9 @@
     "postbuild": "react-snap"
   },
   "reactSnap": {
-    "inlineCss": true,
-    "minifyHtml": true,
-    "include": [
-      "/",
-      "/login"
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
     ]
   },
   "eslintConfig": {
