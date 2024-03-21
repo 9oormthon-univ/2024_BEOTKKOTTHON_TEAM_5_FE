@@ -33,7 +33,7 @@ const GuideForm = ({content}) => {
       <Title>{content.title}</Title>
       <CardDiv>
         {content.img.map((image, index) => 
-          <img key={index} src={image} />
+          <img key={index} src={image} alt="Card" />
         )}
       </CardDiv>
       <TextDiv>
