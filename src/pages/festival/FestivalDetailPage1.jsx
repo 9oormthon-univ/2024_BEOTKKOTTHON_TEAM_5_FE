@@ -73,8 +73,8 @@ const FestivalDetailPage1 = () => {
   const shareButtonHandler = () => {
     if (navigator.share) {
       navigator.share({
-        title: '개회식',
-        text: '벚꽃톤 개회식에 대한 정보를 확인해 보세요!',
+        title: '야식제공',
+        text: '벚꽃톤 야식에 대한 정보를 확인해 보세요!',
         url: window.location.href,
       })
         .then(() => alert('공유가 성공적으로 완료되었습니다.'))
@@ -92,7 +92,7 @@ const FestivalDetailPage1 = () => {
         <meta property="og:description" content="축제를 200% 즐기는 방법" />
         <meta
           property="og:image"
-          content="https://media.istockphoto.com/id/636379014/ko/%EC%82%AC%EC%A7%84/%EC%86%90-%ED%98%95%EC%84%B1%ED%95%98%EB%8A%94-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EC%84%A0%EC%85%8B-%EC%8B%A4%EB%A3%A8%EC%97%A3.jpg?s=612x612&w=0&k=20&c=rzTelIxMlazDXZt_zNGUMJCXUcFHWIqT37jcQzsl_xw="
+          content="https://media.istockphoto.com/id/991829024/ko/%EC%82%AC%EC%A7%84/%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91-%EB%85%B8%EC%95%84-%EC%83%90%EB%9F%AC%EB%93%9C%EC%99%80-%EA%B1%B4%EA%B0%95-%ED%95%9C-%EC%A0%80%EB%85%81-%EC%8B%9D%EC%82%AC%EB%A5%BC-%EB%A8%B9%EB%8A%94-%EC%BB%A4%ED%94%8C.jpg?s=612x612&w=0&k=20&c=4owrefzbVEVRw49-Af4fU5wgBQdFZL4RwgppoQN2_H4="
         />
       </Helmet>
       <DetailContainer>
@@ -100,16 +100,16 @@ const FestivalDetailPage1 = () => {
         <Header />
         <TextDiv>
           <div className="title">
-            개회식
+            야식제공
             <img src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} />
           </div>
-          <div className="date">2024.03.24 (토) 14:00</div>
+          <div className="date">2024.03.24 (일) 01:00~02:00</div>
           <br />
           <div className="location">
             <img
               src='/assets/festival/icon-location.svg'
               alt="location icon" />
-            전남대학교 5.18 광장부스
+            카카오 AI 캠퍼스 1층 그로잉 홀
           </div>
         </TextDiv>
         <ContentDiv>
@@ -120,15 +120,13 @@ const FestivalDetailPage1 = () => {
             <img src="/assets/festival/temp-img.png" alt="Card News" />
           </CardDiv>
           <ContextDiv>
-            2023 ‘용봉대동풀이'에서 피지컬 100의 강자를 이길 도전자를 찾습니다. 🔥
-            <br /><br />
-            힘에 자신이 있는 분 💪, 운동을 좋아하시는 분 🏋️ 등 비밀정원의 강자들을 찾습니다!
-            <br /><br />
-            이 이벤트를 통해 피지컬 100의 강자와의 팔씨름을 할 수 있고, 이긴다면 상금까지 가져가실 수 있습니다. 💵
-            <br /><br />
-            5.18 광장 부스에서 만나요! 🙌
+          <h3><b>야간 행사 특별 안내: 야식 제공</b></h3>
+          밤이 깊어가는 시간, 벚꽃톤 참가자 여러분을 위한 맛있고 따뜻한 야식을 준비했습니다. 이제 행사의 즐거움을 더욱 배가시킬 수 있는 완벽한 기회입니다. <br/><br/>
+          <b>🌙 야식 파티 개요</b>
+          - <b>일시</b>: 2024. 3. 24 (일), 01:00~02:00<br/>
+          - <b>메뉴</b>: 치킨, 피자<br/><br/>
+          여러분의 밤샘에 힘을 북돋아 줄 이번 야식을 꼭 드셔보세요. 함께 맛있는 음식을 즐기며 파이팅 해봐요!
           </ContextDiv>
-
         </ContentDiv>
         <PrevButton
           src="/assets/festival/prev-button.png"

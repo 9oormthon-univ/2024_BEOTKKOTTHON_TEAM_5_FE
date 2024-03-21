@@ -17,6 +17,7 @@ import FestivalDetailPage0 from "./pages/festival/FestivalDetailPage0";
 import Information from "./components/festival/Information";
 import Schedule from "./components/festival/Schedule";
 import Program from "./components/festival/Program";
+import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/festival/information" element={<Information />} />
           </Route>
           <Route path="/festival/detail/0" element={<FestivalDetailPage0 />} />
+          <Route path="/festival/detail/1" element={<FestivalDetailPage1 />} />
 
 
 
