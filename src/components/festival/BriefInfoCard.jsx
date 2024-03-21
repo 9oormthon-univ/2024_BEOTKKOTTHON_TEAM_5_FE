@@ -6,12 +6,14 @@ const WrapCard = styled.div`
   gap: 1rem;
   align-items: center;
   width: 100%;
+  height: 100px;
   border-radius: 1rem;
   box-shadow: 0px 5px 50px 1px #33333333;
   overflow: hidden;
 
   img {
-    width: 25%;
+    width: 100px;
+    height: 100%;
     object-fit: cover;
   }
 `;
@@ -43,17 +45,18 @@ const TextDiv = styled.div`
   }
 `;
 
-const BriefInfoCard = ({ onClick }) => {
+const BriefInfoCard = ({ onClick, content }) => {
+
   return (
     <WrapCard onClick={onClick}>
-      <img src={"/assets/festival/temp-img.png"} alt="festival" />
+      <img src={content.img} alt="festival" />
       <TextDiv>
-        <div className="title">팔씨름</div>
-        <div className="date">2023.09.20 ~ 2023.09.21</div>
+        <div className="title">{content.title}</div>
+        <div className="date">{content.date}</div>
         <br />
         <div className="location">
           <img src="/assets/festival/icon-location.svg" alt="location icon" />
-          전남대학교 5.18 광장부스
+          {content.place}
         </div>
       </TextDiv>
     </WrapCard>
