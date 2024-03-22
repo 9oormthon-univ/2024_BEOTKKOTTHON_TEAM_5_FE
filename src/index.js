@@ -3,43 +3,30 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
-
 import { HelmetProvider } from "react-helmet-async";
-import { hydrate, render } from "react-dom";
+import { hydrateRoot, createRoot } from 'react-dom/client';
 
+const rootElement = document.getElementById('root');
+const isPreRendered = document.body.hasAttribute('data-prerendered');
 
-const rootElement = document.getElementById("root");
-if (rootElement.hasChildNodes()) {
-  hydrate(
+const app = (
     <React.StrictMode>
-      <HelmetProvider>
-        <RecoilRoot>
-          <App />
-        </RecoilRoot>
-      </HelmetProvider>
-    </React.StrictMode >, rootElement);
-} else {
-  render(<React.StrictMode>
     <HelmetProvider>
       <RecoilRoot>
         <App />
       </RecoilRoot>
     </HelmetProvider>
-  </React.StrictMode>, rootElement);
+  </React.StrictMode >
+);
+
+if (rootElement) {
+  if (isPreRendered) {
+      hydrateRoot(rootElement, app);
+  } else {
+      const root = createRoot(rootElement);
+      root.render(app);
+  }
 }
 
-// const root = ReactDOM.createRoot(document.getElementById("root"));
-// root.render(
-//   <React.StrictMode>
-//     <RecoilRoot>
-//       <HelmetProvider>
-//         <App />
-//       </HelmetProvider>
-//     </RecoilRoot>
-//   </React.StrictMode>
-// );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Performance monitoring
 reportWebVitals();

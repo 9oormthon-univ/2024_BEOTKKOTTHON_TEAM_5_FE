@@ -1,63 +1,102 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
+import { authInstance } from "../../api/instance";
+import { useNavigate } from "react-router-dom";
+import Characters from "../../constants/character";
 
 const ChatInboxPage = () => {
-  // const [inboxList, setInboxList] = useState([]);
+  const [inboxList, setInboxList] = useState([]);
+  const navigate = useNavigate();
 
-  // const fetchInboxList = async () => {
-  // const res = await authInstance
-  //   .get("/chatroom")
-  //   .then((res) => res.data)
-  //   .then((data) => {
-  //     const tempResponse = [...data];
-  //     tempResponse.sort(
-  //       (a, b) => new Date(b.modifyDt) - new Date(a.modifyDt)
-  //     );
-  //     return tempResponse;
-  //   });
-  // setInboxList(res);
-  //
-  // const res = await authInstance.get("/대기열").then((res) => res.data);
-  // setInboxList(res);
-  // };
-
-  const handleAcceptChat = async (chatId) => {
-    // 채팅 수락 API 호출
-    console.log("채팅 수락 API 호출");
+  const fetchInboxList = async () => {
+    const res = await authInstance.get("/waiting").then((res) => res.data);
+    setInboxList(res);
   };
 
-  // useEffect(() => {
-  //   fetchInboxList();
-  // }, []);
+  const handleAcceptChat = async (
+    myMemberId,
+    opponentMemberId,
+    chatWaitingId
+  ) => {
+    await authInstance
+      .get(`/waiting/accept/${chatWaitingId}`)
+      .then((res) => {
+        const createdChatRoom = res.data;
+        navigate(`/chat/${createdChatRoom}`, {
+          state: {
+            myId: myMemberId,
+            opponentId: opponentMemberId,
+            roomId: createdChatRoom,
+          },
+        });
+      })
+      .catch((error) => {
+        switch (error.response.data.code) {
+          case "TOO_MANY_MY_CHATROOM":
+            alert(
+              "이미 생성된 채팅방 3개입니다. 기존 채팅방을 지우고 다시 시도해주세요."
+            );
+            break;
+          case "TOO_MANY_OPPONENT_CHATROOM":
+            alert(
+              "상대방이 이미 생성된 채팅방 3개입니다. 상대방과 연결에 실패했습니다."
+            );
+            break;
+          default:
+            alert("채팅방 생성에 실패했습니다. 다시 시도해주세요.");
+            break;
+        }
+      });
+
+    fetchInboxList(); // 새로고침
+  };
+
+  useEffect(() => {
+    fetchInboxList();
+  }, []);
 
   return (
     <PagePadding>
       <Header />
-      {/* map()으로 inboxList를 순회하며 ChatRoomContainer를 렌더링합니다. */}
       <Spacer>
         <Title>요청함</Title>
-        <InboxContainer>
-          <ImageContainer>
-            <img src="/assets/home/profile-bear.png" alt="캐릭터" />
-          </ImageContainer>
+        {inboxList.length !== 0 ? (
+          inboxList.map((inbox) => {
+            return (
+              <InboxContainer key={inbox.waitindRoomId}>
+                <ImageContainer>
+                  <img src={Characters[inbox.memberCharacter]} alt="캐릭터" />
+                </ImageContainer>
 
-          <div className="right-section">
-            <div className="upper-area">
-              <Profile>수학과, ISTJ</Profile>
-              <LeaveButton
-                onClick={() => {
-                  const isAccepted = window.confirm("대화를 수락하시겠습니까?");
-                  if (isAccepted) {
-                    handleAcceptChat(); // 인자로 chatId 넘겨주기
-                  }
-                }}>
-                수락하기
-              </LeaveButton>
-            </div>
-            <Message>'수락하기'를 누르면 대화를 시작할 수 있어요!</Message>
-          </div>
-        </InboxContainer>
+                <div className="right-section">
+                  <div className="upper-area">
+                    <Profile>{inbox.myRoomName}</Profile>
+                    <LeaveButton
+                      onClick={() => {
+                        const isAccepted =
+                          window.confirm("대화를 수락하시겠습니까?");
+                        if (isAccepted) {
+                          handleAcceptChat(
+                            inbox.loveReceiverId,
+                            inbox.loveSenderId,
+                            inbox.waitingRoomId
+                          );
+                        }
+                      }}>
+                      수락하기
+                    </LeaveButton>
+                  </div>
+                  <Message>
+                    '수락하기'를 누르면 대화를 시작할 수 있어요!
+                  </Message>
+                </div>
+              </InboxContainer>
+            );
+          })
+        ) : (
+          <div>받은 요청이 없어요!</div>
+        )}
       </Spacer>
     </PagePadding>
   );

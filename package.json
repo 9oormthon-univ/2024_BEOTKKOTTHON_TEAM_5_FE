@@ -16,7 +16,8 @@
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
     "styled-components": "^6.1.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-snap": "^1.23.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,12 +27,9 @@
     "postbuild": "react-snap"
   },
   "reactSnap": {
-    "timeout": 60000,
-    "inlineCss": true,
-    "minifyHtml": true,
-    "include": [
-      "/",
-      "/login"
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
     ]
   },
   "eslintConfig": {
@@ -54,8 +52,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "react-snap": "^1.23.0"
   }
 }

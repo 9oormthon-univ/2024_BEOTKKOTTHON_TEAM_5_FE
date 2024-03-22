@@ -7,6 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import HeaderPrev from "../../components/common/HeaderPrev";
+import { defaultInstance } from "../../api/instance";
 
 const UserRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -19,6 +20,15 @@ const UserRegisterPage = () => {
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
 
   const navigate = useNavigate();
+
+  const isDisabled =
+    idTestFlag ||
+    pwTestFlag ||
+    checkPwTestFlag ||
+    !toggleState ||
+    !registerData.telNum;
+
+  const isLoginEmpty = registerData.loginId === "";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,12 +59,19 @@ const UserRegisterPage = () => {
     }
   };
 
-  const isDisabled =
-    idTestFlag ||
-    pwTestFlag ||
-    checkPwTestFlag ||
-    !toggleState ||
-    !registerData.telNum;
+  const checkId = async () => {
+    try {
+      const res = await defaultInstance.post("/member/check/id", {
+        loginId: registerData.loginId,
+      });
+      if (res.data) {
+        alert("사용 가능한 아이디 입니다.");
+      }
+    } catch (error) {
+      alert("중복된 아이디 입니다.");
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     console.log(registerData);
@@ -75,8 +92,10 @@ const UserRegisterPage = () => {
             처음 오셨나요?
             <br />
             학생메일로 가입해보세요!
-          </>}
-        navigateTo="/" />
+          </>
+        }
+        navigateTo="/"
+      />
 
       <div>
         <TextInput
@@ -84,6 +103,8 @@ const UserRegisterPage = () => {
           name="loginId"
           type="text"
           buttonLabel={"중복 확인"}
+          buttonClickHandler={checkId}
+          buttonDisabled={isLoginEmpty}
           value={registerData.loginId}
           onChange={handleChange}
         />
