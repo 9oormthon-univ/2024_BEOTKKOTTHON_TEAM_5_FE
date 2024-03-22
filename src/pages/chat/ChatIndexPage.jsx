@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authInstance } from "../../api/instance";
 import { parseTime } from "../../utils/parseTime";
 import Characters from "../../constants/character";
@@ -67,16 +67,6 @@ const ChatIndexPage = () => {
     }
   };
 
-  const enterChatRoom = (opponentMemberId, chatRoomId) => {
-    navigate(`/chat/${chatRoomId}`, {
-      state: {
-        myId: memberId,
-        opponentId: opponentMemberId,
-        chatRoomId,
-      },
-    });
-  };
-
   return (
     <PagePadding>
       <Header />
@@ -94,7 +84,14 @@ const ChatIndexPage = () => {
         {chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
-              <ChatRoomContainer key={chat.chatRoomId} onClick={enterChatRoom}>
+              <ChatRoomContainer
+                key={chat.chatRoomId}
+                to={`/chat/${chat.chatRoomId}`}
+                state={{
+                  myId: memberId,
+                  opponentId: chat.opponentMemberId,
+                  roomId: chat.chatRoomId,
+                }}>
                 <div className="left-section">
                   <ImageContainer>
                     {/* characer에 따라 src 변경 */}
@@ -134,10 +131,12 @@ const PagePadding = styled.div`
   padding: 2rem 1.5rem;
 `;
 
-const ChatRoomContainer = styled.div`
+const ChatRoomContainer = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: inherit;
+  text-decoration-line: none;
 
   > .left-section {
     display: flex;
