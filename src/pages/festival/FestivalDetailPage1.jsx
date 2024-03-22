@@ -17,18 +17,18 @@ const PrevButton = styled.img`
 `;
 const TextDiv = styled.article`
 
-  width: 100%;
+width: 100%;
   align-items: center;
 
   .title {
+    display: flex;
+    justify-content: space-between;
     position: relative;
     font-size: 2rem;
     font-weight: 700;
     margin-top: 1.5rem;
-
     img {
-      position: absolute;
-      right: 0;
+      margin-left: 1rem;
     }
   }
   .date {
@@ -88,6 +88,12 @@ const FestivalDetailPage1 = () => {
     }
   };
 
+  const copyButtonHandler = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => alert('링크가 성공적으로 복사되었습니다.'))
+      .catch((error) => console.error('링크 복사에 실패했습니다.', error));
+}
+
 
   return (
     <>
@@ -97,7 +103,10 @@ const FestivalDetailPage1 = () => {
         <TextDiv>
           <div className="title">
             야식제공
-            <img src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} />
+            <div>
+              <img className="copy-button" src={"/assets/festival/copy-button.png"} alt="Copy button" onClick={copyButtonHandler} />
+              <img className="share-button" src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} /> 
+            </div>
           </div>
           <div className="date">2024.03.24 (일) 01:00~02:00</div>
           <br />
@@ -109,18 +118,18 @@ const FestivalDetailPage1 = () => {
           </div>
         </TextDiv>
         <ContentDiv>
-        <CardDiv>
+          <CardDiv>
             <img src="/assets/festival/contentsImg/1.jpg" alt="Card News" />
             <img src="/assets/festival/contentsImg/2.jpg" alt="Card News" />
             <img src="/assets/festival/contentsImg/3.jpg" alt="Card News" />
           </CardDiv>
           <ContextDiv>
-          <h3><b>야간 행사 특별 안내: 야식 제공</b></h3>
-          밤이 깊어가는 시간, 벚꽃톤 참가자 여러분을 위한 맛있고 따뜻한 야식을 준비했습니다. 이제 행사의 즐거움을 더욱 배가시킬 수 있는 완벽한 기회입니다. <br/><br/>
-          <b>🌙 야식 파티 개요</b>
-          - <b>일시</b>: 2024. 3. 24 (일), 01:00~02:00<br/>
-          - <b>메뉴</b>: 치킨, 피자<br/><br/>
-          여러분의 밤샘에 힘을 북돋아 줄 이번 야식을 꼭 드셔보세요. 함께 맛있는 음식을 즐기며 파이팅 해봐요!
+            <h3><b>야간 행사 특별 안내: 야식 제공</b></h3>
+            밤이 깊어가는 시간, 벚꽃톤 참가자 여러분을 위한 맛있고 따뜻한 야식을 준비했습니다. 이제 행사의 즐거움을 더욱 배가시킬 수 있는 완벽한 기회입니다. <br /><br />
+            <b>🌙 야식 파티 개요</b>
+            - <b>일시</b>: 2024. 3. 24 (일), 01:00~02:00<br />
+            - <b>메뉴</b>: 치킨, 피자<br /><br />
+            여러분의 밤샘에 힘을 북돋아 줄 이번 야식을 꼭 드셔보세요. 함께 맛있는 음식을 즐기며 파이팅 해봐요!
           </ContextDiv>
         </ContentDiv>
         <PrevButton

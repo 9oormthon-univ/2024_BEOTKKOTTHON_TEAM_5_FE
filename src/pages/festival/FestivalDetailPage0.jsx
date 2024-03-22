@@ -21,14 +21,14 @@ const TextDiv = styled.article`
   align-items: center;
 
   .title {
+    display: flex;
+    justify-content: space-between;
     position: relative;
     font-size: 2rem;
     font-weight: 700;
     margin-top: 1.5rem;
-
     img {
-      position: absolute;
-      right: 0;
+      margin-left: 1rem;
     }
   }
   .date {
@@ -88,6 +88,11 @@ const FestivalDetailPage0 = () => {
     }
   };
 
+  const copyButtonHandler = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => alert('링크가 성공적으로 복사되었습니다.'))
+      .catch((error) => console.error('링크 복사에 실패했습니다.', error));
+}
 
   return (
     <>
@@ -97,7 +102,10 @@ const FestivalDetailPage0 = () => {
         <TextDiv>
           <div className="title">
             개회식
-            <img src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} />
+            <div>
+              <img className="copy-button" src={"/assets/festival/copy-button.png"} alt="Copy button" onClick={copyButtonHandler} />
+              <img className="share-button" src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} /> 
+            </div>
           </div>
           <div className="date">2024.03.24 (토) 14:00</div>
           <br />
