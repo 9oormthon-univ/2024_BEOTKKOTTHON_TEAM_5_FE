@@ -65,15 +65,15 @@ const ContextDiv = styled.p`
   font-weight: 600;
 `;
 
-const FestivalDetailPage0 = () => {
+const FestivalDetailPage1 = () => {
 
   const navigate = useNavigate();
 
   const shareButtonHandler = () => {
     if (navigator.share) {
       navigator.share({
-        title: '개회식',
-        text: '벚꽃톤 개회식에 대한 정보를 확인해 보세요!',
+        title: '야식제공',
+        text: '벚꽃톤 야식에 대한 정보를 확인해 보세요!',
         url: window.location.href,
       })
         .then(() => alert('공유가 성공적으로 완료되었습니다.'))
@@ -91,10 +91,10 @@ const FestivalDetailPage0 = () => {
         <Header />
         <TextDiv>
           <div className="title">
-            개회식
+            야식제공
             <img src={"/assets/festival/share-button.png"} alt="Share button" onClick={shareButtonHandler} />
           </div>
-          <div className="date">2024.03.24 (토) 14:00</div>
+          <div className="date">2024.03.24 (일) 01:00~02:00</div>
           <br />
           <div className="location">
             <img
@@ -111,16 +111,13 @@ const FestivalDetailPage0 = () => {
             <img src="/assets/festival/temp-img.png" alt="Card News" />
           </CardDiv>
           <ContextDiv>
-            존경하는 참가자 여러분,<br /> <br />
-            우리는 구름톤 유니브 2기 벚꽃톤의 개회식에 여러분을 초대하게 되어 매우 기쁩니다. 이번 행사는 3월 23일(토), 카카오 AI 캠퍼스 1층 그로잉 홀에서 개최됩니다. 여러분의 참여는 이 행사를 더욱 빛나게 해줄 것입니다. <br /><br />
-            개회식은 14시에 시작되며, 다음과 같은 프로그램으로 진행됩니다:<br />
-            1. 개최사<br />
-            2. 주최 기관 소개<br />
-            3. 멘토 소개<br /><br />
-            행사에 참여하시어 우리 모두의 노력과 열정을 한데 모아 구름톤 유니브 2기 벚꽃톤을 성공적으로 시작할 수 있기를 바랍니다. 개회식에 참석해 주셔서 함께 축하하고, 벚꽃톤을 위한 첫걸음을 떼는 이 의미 있는 순간에 동참해 주시길 부탁드립니다.<br/><br/>
-            감사합니다.
+          <h3><b>야간 행사 특별 안내: 야식 제공</b></h3>
+          밤이 깊어가는 시간, 벚꽃톤 참가자 여러분을 위한 맛있고 따뜻한 야식을 준비했습니다. 이제 행사의 즐거움을 더욱 배가시킬 수 있는 완벽한 기회입니다. <br/><br/>
+          <b>🌙 야식 파티 개요</b>
+          - <b>일시</b>: 2024. 3. 24 (일), 01:00~02:00<br/>
+          - <b>메뉴</b>: 치킨, 피자<br/><br/>
+          여러분의 밤샘에 힘을 북돋아 줄 이번 야식을 꼭 드셔보세요. 함께 맛있는 음식을 즐기며 파이팅 해봐요!
           </ContextDiv>
-
         </ContentDiv>
         <PrevButton
           src="/assets/festival/prev-button.png"
@@ -132,4 +129,4 @@ const FestivalDetailPage0 = () => {
 
 }
 
-export default FestivalDetailPage0;
+export default FestivalDetailPage1;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { authInstance } from "../../api/instance";
 import { parseTime } from "../../utils/parseTime";
+import Characters from "../../constants/character";
 
 /**
  * @todo LINE 61: localStorage에 저장된 대화 내역 삭제
@@ -11,6 +12,7 @@ import { parseTime } from "../../utils/parseTime";
 const ChatIndexPage = () => {
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
+  const memberId = localStorage.getItem("memberId");
 
   const fetchChatList = async () => {
     const res = await authInstance
@@ -32,7 +34,7 @@ const ChatIndexPage = () => {
   }, []);
 
   const handleLeaveChat = async (chatId) => {
-    await authInstance.delete(`chatroom/delete/${chatId}`).then((res) => {
+    await authInstance.get(`/room-member/leave/${chatId}`).then(() => {
       const localStorageChat = JSON.parse(
         localStorage.getItem("staleMessages")
       );
@@ -65,6 +67,16 @@ const ChatIndexPage = () => {
     }
   };
 
+  const enterChatRoom = (opponentMemberId, chatRoomId) => {
+    navigate(`/chat/${chatRoomId}`, {
+      state: {
+        myId: memberId,
+        opponentId: opponentMemberId,
+        chatRoomId,
+      },
+    });
+  };
+
   return (
     <PagePadding>
       <Header />
@@ -79,14 +91,14 @@ const ChatIndexPage = () => {
         </InboxButton>
       </WrapInboxButton>
       <Spacer>
-        {chatList &&
+        {chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
-              <ChatRoomContainer key={chat.chatRoomId}>
+              <ChatRoomContainer key={chat.chatRoomId} onClick={enterChatRoom}>
                 <div className="left-section">
                   <ImageContainer>
                     {/* characer에 따라 src 변경 */}
-                    <img src="/assets/home/profile-bear.png" alt="캐릭터" />
+                    <img src={Characters[chat.memberCharacter]} alt="캐릭터" />
                   </ImageContainer>
 
                   <div className="profile-section">
@@ -109,7 +121,10 @@ const ChatIndexPage = () => {
                 </div>
               </ChatRoomContainer>
             );
-          })}
+          })
+        ) : (
+          <div>접속중인 대화방이 없어요!</div>
+        )}
       </Spacer>
     </PagePadding>
   );
