@@ -5,12 +5,11 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
 import { authInstance } from "../../api/instance";
+import toast, { Toaster } from "react-hot-toast";
 
 const ChatPage = () => {
   const [distance, setDistance] = useState(0);
   const [isCallActive, setIsCallActive] = useState(false);
-  const [isIos, setIsIos] = useState(false);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,15 +26,9 @@ const ChatPage = () => {
 
   const [opponentTelNum, setOpponentTelNum] = useState("");
 
-
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.indexOf("iphone") !== -1) {
-      setIsIos(true);
-    }
     const token = localStorage.getItem("token");
     const newClient = Stomp.client("wss://api.dis-tance.com/meet");
-
 
     const fetchMessages = () => {
       const staleMessages = localStorage.getItem("staleMessages");
@@ -56,7 +49,7 @@ const ChatPage = () => {
         .then((res) => res.data);
 
       if (msg.length === 0) return;
-      setMessages(messages => [...messages, ...msg]);
+      setMessages((messages) => [...messages, ...msg]);
     };
     fetchUnreadMessages();
 
@@ -99,10 +92,7 @@ const ChatPage = () => {
     };
   }, []);
 
-
   useEffect(() => {
-    console.log("messages.length", messages.length);
-    console.log("messages", messages);
     if (messages.length > 10) {
       setIsCallActive(true);
     }
@@ -120,9 +110,27 @@ const ChatPage = () => {
     setDraftMessage(e.target.value);
   };
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
+
+    // 메시지가 비어있으면 전송하지 않음
     if (!draftMessage) return;
+
+    // 욕 있는지 검사
+    const isIncludingBadWord = await authInstance
+      .post("/chatroom/check/badword", {
+        chatMessage: draftMessage,
+        senderId: opponentId,
+        receiverId: myId,
+      })
+      .then((res) => res.data);
+
+    if (isIncludingBadWord) {
+      toast.error("앗! 부적절한 단어가 포함되어 있어요.");
+      setDraftMessage("");
+      return;
+    }
+
     client.publish({
       destination: `/app/chat/${roomId}`,
       body: JSON.stringify({
@@ -168,7 +176,8 @@ const ChatPage = () => {
           }
         }
       }}>
-      <Container $keyboardHeight={keyboardHeight} ref={viewportRef}>
+      <Toaster />
+      <Container ref={viewportRef}>
         <TopBar>
           <BackButton
             onClick={() => {
@@ -189,7 +198,7 @@ const ChatPage = () => {
               <a href={`tel:${opponentTelNum}`}>
                 <img
                   src="/assets/Callicon-active.svg"
-                  onClick={() => { }}
+                  onClick={() => {}}
                   alt="전화버튼"
                 />
               </a>
@@ -204,12 +213,6 @@ const ChatPage = () => {
           value={draftMessage}
           changeHandler={handleChange}
           submitHandler={sendMessage}
-          focusHandler={() => {
-            if (isIos) setKeyboardHeight(330);
-          }}
-          blurHandler={() => {
-            if (isIos) setKeyboardHeight(0);
-          }}
         />
       </Container>
     </Wrapper>
@@ -223,8 +226,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  height: ${(props) => `calc(100dvh - ${props.keyboardHeight}px)`};
-  position: fixed;
+  height: 100vh;
   bottom: 0;
   display: flex;
   flex-direction: column;
