@@ -13,22 +13,17 @@ import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
-import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
-import { Helmet } from "react-helmet-async";
+import FestivalDetailPage0 from "./pages/festival/FestivalDetailPage0";
+import Information from "./components/festival/Information";
+import Schedule from "./components/festival/Schedule";
+import Program from "./components/festival/Program";
+import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
 
 
 function App() {
   return (
 
     <BrowserRouter>
-      <Helmet>
-        <title>디폴트</title>
-        <meta property='og:type' content='website' />
-        <meta property="og:url" content="https://dis-tance.com/" />
-        <meta property="og:title" content="Distance" />
-        <meta property="og:description" content="축제를 200% 즐기는 방법5" />
-        <meta property="og:image" content="https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228092421948485.jpg" />
-      </Helmet>
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -46,8 +41,15 @@ function App() {
           <Route path="/chat" element={<ChatIndexPage />} />
           <Route path="/inbox" element={<ChatInboxPage />} />
 
-          <Route path="/festival" element={<FestivalIndexPage />} />
-          <Route path="/festival/detail" element={<FestivalDetailPage />} />
+          <Route element={<FestivalIndexPage />}>
+            <Route path="/festival/program" element={<Program />} />
+            <Route path="/festival/schedule" element={<Schedule />} />
+            <Route path="/festival/information" element={<Information />} />
+          </Route>
+          <Route path="/festival/detail/0" element={<FestivalDetailPage0 />} />
+          <Route path="/festival/detail/1" element={<FestivalDetailPage1 />} />
+
+
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />

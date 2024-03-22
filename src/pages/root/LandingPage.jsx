@@ -6,20 +6,23 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Background>
-      <WrapContent>
-        <img src="/assets/logo.svg" alt="디스턴스 로고" />
-        <WrapButton>
-          <LongButton
-            onClick={() => {
-              navigate("/register/user");
-            }}>
-            학생 메일로 가입하기
-          </LongButton>
-          <StyledLink to="/login">로그인</StyledLink>
-        </WrapButton>
-      </WrapContent>
-    </Background>
+    <>
+      <Background>
+        <WrapContent>
+          <img src="/assets/logo.svg" alt="디스턴스 로고" />
+          <WrapButton>
+            <LongButton
+              onClick={() => {
+                navigate("/register/user");
+              }}>
+              학생 메일로 가입하기
+            </LongButton>
+            <StyledLink to="/login">로그인</StyledLink>
+          </WrapButton>
+        </WrapContent>
+      </Background>
+    </>
+
   );
 };
 
