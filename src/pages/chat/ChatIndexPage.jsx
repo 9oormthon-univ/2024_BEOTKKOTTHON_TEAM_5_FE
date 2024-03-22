@@ -31,7 +31,7 @@ const ChatIndexPage = () => {
   }, []);
 
   const handleLeaveChat = async (chatId) => {
-    await authInstance.delete(`chatroom/delete/${chatId}`).then((res) => {
+    await authInstance.get(`/room-member/leave/${chatId}`).then(() => {
       const localStorageChat = JSON.parse(
         localStorage.getItem("staleMessages")
       );
