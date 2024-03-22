@@ -24,7 +24,7 @@ width: 100%;
     display: flex;
     justify-content: space-between;
     position: relative;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-top: 1.5rem;
     img {
@@ -32,7 +32,7 @@ width: 100%;
     }
   }
   .date {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 22px;
   }
