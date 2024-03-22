@@ -11,6 +11,8 @@ import { parseTime } from "../../utils/parseTime";
 const ChatIndexPage = () => {
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
+  const memberId = localStorage.getItem("memberId");
+
   const fetchChatList = async () => {
     const res = await authInstance
       .get("/chatroom")
@@ -64,6 +66,16 @@ const ChatIndexPage = () => {
     }
   };
 
+  const enterChatRoom = (opponentMemberId, chatRoomId) => {
+    navigate(`/chat/${chatRoomId}`, {
+      state: {
+        myId: memberId,
+        opponentId: opponentMemberId,
+        chatRoomId,
+      },
+    });
+  };
+
   return (
     <PagePadding>
       <Header />
@@ -81,7 +93,7 @@ const ChatIndexPage = () => {
         {chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
-              <ChatRoomContainer key={chat.chatRoomId}>
+              <ChatRoomContainer key={chat.chatRoomId} onClick={enterChatRoom}>
                 <div className="left-section">
                   <ImageContainer>
                     {/* characer에 따라 src 변경 */}

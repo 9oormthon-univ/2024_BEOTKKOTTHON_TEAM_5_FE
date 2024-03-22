@@ -142,7 +142,7 @@ const HomeIndexPage = () => {
       })
       .then((res) => {
         const createdChatRoom = res.data;
-        navigate(`chat/${createdChatRoom}`, {
+        navigate(`/chat/${createdChatRoom}`, {
           state: {
             myId: memberId,
             opponentId: opponentMemberId,
