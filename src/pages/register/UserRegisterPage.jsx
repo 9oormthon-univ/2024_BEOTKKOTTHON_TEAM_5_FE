@@ -64,6 +64,20 @@ const UserRegisterPage = () => {
     }
   };
 
+  const checkId = async () => {
+    try {
+      const res = await defaultInstance.post("/member/check/id", {
+        loginId: registerData.loginId,
+      });
+      if(res.data) {
+        alert('사용 가능한 아이디 입니다.');
+      }
+    } catch (error) {
+      alert('중복된 아이디 입니다.');
+      console.log(error);
+    }
+  }
+
   const isDisabled =
     idTestFlag ||
     pwTestFlag ||
@@ -104,6 +118,7 @@ const UserRegisterPage = () => {
           buttonClickHandler={checkId}
           value={registerData.loginId}
           onChange={handleChange}
+          buttonClickHandler={checkId}
         />
         {idTestFlag && (
           <Tip>영어, 숫자 조합 5자 이상 20자 이하로 작성해야 해요.</Tip>
