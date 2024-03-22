@@ -27,6 +27,7 @@ const ChatPage = () => {
 
   const [opponentTelNum, setOpponentTelNum] = useState("");
 
+
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     if (userAgent.indexOf("iphone") !== -1) {
@@ -35,8 +36,10 @@ const ChatPage = () => {
     const token = localStorage.getItem("token");
     const newClient = Stomp.client("wss://api.dis-tance.com/meet");
 
+
     const fetchMessages = () => {
       const staleMessages = localStorage.getItem("staleMessages");
+      console.log("staleMessages", staleMessages);
       if (staleMessages) {
         const parsedStaleMessages = JSON.parse(staleMessages);
         if (parsedStaleMessages[roomId]) {
@@ -53,9 +56,8 @@ const ChatPage = () => {
         .then((res) => res.data);
 
       if (msg.length === 0) return;
-      setMessages([...messages, msg]);
+      setMessages(messages => [...messages, ...msg]);
     };
-
     fetchUnreadMessages();
 
     const connect_callback = function (frame) {
@@ -97,9 +99,10 @@ const ChatPage = () => {
     };
   }, []);
 
+
   useEffect(() => {
-    console.log("messages.length");
-    console.log(messages.length);
+    console.log("messages.length", messages.length);
+    console.log("messages", messages);
     if (messages.length > 10) {
       setIsCallActive(true);
     }
@@ -186,7 +189,7 @@ const ChatPage = () => {
               <a href={`tel:${opponentTelNum}`}>
                 <img
                   src="/assets/Callicon-active.svg"
-                  onClick={() => {}}
+                  onClick={() => { }}
                   alt="전화버튼"
                 />
               </a>
