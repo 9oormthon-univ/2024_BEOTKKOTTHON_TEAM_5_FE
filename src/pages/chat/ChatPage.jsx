@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Messages from "../../components/chat/Messages";
 import MessageInput from "../../components/chat/MessageInput";
 import styled from "styled-components";
@@ -9,6 +9,8 @@ import { authInstance } from "../../api/instance";
 const ChatPage = () => {
   const [distance, setDistance] = useState(0);
   const [isCallActive, setIsCallActive] = useState(false);
+  const [isIos, setIsIos] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,9 +23,15 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
 
+  const viewportRef = useRef();
+
   const [opponentTelNum, setOpponentTelNum] = useState("");
 
   useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.indexOf("iphone") !== -1) {
+      setIsIos(true);
+    }
     const token = localStorage.getItem("token");
     const newClient = Stomp.client("wss://api.dis-tance.com/meet");
 
@@ -146,48 +154,78 @@ const ChatPage = () => {
   }, [messages]);
 
   return (
-    <Container>
-      <TopBar>
-        <BackButton
-          onClick={() => {
-            navigate(-1);
-          }}>
-          <img src="/assets/arrow-pink-button.png" alt="뒤로가기" width={12} />
-        </BackButton>
-        <WrapTitle>
-          <div className="title">상대방과의 거리</div>
-          <div className="subtitle">{distance}m</div>
-        </WrapTitle>
-        <CallButton>
-          {isCallActive ? (
-            <a href={`tel:${opponentTelNum}`}>
-              <img
-                src="/assets/Callicon-active.svg"
-                onClick={() => {}}
-                alt="전화버튼"
-              />
-            </a>
-          ) : (
-            <img src="/assets/Callicon.svg" alt="전화버튼" />
-          )}
-        </CallButton>
-      </TopBar>
+    <Wrapper
+      onScroll={() => {
+        // 스크롤을 항상 최하단으로 내려주는 로직
+        if (viewportRef.current) {
+          const { scrollHeight, clientHeight, scrollTop } = viewportRef.current;
+          if (scrollHeight - clientHeight === scrollTop) {
+            viewportRef.current.scrollTop = scrollHeight;
+          }
+        }
+      }}>
+      <Container keyboardHeight={keyboardHeight} ref={viewportRef}>
+        <TopBar>
+          <BackButton
+            onClick={() => {
+              navigate(-1);
+            }}>
+            <img
+              src="/assets/arrow-pink-button.png"
+              alt="뒤로가기"
+              width={12}
+            />
+          </BackButton>
+          <WrapTitle>
+            <div className="title">상대방과의 거리</div>
+            <div className="subtitle">{distance}m</div>
+          </WrapTitle>
+          <CallButton>
+            {isCallActive ? (
+              <a href={`tel:${opponentTelNum}`}>
+                <img
+                  src="/assets/Callicon-active.svg"
+                  onClick={() => {}}
+                  alt="전화버튼"
+                />
+              </a>
+            ) : (
+              <img src="/assets/Callicon.svg" alt="전화버튼" />
+            )}
+          </CallButton>
+        </TopBar>
 
-      <Messages messages={messages} myId={myId} />
-      <MessageInput
-        value={draftMessage}
-        changeHandler={handleChange}
-        submitHandler={sendMessage}
-      />
-    </Container>
+        <Messages messages={messages} myId={myId} />
+        <MessageInput
+          value={draftMessage}
+          changeHandler={handleChange}
+          submitHandler={sendMessage}
+          focusHandler={() => {
+            if (isIos) setKeyboardHeight(330);
+          }}
+          blurHandler={() => {
+            if (isIos) setKeyboardHeight(0);
+          }}
+        />
+      </Container>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  position: relative;
+  touch-action: none;
+  overflow: hidden;
+`;
+
 const Container = styled.div`
-  height: 100dvh;
+  height: ${(props) => `calc(100dvh - ${props.keyboardHeight}px)`};
+  position: fixed;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: height 0.3s;
 `;
 
 const BackButton = styled.div`
