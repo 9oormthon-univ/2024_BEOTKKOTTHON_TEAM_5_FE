@@ -52,10 +52,6 @@ const HomeIndexPage = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(memberState);
-  }, [memberState]);
-
   const fetchGetMembers = async () => {
     try {
       const res = await authInstance.get("/gps/matching");

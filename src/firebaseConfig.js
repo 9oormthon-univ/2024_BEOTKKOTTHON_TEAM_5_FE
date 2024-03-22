@@ -1,7 +1,6 @@
-//src/firebaseConfig.js
-
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
 navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
 const firebaseConfig = {
@@ -17,13 +16,14 @@ const firebaseConfig = {
 const FBapp = initializeApp(firebaseConfig);
 const messaging = getMessaging(FBapp);
 
+
 // client 토큰 발급 받기
-getToken(messaging, {
+export const onGetToken = () => getToken(messaging, {
   vapidKey: "BL3TJNMH7nqPV4wLrzYhZOzefyN-WlP5--CzS1RO2WWKACm5b32tv2caLiKdbahJBQDeDpsNwZbGvrZJjajR26E"
 })
   .then((currentToken) => {
     if (currentToken) {
-      console.log("발급 받은 client 토큰 : " + currentToken);
+      localStorage.setItem('clientToken', currentToken);
     } else {
       console.log("토큰 발급 실패");
     }

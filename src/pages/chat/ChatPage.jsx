@@ -168,7 +168,7 @@ const ChatPage = () => {
           }
         }
       }}>
-      <Container keyboardHeight={keyboardHeight} ref={viewportRef}>
+      <Container $keyboardHeight={keyboardHeight} ref={viewportRef}>
         <TopBar>
           <BackButton
             onClick={() => {

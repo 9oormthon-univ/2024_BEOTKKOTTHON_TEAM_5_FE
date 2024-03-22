@@ -9,7 +9,9 @@ import { isLoggedInState } from "../store/auth";
 import { authInstance } from "../api/instance";
 
 const NavLayout = () => {
+
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  
   const navigate = useNavigate();
   const [curLocation, setCurLocation] = useState({
     lat: 0,
