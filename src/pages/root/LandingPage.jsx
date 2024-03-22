@@ -26,7 +26,6 @@ const LandingPage = () => {
 };
 
 const Background = styled.div`
-  width: 100vh;
   height: 100vh;
   background-color: #ff625d;
 `;
