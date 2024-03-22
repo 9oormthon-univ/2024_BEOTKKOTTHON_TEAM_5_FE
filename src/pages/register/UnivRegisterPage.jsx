@@ -7,7 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import { defaultInstance } from "../../api/instance";
+import { authInstance, defaultInstance } from "../../api/instance";
 import HeaderPrev from "../../components/common/HeaderPrev";
 
 const UnivRegisterPage = () => {
@@ -15,11 +15,21 @@ const UnivRegisterPage = () => {
   const [school, setSchool] = useState("");
   const [college, setCollege] = useState("");
   const [department, setDepartment] = useState("");
+  const [emailButtonLabel, setEmailButtonLabel] = useState("메일 중복 확인");
+  const [emailCertify, setEmailCertify] = useState(false);
+  const [certificationValue, setCertificationValue] = useState("");
+  const [registerComplete, setRegisterComplete] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "schoolEmail") { setEmailButtonLabel("메일 중복 확인") }
+    setEmailCertify(false);
     setRegisterData({ ...registerData, [name]: value });
+  };
+  const handleChangeCertification = (e) => {
+    setCertificationValue(e.target.value);
+    //이메일 인증 번호 보내는 api 함수 호출
   };
 
   const handleChecked = (e) => {
@@ -61,13 +71,17 @@ const UnivRegisterPage = () => {
       });
   };
 
-  const isDisabled =
+  const isDisabled = 
     !registerData.agreeTerms ||
     !registerData.agreePrivacy ||
+    !registerComplete;
+
+  const emailIsDisabled =
     !registerData.school ||
     !registerData.college ||
     !registerData.department ||
-    !registerData.schoolEmail;
+    !registerData.schoolEmail ||
+    emailCertify;
 
   const UNIV_PLACEHOLDER = "학교를 선택해주세요.";
   const UNIV_TYPES = [
@@ -93,6 +107,61 @@ const UnivRegisterPage = () => {
     "경영학과",
     "국어국문학과",
   ];
+
+  const checkEmail = async () => {
+    try {
+      const res = await authInstance.get("/univ/check/email", {
+        params: {
+          schoolEmail: registerData.schoolEmail,
+        }
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    alert('사용 가능한 이메일 입니다.');
+    setEmailButtonLabel('메일 보내기');
+  }
+  const sendEmail = async () => {
+    try {
+      const res = await authInstance.get("/univ/send/email", {
+        params: {
+          schoolEmail: registerData.schoolEmail,
+        }
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    alert('인증 번호를 보냈습니다.');
+  }
+
+  const getButtonClickHandler = () => {
+    if (emailButtonLabel === '메일 중복 확인') {
+      checkEmail();
+    } else if (emailButtonLabel === '메일 보내기') {
+      sendEmail();
+      setEmailCertify(true);
+    } else {
+      console.log("else");
+    }
+  };
+
+  const getCertificationHandler = async () => {
+    try {
+      const res = await authInstance.get("/univ/certificate/email", {
+        params: {
+          certificationNumber: certificationValue,
+        }
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    alert('인증되었습니다.');
+    setRegisterComplete(true);
+  }
+
 
   return (
     <WrapContent>
@@ -126,13 +195,23 @@ const UnivRegisterPage = () => {
         label="학생메일 인증하기"
         name="schoolEmail"
         type="email"
-        buttonLabel="메일 보내기"
-        value={registerData.schoolEmail}
+        buttonLabel={emailButtonLabel}
+        buttonDisabled={emailIsDisabled}
+        // value={registerData.schoolEmail}
         onChange={handleChange}
-        buttonClickHandler={() => {
-          alert("인증되었습니다.");
-        }}
+        buttonClickHandler={getButtonClickHandler}
       />
+      {emailCertify &&
+        <TextInput
+          label="인증번호"
+          name="emailCertification"
+          type="text"
+          buttonLabel="인증하기"
+          onChange={handleChangeCertification}
+          buttonClickHandler={getCertificationHandler}
+          timerState={300}
+          onTimerEnd={()=>setEmailCertify(false)}
+        />}
 
       <WrapCheckbox>
         <Checkbox
