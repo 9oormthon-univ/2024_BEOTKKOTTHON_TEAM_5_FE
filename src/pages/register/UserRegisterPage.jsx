@@ -7,6 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import HeaderPrev from "../../components/common/HeaderPrev";
+import { authInstance } from "../../api/instance";
 
 const UserRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -49,6 +50,18 @@ const UserRegisterPage = () => {
     }
   };
 
+  const checkId = async () => {
+    try {
+      const res = await authInstance.post("/member/check/id", {
+        loginId: registerData.loginId,
+      });
+      console.log(res);
+      alert('사용 가능한 아이디 입니다.');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const isDisabled =
     idTestFlag ||
     pwTestFlag ||
@@ -86,6 +99,7 @@ const UserRegisterPage = () => {
           buttonLabel={"중복 확인"}
           value={registerData.loginId}
           onChange={handleChange}
+          buttonClickHandler={checkId}
         />
         {idTestFlag && (
           <Tip>영어, 숫자 조합 5자 이상 20자 이하로 작성해야 해요.</Tip>
