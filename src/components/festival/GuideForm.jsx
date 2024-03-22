@@ -17,7 +17,8 @@ const CardDiv = styled.div`
   padding: 1rem 0;
 
   img {
-    max-width: 250px;
+    width: 250px;
+    height: 250px;
   }
 `;
 const TextDiv = styled.div`

@@ -18,6 +18,8 @@ import Information from "./components/festival/Information";
 import Schedule from "./components/festival/Schedule";
 import Program from "./components/festival/Program";
 import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
+import FestivalDetailPage2 from "./pages/festival/FestivalDetailPage2";
+import FestivalDetailPage3 from "./pages/festival/FestivalDetailPage3";
 
 
 function App() {
@@ -46,14 +48,15 @@ function App() {
             <Route path="/festival/schedule" element={<Schedule />} />
             <Route path="/festival/information" element={<Information />} />
           </Route>
-          <Route path="/festival/detail/0" element={<FestivalDetailPage0 />} />
-          <Route path="/festival/detail/1" element={<FestivalDetailPage1 />} />
-
-
 
           <Route path="/mypage" element={<MyIndexPage />} />
           <Route path="/mypage/profile" element={<ProfileEditPage />} />
         </Route>
+
+        <Route path="/festival/detail/0" element={<FestivalDetailPage0 />} />
+        <Route path="/festival/detail/1" element={<FestivalDetailPage1 />} />
+        <Route path="/festival/detail/2" element={<FestivalDetailPage2 />} />
+        <Route path="/festival/detail/3" element={<FestivalDetailPage3 />} />
 
         <Route path="/chat/:chatRoomId" element={<ChatPage />} />
       </Routes>
