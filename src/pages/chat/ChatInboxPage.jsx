@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../../components/common/Header";
 import { authInstance } from "../../api/instance";
 import { useNavigate } from "react-router-dom";
+import Characters from "../../constants/character";
 
 const ChatInboxPage = () => {
   const [inboxList, setInboxList] = useState([]);
@@ -65,7 +66,7 @@ const ChatInboxPage = () => {
             return (
               <InboxContainer key={inbox.waitindRoomId}>
                 <ImageContainer>
-                  <img src="/assets/home/profile-bear.png" alt="캐릭터" />
+                  <img src={Characters[inbox.memberCharacter]} alt="캐릭터" />
                 </ImageContainer>
 
                 <div className="right-section">
