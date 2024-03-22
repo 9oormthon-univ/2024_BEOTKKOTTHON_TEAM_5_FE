@@ -22,13 +22,12 @@ const LandingPage = () => {
         </WrapContent>
       </Background>
     </>
-
   );
 };
 
 const Background = styled.div`
-  width: 100dvw;
-  height: 100dvh;
+  width: 100vh;
+  height: 100vh;
   background-color: #ff625d;
 `;
 
