@@ -176,7 +176,7 @@ const ChatPage = () => {
           }
         }
       }}>
-      <Toaster />
+      <Toaster position="bottom-center" />
       <Container ref={viewportRef}>
         <TopBar>
           <BackButton
