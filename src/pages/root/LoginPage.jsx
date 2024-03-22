@@ -7,6 +7,7 @@ import styled from "styled-components";
 import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
+import { onGetToken } from "../../firebaseConfig";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -49,12 +50,15 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
+
     if (idTestFlag || pwTestFlag) {
       setShowWarning(true);
       return;
     }
 
     try {
+      await onGetToken();
       await login(loginValue);
       setIsLoggedIn(true);
       navigate("/home");
