@@ -33,7 +33,7 @@ const ButtonStyle = styled.button`
 
 const Button = ({ children, size, ...props }) => {
   return (
-    <ButtonStyle size={size} {...props}>
+    <ButtonStyle $size={size} {...props}>
       {children}
     </ButtonStyle>
   );

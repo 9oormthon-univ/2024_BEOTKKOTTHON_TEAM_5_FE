@@ -21,6 +21,15 @@ const UserRegisterPage = () => {
 
   const navigate = useNavigate();
 
+  const isDisabled =
+    idTestFlag ||
+    pwTestFlag ||
+    checkPwTestFlag ||
+    !toggleState ||
+    !registerData.telNum;
+
+  const isLoginEmpty = registerData.loginId === "";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
@@ -55,21 +64,14 @@ const UserRegisterPage = () => {
       const res = await defaultInstance.post("/member/check/id", {
         loginId: registerData.loginId,
       });
-      if(res.data) {
-        alert('사용 가능한 아이디 입니다.');
+      if (res.data) {
+        alert("사용 가능한 아이디 입니다.");
       }
     } catch (error) {
-      alert('중복된 아이디 입니다.');
+      alert("중복된 아이디 입니다.");
       console.log(error);
     }
-  }
-
-  const isDisabled =
-    idTestFlag ||
-    pwTestFlag ||
-    checkPwTestFlag ||
-    !toggleState ||
-    !registerData.telNum;
+  };
 
   useEffect(() => {
     console.log(registerData);
@@ -102,6 +104,7 @@ const UserRegisterPage = () => {
           type="text"
           buttonLabel={"중복 확인"}
           buttonClickHandler={checkId}
+          buttonDisabled={isLoginEmpty}
           value={registerData.loginId}
           onChange={handleChange}
         />

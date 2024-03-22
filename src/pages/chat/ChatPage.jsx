@@ -125,6 +125,7 @@ const ChatPage = () => {
       body: JSON.stringify({
         chatMessage: draftMessage,
         senderId: opponentId,
+        receiverId: myId,
       }),
     });
     setDraftMessage("");

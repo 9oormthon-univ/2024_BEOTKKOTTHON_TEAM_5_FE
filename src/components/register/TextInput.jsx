@@ -17,6 +17,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding-top: 1rem;
+  flex-grow: 1;
   color: #333333;
   font-size: 1rem;
   border: none;
@@ -28,6 +29,7 @@ const Input = styled.input`
 
 const InputWrapper = styled.div`
   display: flex;
+  align-items: center;
   border-bottom: 1px solid #d9d9d9;
   padding-bottom: 0.3rem;
 
@@ -46,9 +48,8 @@ const TextInput = ({
   onTimerEnd,
   ...props
 }) => {
-
   const [timer, setTimer] = useState(timerState);
-  
+
   useEffect(() => {
     if (timer === 0) {
       onTimerEnd();
@@ -59,30 +60,36 @@ const TextInput = ({
 
       return () => clearTimeout(countdown);
     }
-
   }, [timer, onTimerEnd]);
 
   const minutes = Math.floor(timer / 60);
   const seconds = timer % 60;
 
   const id = useId();
-  
+
   return (
     <div>
-      {label && <Label htmlFor={id}>{label}
-        {timerState &&<div className="time-remaining">
-        {`${minutes}:${seconds.toString().padStart(2, '0')}`}
-        </div>}
-      </Label>}
+      {label && (
+        <Label htmlFor={id}>
+          {label}
+          {timerState && (
+            <div className="time-remaining">
+              {`${minutes}:${seconds.toString().padStart(2, "0")}`}
+            </div>
+          )}
+        </Label>
+      )}
       <InputWrapper>
         <Input id={id} {...props} />
         {buttonLabel && (
-          <Button
-            size="small"
-            disabled={buttonDisabled}
-            onClick={buttonClickHandler}>
-            {buttonLabel}
-          </Button>
+          <div>
+            <Button
+              size="small"
+              disabled={buttonDisabled}
+              onClick={buttonClickHandler}>
+              {buttonLabel}
+            </Button>
+          </div>
         )}
       </InputWrapper>
     </div>
