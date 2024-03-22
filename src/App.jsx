@@ -13,11 +13,6 @@ import NavLayout from "./layouts/NavLayout";
 import LoginPage from "./pages/root/LoginPage";
 import ProfileEditPage from "./pages/mypage/ProfileEditPage";
 import ChatInboxPage from "./pages/chat/ChatInboxPage";
-<<<<<<< HEAD
-import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
-import { Helmet } from "react-helmet-async";
-import './firebaseConfig';
-=======
 import FestivalDetailPage0 from "./pages/festival/FestivalDetailPage0";
 import Information from "./components/festival/Information";
 import Schedule from "./components/festival/Schedule";
@@ -25,7 +20,6 @@ import Program from "./components/festival/Program";
 import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
 import FestivalDetailPage2 from "./pages/festival/FestivalDetailPage2";
 import FestivalDetailPage3 from "./pages/festival/FestivalDetailPage3";
->>>>>>> main
 
 
 function App() {
