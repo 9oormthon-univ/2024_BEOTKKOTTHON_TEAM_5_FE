@@ -21,20 +21,6 @@ const UserRegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const checkId = async () => {
-    defaultInstance
-      .post("/member/check/id", {
-        loginId: registerData.loginId,
-      })
-      .then((res) => {
-        if (res.data) {
-          alert("사용 가능한 아이디입니다.");
-        } else {
-          alert("이미 사용중인 아이디입니다.");
-        }
-      });
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
@@ -118,7 +104,6 @@ const UserRegisterPage = () => {
           buttonClickHandler={checkId}
           value={registerData.loginId}
           onChange={handleChange}
-          buttonClickHandler={checkId}
         />
         {idTestFlag && (
           <Tip>영어, 숫자 조합 5자 이상 20자 이하로 작성해야 해요.</Tip>
