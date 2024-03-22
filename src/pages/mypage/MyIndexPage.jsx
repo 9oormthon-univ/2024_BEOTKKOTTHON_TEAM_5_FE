@@ -36,6 +36,13 @@ const MyIndexPage = () => {
 
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('clientToken');
+    localStorage.removeItem('memberId');
+    navigate("/");
+  }
+
   return (
     <MyPageContainer>
       <Header />
@@ -55,6 +62,7 @@ const MyIndexPage = () => {
           <div className="menu">피드백</div>
           <div className="menu">이용약관</div>
           <div className="menu">버전</div>
+          <div className="menu" onClick={handleLogout}>로그아웃</div>
         </WrapButton>
       </WrapMenu>
     </MyPageContainer>
