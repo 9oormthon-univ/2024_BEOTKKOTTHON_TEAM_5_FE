@@ -7,7 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import { authInstance, defaultInstance } from "../../api/instance";
+import { defaultInstance } from "../../api/instance";
 import HeaderPrev from "../../components/common/HeaderPrev";
 
 const UnivRegisterPage = () => {
@@ -118,25 +118,29 @@ const UnivRegisterPage = () => {
   const checkEmail = async () => {
     console.log(registerData.schoolEmail);
     try {
-      const res = await authInstance.post("/univ/check/email", {
+      const res = await defaultInstance.post("/univ/check/email", {
         schoolEmail: registerData.schoolEmail,
       });
-      console.log(res);
-      alert('사용 가능한 이메일 입니다.');
-      setEmailButtonLabel('메일 보내기');
+      if(res.data) {
+        alert('사용 가능한 이메일 입니다.');
+        setEmailButtonLabel('메일 보내기');
+      }
     } catch (error) {
+      alert('사용 불가능한 이메일 입니다.');
       console.log(error);
     }
   }
   const sendEmail = async () => {
     console.log(registerData.schoolEmail);
     try {
-      const res = await authInstance.post("/univ/send/email", {
+      const res = await defaultInstance.post("/univ/send/email", {
         schoolEmail: registerData.schoolEmail,
       });
-      console.log(res);
-      alert('인증 번호를 보냈습니다.');
+      if(res.data) {
+        alert('인증 번호를 보냈습니다.');
+      }
     } catch (error) {
+      alert('인증에 실패했습니다.');
       console.log(error);
     }
   }
@@ -154,13 +158,18 @@ const UnivRegisterPage = () => {
 
   const getCertificationHandler = async () => {
     try {
-      const res = await authInstance.post("/univ/certificate/email", {
+      const res = await defaultInstance.post("/univ/certificate/email", {
         number: certificationValue,
       });
-      console.log(res);
-      alert('인증되었습니다.');
-      setRegisterComplete(true);
+      if(res.data) {
+        console.log(res.data);
+        alert('인증되었습니다.');
+        setRegisterComplete(true);
+      } else {
+        alert('인증에 실패했습니다. 다시 시도해주세요.');
+      }
     } catch (error) {
+      alert('인증에 실패했습니다. 다시 시도해주세요.');
       console.log(error);
     }
   }

@@ -7,7 +7,7 @@ import { registerDataState } from "../../store/registerDataState";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import HeaderPrev from "../../components/common/HeaderPrev";
-import { authInstance } from "../../api/instance";
+import { defaultInstance } from "../../api/instance";
 
 const UserRegisterPage = () => {
   const [registerData, setRegisterData] = useRecoilState(registerDataState);
@@ -52,12 +52,14 @@ const UserRegisterPage = () => {
 
   const checkId = async () => {
     try {
-      const res = await authInstance.post("/member/check/id", {
+      const res = await defaultInstance.post("/member/check/id", {
         loginId: registerData.loginId,
       });
-      console.log(res);
-      alert('사용 가능한 아이디 입니다.');
+      if(res.data) {
+        alert('사용 가능한 아이디 입니다.');
+      }
     } catch (error) {
+      alert('중복된 아이디 입니다.');
       console.log(error);
     }
   }
