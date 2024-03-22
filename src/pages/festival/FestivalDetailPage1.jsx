@@ -2,7 +2,6 @@ import React from "react";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/common/Header";
-import { Helmet } from "react-helmet-async";
 
 const DetailContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -87,14 +86,6 @@ const FestivalDetailPage1 = () => {
 
   return (
     <>
-      <Helmet>
-        <meta property="og:title" content="Distance" />
-        <meta property="og:description" content="축제를 200% 즐기는 방법" />
-        <meta
-          property="og:image"
-          content="https://media.istockphoto.com/id/991829024/ko/%EC%82%AC%EC%A7%84/%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91-%EB%85%B8%EC%95%84-%EC%83%90%EB%9F%AC%EB%93%9C%EC%99%80-%EA%B1%B4%EA%B0%95-%ED%95%9C-%EC%A0%80%EB%85%81-%EC%8B%9D%EC%82%AC%EB%A5%BC-%EB%A8%B9%EB%8A%94-%EC%BB%A4%ED%94%8C.jpg?s=612x612&w=0&k=20&c=4owrefzbVEVRw49-Af4fU5wgBQdFZL4RwgppoQN2_H4="
-        />
-      </Helmet>
       <DetailContainer>
 
         <Header />
