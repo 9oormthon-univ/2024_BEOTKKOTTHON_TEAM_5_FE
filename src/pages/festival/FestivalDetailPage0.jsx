@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/common/Header";
 
 const DetailContainer = styled.section`
-  padding: 2rem 1.5rem;
+padding: 2rem 1.5rem 8rem 1.5rem;
 `;
 const PrevButton = styled.img`
   position: fixed;
   left: 1.5rem;
-  bottom: 5rem;
+  bottom: 1.5rem;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -59,6 +59,11 @@ const CardDiv = styled.div`
   white-space: nowrap;
   gap: 0.5rem;
   padding: 1rem 0;
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
 `;
 const ContextDiv = styled.p`
   font-size: 1rem;
@@ -105,10 +110,9 @@ const FestivalDetailPage0 = () => {
         </TextDiv>
         <ContentDiv>
           <CardDiv>
-            <img src="/assets/festival/temp-img.png" alt="Card News" />
-            <img src="/assets/festival/temp-img.png" alt="Card News" />
-            <img src="/assets/festival/temp-img.png" alt="Card News" />
-            <img src="/assets/festival/temp-img.png" alt="Card News" />
+            <img src="/assets/festival/contentsImg/1.jpg" alt="Card News" />
+            <img src="/assets/festival/contentsImg/2.jpg" alt="Card News" />
+            <img src="/assets/festival/contentsImg/3.jpg" alt="Card News" />
           </CardDiv>
           <ContextDiv>
             존경하는 참가자 여러분,<br /> <br />
