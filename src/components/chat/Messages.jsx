@@ -55,7 +55,7 @@ const Messages = ({ messages, myId }) => {
           {messages.map((message, index) => (
             <Message
               key={index}
-              nickname={message.senderId}
+              nickname={message.senderName}
               content={message.chatMessage}
               time={message.sendDt}
               read={message.unreadCount}
