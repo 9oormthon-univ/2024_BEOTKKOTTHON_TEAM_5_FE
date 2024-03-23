@@ -205,13 +205,13 @@ const ChatPage = () => {
             {isCallActive ? (
               <a href={`tel:${opponentTelNum}`}>
                 <img
-                  src="/assets/Callicon-active.svg"
+                  src="/assets/Callicon-active.png"
                   onClick={() => {}}
                   alt="전화버튼"
                 />
               </a>
             ) : (
-              <img src="/assets/Callicon.svg" alt="전화버튼" />
+              <img src="/assets/Callicon.png" alt="전화버튼" />
             )}
           </CallButton>
         </TopBar>
