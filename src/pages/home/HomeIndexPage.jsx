@@ -202,7 +202,8 @@ const ReloadButton = styled.button`
   border-radius: 50%;
   border: none;
   background-color: #ffffff;
-  box-shadow: 0px 2px 8px 0px #33333366;
+  box-shadow: 0px 4px 10px 0px #0000001A;
+
 
   > .time-remaining {
     position: absolute;
