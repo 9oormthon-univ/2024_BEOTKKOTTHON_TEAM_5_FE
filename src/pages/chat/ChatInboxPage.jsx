@@ -95,7 +95,13 @@ const ChatInboxPage = () => {
             );
           })
         ) : (
-          <div>받은 요청이 없어요!</div>
+          <EmptyContainer>
+            <div className="wrap">
+              <img src={"/assets/empty-icon.png"} alt="empty icon" />
+              <div>요청함이 비어있어요!</div>
+            </div>
+          </EmptyContainer>
+
         )}
       </Spacer>
     </PagePadding>
@@ -169,4 +175,28 @@ const LeaveButton = styled.button`
   padding: 6px 12px;
   font-weight: 600;
   font-size: 8px;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 50%;
+
+  > .wrap {
+    text-align: center; // 텍스트를 중앙 정렬합니다.
+    
+    > img {
+      margin-bottom: 1rem; // 아이콘과 텍스트 사이의 간격을 조정합니다.
+    }
+
+    > div {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 22px;
+    }
+  }
+
+
 `;

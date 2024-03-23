@@ -120,7 +120,12 @@ const ChatIndexPage = () => {
                 );
               })
             ) : (
-              <div>접속중인 대화방이 없어요!</div>
+              <EmptyContainer>
+                <div className="wrap">
+                  <img src={"/assets/empty-icon.png"} alt="empty icon" />
+                  <div>채팅을 시작해보세요!</div>
+                </div>
+              </EmptyContainer>
             )}
           </Spacer>
         </>
@@ -232,6 +237,30 @@ const UnreadCount = styled.div`
   padding: 4px 8px;
   font-size: 0.6rem;
   font-weight: 600;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 50%;
+
+  > .wrap {
+    text-align: center; // 텍스트를 중앙 정렬합니다.
+    
+    > img {
+      margin-bottom: 1rem; // 아이콘과 텍스트 사이의 간격을 조정합니다.
+    }
+
+    > div {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 22px;
+    }
+  }
+
+
 `;
 
 export default ChatIndexPage;
