@@ -14,9 +14,9 @@ const UserRegisterPage = () => {
   const [idTestFlag, setIdTestFlag] = useState(false);
   const [pwTestFlag, setPwTestFlag] = useState(false);
   const [checkPwTestFlag, setCheckPwTestFlag] = useState(false);
+  const [checkPhone, setCheckPhone] = useState(false);
   const [toggleState, setToggleState] = useState("");
 
-  const ID_REGEX = /^[a-z0-9]{5,20}$/;
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
 
   const navigate = useNavigate();
@@ -28,14 +28,16 @@ const UserRegisterPage = () => {
     !toggleState ||
     !registerData.telNum;
 
-  const isLoginEmpty = registerData.loginId === "";
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
 
     if (name === "loginId") {
-      if (ID_REGEX.test(value)) {
+      const isLengthValid = value.length >= 5 && value.length <= 20;
+      const containsLetters = /[a-zA-Z]/.test(value);
+      const containsNumbers = /\d/.test(value);
+
+      if (isLengthValid && containsLetters && containsNumbers) {
         setIdTestFlag(false);
       } else {
         setIdTestFlag(true);
@@ -51,10 +53,18 @@ const UserRegisterPage = () => {
     }
 
     if (name === "checkPassword") {
-      if (value !== registerData.password) {
-        setCheckPwTestFlag(true);
-      } else {
+      if (value === registerData.password) {
         setCheckPwTestFlag(false);
+      } else {
+        setCheckPwTestFlag(true);
+      }
+    }
+
+    if( name === "telNum" ) {
+      if (value.length===11) {
+        setCheckPwTestFlag(false);
+      } else {
+        setCheckPwTestFlag(true);
       }
     }
   };
@@ -104,7 +114,7 @@ const UserRegisterPage = () => {
           type="text"
           buttonLabel={"중복 확인"}
           buttonClickHandler={checkId}
-          buttonDisabled={isLoginEmpty}
+          buttonDisabled={idTestFlag}
           value={registerData.loginId}
           onChange={handleChange}
         />
@@ -146,14 +156,17 @@ const UserRegisterPage = () => {
         setRegisterData={setRegisterData}
       />
 
-      <TextInput
-        label="전화번호"
-        name="telNum"
-        type="number"
-        placeholder="예시) 01012345678"
-        value={registerData.telNum}
-        onChange={handleChange}
-      />
+      <div>
+        <TextInput
+          label="전화번호"
+          name="telNum"
+          type="number"
+          placeholder="예시) 01012345678"
+          value={registerData.telNum}
+          onChange={handleChange}
+        />
+        {checkPhone && <Tip>비밀번호가 일치하지 않아요.</Tip>}
+      </div>
 
       <Button
         size="large"
