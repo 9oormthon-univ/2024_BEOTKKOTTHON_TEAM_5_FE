@@ -22,7 +22,6 @@ const LoginPage = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   const ID_REGEX = /^[a-z0-9]{5,20}$/;
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
 
@@ -52,8 +51,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
 
     if (idTestFlag || pwTestFlag) {
       setShowWarning(true);
@@ -88,7 +85,9 @@ const LoginPage = () => {
               title={
                 <>
                   <div className="title-big">축제를 200% 즐기기</div>
-                  <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
+                  <div className="title-small">
+                    취향에 맞는 프로필을 골라봐요
+                  </div>
                 </>
               }
               navigateTo={"/"}
@@ -100,7 +99,7 @@ const LoginPage = () => {
                 name="id"
                 type="text"
                 onChange={handleChange}
-                placeholder={"영어, 숫자 조합 5자 이상 20자 이하"}
+                placeholder={"영문 5자 이상 20자 이하"}
               />
             </div>
 
@@ -127,7 +126,7 @@ const LoginPage = () => {
             로그인하기
           </Button>
         </WrapForm>
-        )}
+      )}
     </>
   );
 };
