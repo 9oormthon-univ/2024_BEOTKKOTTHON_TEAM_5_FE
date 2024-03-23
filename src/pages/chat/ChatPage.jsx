@@ -15,6 +15,7 @@ const ChatPage = () => {
   const [isCallActive, setIsCallActive] = useState(false);
   const [opponentTelNum, setOpponentTelNum] = useState("");
   const [reportMessage, setReportMessage] = useState("");
+  const [displayMessage, setDisplayMessage] = useState([]);
 
   const reportModalRef = useRef();
 
@@ -39,6 +40,13 @@ const ChatPage = () => {
     setReportMessage("");
     reportModalRef.current.close();
   };
+
+  useEffect(() => {
+    let tempMessages = messages.filter((el) => {
+      return el.chatMessage !== "";
+    })
+    setDisplayMessage(tempMessages)
+  }, [messages]);
 
   const handleReportUser = async (e) => {
     e.preventDefault();
@@ -214,6 +222,7 @@ const ChatPage = () => {
     }
   }, [isCallActive]);
 
+
   useEffect(() => {
     console.log(messages);
     const saveMessages = () => {
@@ -227,6 +236,26 @@ const ChatPage = () => {
       saveMessages();
     }
   }, [messages]);
+
+  useEffect(() => {
+    const publishMessage = () => {
+      client.publish({
+        destination: `/app/chat/${roomId}`,
+        body: JSON.stringify({
+          chatMessage: "",
+          senderId: opponentId,
+          receiverId: myId,
+        }),
+      });
+      console.log('메시지가 전송되었습니다.');
+    };
+
+    // 마운트 시 메시지 보내는 함수를 10초마다 실행
+    const intervalId = setInterval(publishMessage, 40000);
+
+    // 언마운트 시 반복 작업 중지
+    return () => clearInterval(intervalId);
+  }, [client, roomId, draftMessage, opponentId, myId]);
 
   return (
     <Wrapper
@@ -274,7 +303,7 @@ const ChatPage = () => {
           </div>
         </TopBar>
 
-        <Messages messages={messages} myId={myId} />
+        <Messages messages={displayMessage} myId={myId} />
         <MessageInput
           value={draftMessage}
           buttonClickHandler={openReportModal}

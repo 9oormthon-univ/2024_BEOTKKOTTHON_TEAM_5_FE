@@ -37,6 +37,7 @@ const ChatIndexPage = () => {
   };
 
   useEffect(() => {
+    console.log(chatList);
     fetchChatList();
   }, []);
 
@@ -104,6 +105,16 @@ const ChatIndexPage = () => {
 
                       <div className="profile-section">
                         <Profile>{chat.roomName}</Profile>
+
+
+
+
+
+
+
+
+
+                        
                         <Message>{chat.lastMessage}</Message>
                       </div>
                     </div>
