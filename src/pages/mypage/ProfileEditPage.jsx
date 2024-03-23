@@ -6,7 +6,7 @@ import BlankModal from "../../components/common/BlankModal";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 import Button from "../../components/common/Button";
 import HeaderPrev from "../../components/common/HeaderPrev";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authInstance } from "../../api/instance";
 
 const ProfileEditPage = () => {
