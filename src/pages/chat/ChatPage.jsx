@@ -202,7 +202,7 @@ const ChatPage = () => {
             <div className="subtitle">{distance}m</div>
           </WrapTitle>
           <CallButton>
-            {/* {isCallActive ? (
+            {isCallActive ? (
               <a href={`tel:${opponentTelNum}`}>
                 <img
                   src="/assets/callicon-active.png"
@@ -212,7 +212,7 @@ const ChatPage = () => {
               </a>
             ) : (
               <img src="/assets/callicon.png" alt="전화버튼" />
-            )} */}
+            )}
           </CallButton>
         </TopBar>
 
