@@ -36,7 +36,7 @@ const ChatPage = () => {
       setDistance(parseDistance);
     };
     fetchDistance();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -122,6 +122,31 @@ const ChatPage = () => {
     setDraftMessage(e.target.value);
   };
 
+  const handleLeaveRoom = async (e) => {
+    e.preventDefault();
+    const res = window.confirm("정말로 나가시겠습니까?");
+    if (!res) return;
+
+    client.publish({
+      destination: `/app/chat/${roomId}`,
+      body: JSON.stringify({
+        chatMessage: "상대방이 나갔습니다.",
+        senderId: opponentId,
+        receiverId: myId,
+      }),
+    });
+
+    await authInstance.get(`/room-member/leave/${roomId}`).then(() => {
+      const localStorageChat = JSON.parse(
+        localStorage.getItem("staleMessages")
+      );
+      delete localStorageChat[roomId];
+      localStorage.setItem("staleMessages", JSON.stringify(localStorageChat));
+
+      navigate(-1);
+    });
+  };
+
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -202,19 +227,22 @@ const ChatPage = () => {
             <div className="title">상대방과의 거리</div>
             <div className="subtitle">{distance}m</div>
           </WrapTitle>
-          <CallButton>
-            {isCallActive ? (
-              <a href={`tel:${opponentTelNum}`}>
-                <img
-                  src="/assets/callicon-active.png"
-                  onClick={() => {}}
-                  alt="전화버튼"
-                />
-              </a>
-            ) : (
-              <img src="/assets/callicon.png" alt="전화버튼" />
-            )}
-          </CallButton>
+          <div>
+            <CallButton>
+              {isCallActive ? (
+                <a href={`tel:${opponentTelNum}`}>
+                  <img src="/assets/callicon-active.png" alt="전화버튼" />
+                </a>
+              ) : (
+                <img src="/assets/callicon.png" alt="전화버튼" />
+              )}
+            </CallButton>
+            <LeaveButton onClick={handleLeaveRoom}>
+              <img src="/assets/leave-button.png" alt="나가기 버튼" />
+            </LeaveButton>
+          </div>
+          {/* 나가기 버튼 먼저 놓고 */}
+          {/* 나가기 로직 구현 */}
         </TopBar>
 
         <Messages messages={messages} myId={myId} />
@@ -243,17 +271,25 @@ const Container = styled.div`
   transition: height 0.3s;
 `;
 
-const BackButton = styled.div`
-  position: absolute;
-  left: 1rem;
+const BackButton = styled.button`
+  background: none;
+  border: none;
 `;
 
-const CallButton = styled.div`
-  position: absolute;
-  right: 1rem;
+const CallButton = styled.button`
+  background: none;
+  border: none;
+`;
+
+const LeaveButton = styled.button`
+  background: none;
+  border: none;
 `;
 
 const WrapTitle = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
 
   > .title {
@@ -272,7 +308,7 @@ const TopBar = styled.div`
   padding: 0.75rem 1rem;
   height: 3rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
