@@ -18,16 +18,16 @@ const messaging = FBapp.messaging();
 
 
 messaging.onBackgroundMessage((payload) => {
-  console.log("[firebase-messaging-sw.js] Received background message ", payload);
+  // console.log("[firebase-messaging-sw.js] Received background message ", payload);
 
-  const notificationTitle = "백그라운드 메세지 제목입니다";
-  const notificationOptions = {
-    body: payload.notification.body, // 'payload'의 'notification.body'를 사용
-    icon: "/firebase-logo.png"
-  };
+  // const notificationTitle = "백그라운드 메세지 제목입니다";
+  // const notificationOptions = {
+  //   body: payload.notification.body, // 'payload'의 'notification.body'를 사용
+  //   icon: "/firebase-logo.png"
+  // };
 
-  //알림 표시
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // //알림 표시
+  // self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 
