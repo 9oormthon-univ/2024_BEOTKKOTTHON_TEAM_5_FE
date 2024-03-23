@@ -8,6 +8,7 @@ const NotificationAnnouncementPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js");
     await onGetToken()
       .then(() => {
         navigate("/home");
@@ -19,24 +20,24 @@ const NotificationAnnouncementPage = () => {
 
   if (Notification.permission === "granted") {
     return <Navigate to="/home" />;
-  } else {
-    return (
-      <WrapPage>
-        <WrapHeader>
-          <div className="title-big">알림을 허용해주세요!</div>
-          <div className="title-small">
-            알림을 허용해서 채팅을 실시간으로 확인해보세요.
-          </div>
-        </WrapHeader>
-
-        <img src="/assets/noti-announcement.svg" alt="알림 허용 이미지" />
-
-        <Button size="large" onClick={handleSubmit}>
-          알림 허용하기
-        </Button>
-      </WrapPage>
-    );
   }
+
+  return (
+    <WrapPage>
+      <WrapHeader>
+        <div className="title-big">알림을 허용해주세요!</div>
+        <div className="title-small">
+          알림을 허용해서 채팅을 실시간으로 확인해보세요.
+        </div>
+      </WrapHeader>
+
+      <img src="/assets/noti-announcement.svg" alt="알림 허용 이미지" />
+
+      <Button size="large" onClick={handleSubmit}>
+        알림 허용하기
+      </Button>
+    </WrapPage>
+  );
 };
 
 export default NotificationAnnouncementPage;
