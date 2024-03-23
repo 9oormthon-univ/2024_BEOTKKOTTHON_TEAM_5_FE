@@ -28,19 +28,3 @@ messaging.onBackgroundMessage((payload) => {
   // 알림 표시
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
-
-//백그라운드 서비스워커 설정 (백그라운드에서 메시지를 수신할 때 호출됨)
-messaging.onBackgroundMessage(messaging, (payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-  const notificationTitle = "백그라운드 메세지 제목입니다";
-  const notificationOptions = {
-    body: payload,
-    icon: "/firebase-logo.png",
-  };
-
-  //알림 표시
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
