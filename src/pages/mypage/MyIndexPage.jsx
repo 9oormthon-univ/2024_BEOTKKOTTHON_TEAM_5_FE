@@ -5,6 +5,7 @@ import Header from "../../components/common/Header";
 import { useEffect } from "react";
 import { authInstance } from "../../api/instance";
 import ClipLoader from "react-spinners/ClipLoader";
+import Characters from "../../constants/character";
 
 const MyPageContainer = styled.section`
   padding: 2rem 1.5rem;
@@ -134,7 +135,7 @@ const MyIndexPage = () => {
             <WrapMenu>
               <div className="title">마이페이지</div>
               <WarpProfile>
-                <img src={`/assets/home/profile-${myData.memberCharacter}.png`} alt="festival" />
+                <img src={Characters[myData.memberCharacter]} alt="festival" />
                 <TextDiv>
                   <div className="title">{myData.department}, {myData.mbti}</div>
                   <WrapTag>
