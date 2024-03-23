@@ -7,11 +7,11 @@ import { calculateDistanceInMeter } from "../utils/calculateDistanceInMeter";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState } from "../store/auth";
 import { authInstance } from "../api/instance";
+import toast, { Toaster } from "react-hot-toast";
 
 const NavLayout = () => {
-
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  
+
   const navigate = useNavigate();
   const [curLocation, setCurLocation] = useState({
     lat: 0,
@@ -88,12 +88,18 @@ const NavLayout = () => {
   }, [isLoggedIn, navigate]); // navigate를 의존성 배열에 추가
 
   useEffect(() => {
-    const memberId = localStorage.getItem("memberId");
-    if (memberId) {
-      authInstance.post(`/gps/update`, {
-        latitude: curLocation.lat,
-        longitude: curLocation.lng,
-      });
+    if (curLocation.error) {
+      toast.error(
+        "위치 정보를 가져오는데 실패했어요! 앱 종료 후 다시 시도해주세요."
+      );
+    } else {
+      const memberId = localStorage.getItem("memberId");
+      if (memberId) {
+        authInstance.post(`/gps/update`, {
+          latitude: curLocation.lat,
+          longitude: curLocation.lng,
+        });
+      }
     }
   }, [curLocation]);
 
@@ -103,6 +109,7 @@ const NavLayout = () => {
         <Outlet />
       </Padding>
       <TabBar />
+      <Toaster position="bottom-center" />
     </>
   );
 };
