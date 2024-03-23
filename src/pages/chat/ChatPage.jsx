@@ -130,7 +130,7 @@ const ChatPage = () => {
     client.publish({
       destination: `/app/chat/${roomId}`,
       body: JSON.stringify({
-        chatMessage: "상대방이 나갔습니다.",
+        chatMessage: "[알림]상대방이 나갔습니다.",
         senderId: opponentId,
         receiverId: myId,
       }),
