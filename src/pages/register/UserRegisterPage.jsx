@@ -60,11 +60,11 @@ const UserRegisterPage = () => {
       }
     }
 
-    if( name === "telNum" ) {
-      if (value.length===11) {
-        setCheckPwTestFlag(false);
+    if (name === "telNum") {
+      if (value.length === 11) {
+        setCheckPhone(false);
       } else {
-        setCheckPwTestFlag(true);
+        setCheckPhone(true);
       }
     }
   };
