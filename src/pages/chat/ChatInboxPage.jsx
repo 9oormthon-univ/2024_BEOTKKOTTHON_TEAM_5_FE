@@ -187,11 +187,6 @@ const Profile = styled.div`
   font-weight: 600;
 `;
 
-const Message = styled.div`
-  color: #ff625d;
-  font-size: 0.75rem;
-`;
-
 const AcceptButton = styled.button`
   background-color: #ff625d;
   border: none;
