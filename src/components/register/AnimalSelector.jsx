@@ -21,7 +21,7 @@ const AnimalSelector = ({ label, clickHandler }) => {
         </StyledInput>
         <StyledInput>
           <img src={Characters.RAT} alt="Rat Character" />
-          <input type="radio" name="animal" value="HAMSTER" />
+          <input type="radio" name="animal" value="RAT" />
         </StyledInput>
         <StyledInput>
           <img src={Characters.FOX} alt="Fox Character" />
