@@ -20,17 +20,20 @@ import Program from "./components/festival/Program";
 import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
 import FestivalDetailPage2 from "./pages/festival/FestivalDetailPage2";
 import FestivalDetailPage3 from "./pages/festival/FestivalDetailPage3";
-
+import NotificationAnnouncementPage from "./pages/root/NotificationAnnouncementPage";
 
 function App() {
   return (
-
     <BrowserRouter>
-
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
         <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/notification"
+          element={<NotificationAnnouncementPage />}
+        />
 
         <Route path="/register/user" element={<UserRegisterPage />} />
         <Route path="/register/univ" element={<UnivRegisterPage />} />
@@ -61,7 +64,6 @@ function App() {
         <Route path="/chat/:chatRoomId" element={<ChatPage />} />
       </Routes>
     </BrowserRouter>
-
   );
 }
 
