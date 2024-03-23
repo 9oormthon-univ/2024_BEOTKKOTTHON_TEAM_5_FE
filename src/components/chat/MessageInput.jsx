@@ -2,25 +2,19 @@ import styled from "styled-components";
 
 const MessageInput = ({
   value,
+  buttonClickHandler,
   changeHandler,
   submitHandler,
-  focusHandler,
-  blurHandler,
 }) => {
   return (
     <MeassageInputContainer>
-      <WrapButton>
-        <img src={"/assets/media-button.png"} alt="Media" />
+      <WrapButton onClick={buttonClickHandler}>
+        <img src={"/assets/report-button.svg"} alt="신고하기" />
       </WrapButton>
       <WrapInputForm onSubmit={submitHandler}>
-        <Input
-          value={value}
-          onChange={changeHandler}
-          onFocus={focusHandler}
-          onBlur={blurHandler}
-        />
+        <Input value={value} onChange={changeHandler} />
         <WrapButton type="submit">
-          <img src={"/assets/send-button.png"} alt="Send" />
+          <img src={"/assets/send-button.png"} alt="보내기" />
         </WrapButton>
       </WrapInputForm>
     </MeassageInputContainer>
