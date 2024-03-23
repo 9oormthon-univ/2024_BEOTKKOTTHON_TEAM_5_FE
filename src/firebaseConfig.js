@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
+navigator.serviceWorker.register("/firebase-messaging-sw.js");
+
 const firebaseConfig = {
   apiKey: "AIzaSyAQoBXJLWLtt-IrmLEx7UZE7zpXnmEc5pY",
   projectId: "distance-f328d",
@@ -16,7 +18,6 @@ const messaging = getMessaging(FBapp);
 
 // client 토큰 발급 받기
 export const onGetToken = async () => {
-  navigator.serviceWorker.register("/firebase-messaging-sw.js");
   return getToken(messaging, {
     vapidKey:
       "BL3TJNMH7nqPV4wLrzYhZOzefyN-WlP5--CzS1RO2WWKACm5b32tv2caLiKdbahJBQDeDpsNwZbGvrZJjajR26E",

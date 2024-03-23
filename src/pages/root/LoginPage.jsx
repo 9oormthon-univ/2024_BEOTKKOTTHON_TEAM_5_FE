@@ -8,6 +8,7 @@ import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import ClipLoader from "react-spinners/ClipLoader";
+import { onGetToken } from "../../firebaseConfig";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -58,10 +59,10 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-      // await onGetToken();
+      await onGetToken();
       await login(loginValue);
       setIsLoggedIn(true);
-      navigate("/notification");
+      navigate("/home");
     } catch (err) {
       setShowWarning(true);
       setLoginResult(err.response?.status || "Login failed");
