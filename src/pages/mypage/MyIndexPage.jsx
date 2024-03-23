@@ -115,16 +115,6 @@ const MyIndexPage = () => {
     fetchData();
   }, []);
 
-
-  //확인용
-  useEffect(() => {
-    console.log("myData", myData);
-    console.log(myData.memberCharacter);
-  }, [myData])
-
-
-
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('clientToken');
@@ -143,20 +133,18 @@ const MyIndexPage = () => {
           <>
             <WrapMenu>
               <div className="title">마이페이지</div>
-
               <WarpProfile>
-
                 <img src={`/assets/home/profile-${myData.memberCharacter}.png`} alt="festival" />
                 <TextDiv>
                   <div className="title">{myData.department}, {myData.mbti}</div>
                   <WrapTag>
                     {myData.memberHobbyDto && myData.memberHobbyDto.map((hobby, index) =>
-                      <div className="tag"># {hobby.hobby}</div>
+                      <div key={index} className="tag"># {hobby.hobby}</div>
                     )}
                   </WrapTag>
                   <WrapTag>
                     {myData.memberTagDto && myData.memberTagDto.map((tag, index) =>
-                      <div className="tag"># {tag.tag}</div>
+                      <div key={index} className="tag"># {tag.tag}</div>
                     )}
                   </WrapTag>
                 </TextDiv>

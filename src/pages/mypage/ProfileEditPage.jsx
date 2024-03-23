@@ -12,15 +12,14 @@ import { authInstance } from "../../api/instance";
 const ProfileEditPage = () => {
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const [preData, setPrevData] = useState(location.state);
+  // const location = useLocation();
+  // const [preData, setPrevData] = useState(location.state);
 
-  const [selectedAnimal, setSelectedAnimal] = useState(preData.memberCharacter);
+  const [selectedAnimal, setSelectedAnimal] = useState();
   const [selectedMBTI, setSelectedMBTI] = useState("");
   const [attractiveness, setAttractiveness] = useState([]);
   const [hobby, setHobby] = useState([]);
   const [hashtagCount, setHashtagCount] = useState(0);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,13 +84,6 @@ const ProfileEditPage = () => {
     setHashtagCount(attractiveness.length + hobby.length);
   }, [attractiveness, hobby]);
 
-
-
-  //확인용
-  useEffect(() => {
-    console.log("prevData", preData);
-  }, []); 
-
   return (
     <div>
       <WrapContent>
@@ -101,7 +93,6 @@ const ProfileEditPage = () => {
         label="캐릭터 선택하기"
         clickHandler={handleAnimalClick}
       />
-
       <WrapContent>
         <div>
           <Label>MBTI 선택하기</Label>

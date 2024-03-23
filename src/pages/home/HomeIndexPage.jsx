@@ -40,8 +40,8 @@ const HomeIndexPage = () => {
             </div>
             <div className="text-tags">
               {selectedProfile.memberInfoDto.memberHobbyDto.map(
-                (tag, index) => (
-                  <div key={index}>#{tag.hobby} </div>
+                (hobby, index) => (
+                  <div key={index}>#{hobby.hobby} </div>
                 )
               )}
               {selectedProfile.memberInfoDto.memberTagDto.map((tag, index) => (
