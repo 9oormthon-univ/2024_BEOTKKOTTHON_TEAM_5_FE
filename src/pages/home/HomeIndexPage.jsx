@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import { authInstance } from "../../api/instance";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import Characters from "../../constants/character";
 import Header from "../../components/common/Header";
@@ -20,6 +21,7 @@ const HomeIndexPage = () => {
 
   const [isReloadButtonDisabled, setIsReloadButtonDisabled] = useState(false);
   const [remainingTimeToReload, setRemainingTimeToReload] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const content = () => {
     return (
@@ -54,15 +56,19 @@ const HomeIndexPage = () => {
 
   const fetchGetMembers = async () => {
     try {
+      setLoading(true);
       const res = await authInstance.get("/gps/matching");
       setMemberState(res.data.matchedUsers);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const reloadMembers = async () => {
     try {
+      setLoading(true);
       setIsReloadButtonDisabled(true); // 버튼 비활성화
       setRemainingTimeToReload(3); // 초기 남은 시간 설정
 
@@ -83,6 +89,8 @@ const HomeIndexPage = () => {
     } catch (error) {
       console.log(error);
       setIsReloadButtonDisabled(false); // 에러 발생 시 버튼 활성화
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,15 +156,21 @@ const HomeIndexPage = () => {
       <HomeContainer>
         <Header />
         <ProfileContainer>
-          {memberState.map((profile, index) => (
-            <Profile
-              key={index}
-              id={profile.memberId}
-              side={index % 2 === 0 ? "left" : "right"}
-              profile={profile}
-              onClick={() => handleSelectProfile(profile)}
-            />
-          ))}
+        {loading ? (
+            <LoaderContainer>
+              <ClipLoader color={"#FF625D"} loading={loading} size={50} />
+            </LoaderContainer>
+          ) : (
+            memberState.map((profile, index) => (
+              <Profile
+                key={index}
+                id={profile.memberId}
+                side={index % 2 === 0 ? "left" : "right"}
+                profile={profile}
+                onClick={() => handleSelectProfile(profile)}
+              />
+            ))
+          )}
         </ProfileContainer>
         <ReloadButton onClick={reloadMembers} disabled={isReloadButtonDisabled}>
           {isReloadButtonDisabled && (
@@ -252,5 +266,18 @@ const TextDiv = styled.div`
     margin: 1.5rem auto;
   }
 `;
+
+const LoaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+`;
+
 
 export default HomeIndexPage;
