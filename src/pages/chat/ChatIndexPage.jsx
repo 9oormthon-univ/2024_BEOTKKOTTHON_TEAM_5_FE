@@ -40,16 +40,16 @@ const ChatIndexPage = () => {
     fetchChatList();
   }, []);
 
-  const handleLeaveChat = async (chatId) => {
-    await authInstance.get(`/room-member/leave/${chatId}`).then(() => {
-      const localStorageChat = JSON.parse(
-        localStorage.getItem("staleMessages")
-      );
-      delete localStorageChat[chatId];
-      localStorage.setItem("staleMessages", JSON.stringify(localStorageChat));
-      fetchChatList(); // 새로 고침
-    });
-  };
+  // const handleLeaveChat = async (chatId) => {
+  //   await authInstance.get(`/room-member/leave/${chatId}`).then(() => {
+  //     const localStorageChat = JSON.parse(
+  //       localStorage.getItem("staleMessages")
+  //     );
+  //     delete localStorageChat[chatId];
+  //     localStorage.setItem("staleMessages", JSON.stringify(localStorageChat));
+  //     fetchChatList(); // 새로 고침
+  //   });
+  // };
 
   const formatTime = (time) => {
     const today = new Date();
@@ -212,14 +212,14 @@ const Time = styled.div`
   font-size: 0.6rem;
 `;
 
-const LeaveButton = styled.button`
-  background-color: #ff6b6b;
-  color: #ffffff;
-  border: none;
-  border-radius: 9999px;
-  padding: 6px 12px;
-  font-weight: 600;
-`;
+// const LeaveButton = styled.button`
+//   background-color: #ff6b6b;
+//   color: #ffffff;
+//   border: none;
+//   border-radius: 9999px;
+//   padding: 6px 12px;
+//   font-weight: 600;
+// `;
 
 const WrapInboxButton = styled.div`
   display: flex;
