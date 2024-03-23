@@ -52,6 +52,17 @@ const ChatInboxPage = () => {
     fetchInboxList(); // 새로고침
   };
 
+  const handleDenyChat = async (chatWaitingId) => {
+    await authInstance
+      .delete(`/waiting/${chatWaitingId}`)
+      .then((res) => {
+        fetchInboxList(); // 새로고침
+      })
+      .catch((error) => {
+        alert("요청 거절에 실패했습니다. 다시 시도해주세요.");
+      });
+  };
+
   useEffect(() => {
     fetchInboxList();
   }, []);
@@ -72,10 +83,12 @@ const ChatInboxPage = () => {
                 <div className="right-section">
                   <div className="upper-area">
                     <Profile>{inbox.myRoomName}</Profile>
-                    <LeaveButton
+                  </div>
+                  <div className="lower-area">
+                    <AcceptButton
                       onClick={() => {
                         const isAccepted =
-                          window.confirm("대화를 수락하시겠습니까?");
+                          window.confirm("요청을 수락하시겠습니까?");
                         if (isAccepted) {
                           handleAcceptChat(
                             inbox.loveReceiverId,
@@ -85,11 +98,19 @@ const ChatInboxPage = () => {
                         }
                       }}>
                       수락하기
-                    </LeaveButton>
+                    </AcceptButton>
+                    <DenyButton
+                      onClick={() => {
+                        const isAccepted =
+                          window.confirm("요청을 거절하시겠습니까?");
+
+                        if (isAccepted) {
+                          handleDenyChat(inbox.waitingRoomId);
+                        }
+                      }}>
+                      거절하기
+                    </DenyButton>
                   </div>
-                  <Message>
-                    '수락하기'를 누르면 대화를 시작할 수 있어요!
-                  </Message>
                 </div>
               </InboxContainer>
             );
@@ -128,6 +149,15 @@ const InboxContainer = styled.div`
       display: flex;
       justify-content: space-between;
     }
+
+    > .lower-area {
+      display: flex;
+      gap: 0.5rem;
+
+      > button {
+        flex: 1;
+      }
+    }
   }
 `;
 
@@ -163,14 +193,20 @@ const Profile = styled.div`
   font-weight: 600;
 `;
 
-const Message = styled.div`
-  color: #ff625d;
-  font-size: 0.75rem;
+const AcceptButton = styled.button`
+  background-color: #ff625d;
+  border: none;
+  color: white;
+  border-radius: 9999px;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 8px;
 `;
 
-const LeaveButton = styled.button`
-  background-color: #ffac0b;
+const DenyButton = styled.button`
+  background-color: #777;
   border: none;
+  color: white;
   border-radius: 9999px;
   padding: 6px 12px;
   font-weight: 600;
