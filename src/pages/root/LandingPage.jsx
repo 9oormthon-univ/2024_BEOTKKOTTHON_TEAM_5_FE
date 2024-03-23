@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,11 +8,13 @@ const LandingPage = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  if(token) {
-    navigate("/home");
-  } else {
-    navigate("/");
-  }
+  useEffect(() => {
+    if(token) {
+      navigate("/home");
+    } else {
+      navigate("/");
+    }
+  }, [])
 
   return (
     <>
