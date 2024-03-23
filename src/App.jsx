@@ -20,9 +20,11 @@ import Program from "./components/festival/Program";
 import FestivalDetailPage1 from "./pages/festival/FestivalDetailPage1";
 import FestivalDetailPage2 from "./pages/festival/FestivalDetailPage2";
 import FestivalDetailPage3 from "./pages/festival/FestivalDetailPage3";
-import NotificationAnnouncementPage from "./pages/root/NotificationAnnouncementPage";
+import NotificationAnnouncementPage from "./pages/root/NotificationAnnouncementPage"
+
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
