@@ -7,7 +7,6 @@ import styled from "styled-components";
 import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
-import { onGetToken } from "../../firebaseConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const LoginPage = () => {
