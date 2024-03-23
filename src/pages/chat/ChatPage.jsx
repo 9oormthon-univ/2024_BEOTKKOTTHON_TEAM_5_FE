@@ -161,6 +161,7 @@ const ChatPage = () => {
   }, [isCallActive]);
 
   useEffect(() => {
+    console.log(messages);
     const saveMessages = () => {
       const staleMessages =
         JSON.parse(localStorage.getItem("staleMessages")) || {};
