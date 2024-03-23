@@ -6,17 +6,21 @@ import BlankModal from "../../components/common/BlankModal";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 import Button from "../../components/common/Button";
 import HeaderPrev from "../../components/common/HeaderPrev";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { authInstance } from "../../api/instance";
 
 const ProfileEditPage = () => {
-  const [selectedAnimal, setSelectedAnimal] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [preData, setPrevData] = useState(location.state);
+
+  const [selectedAnimal, setSelectedAnimal] = useState(preData.memberCharacter);
   const [selectedMBTI, setSelectedMBTI] = useState("");
   const [attractiveness, setAttractiveness] = useState([]);
   const [hobby, setHobby] = useState([]);
   const [hashtagCount, setHashtagCount] = useState(0);
 
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +84,13 @@ const ProfileEditPage = () => {
   useEffect(() => {
     setHashtagCount(attractiveness.length + hobby.length);
   }, [attractiveness, hobby]);
+
+
+
+  //확인용
+  useEffect(() => {
+    console.log("prevData", preData);
+  }, []); 
 
   return (
     <div>
