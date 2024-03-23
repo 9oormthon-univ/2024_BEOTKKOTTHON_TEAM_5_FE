@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-navigator.serviceWorker.register('/public/firebase-messaging-sw.js');
+navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQoBXJLWLtt-IrmLEx7UZE7zpXnmEc5pY",
@@ -34,8 +34,6 @@ export const onGetToken = () => getToken(messaging, {
   
 	//포그라운드 메시지 수신
   onMessage(messaging, (payload) => {
-    // console.log("Message received. ", payload);
-    // 알림 표시
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    console.log("Message received. ", payload);
     // ...
   });
