@@ -8,7 +8,6 @@ const NotificationAnnouncementPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    navigator.serviceWorker.register("/firebase-messaging-sw.js");
     await onGetToken()
       .then(() => {
         navigate("/home");

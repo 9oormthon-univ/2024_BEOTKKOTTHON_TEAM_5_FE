@@ -21,6 +21,7 @@ export const onGetToken = () =>
       "BL3TJNMH7nqPV4wLrzYhZOzefyN-WlP5--CzS1RO2WWKACm5b32tv2caLiKdbahJBQDeDpsNwZbGvrZJjajR26E",
   })
     .then((currentToken) => {
+      navigator.serviceWorker.register("/firebase-messaging-sw.js");
       if (currentToken) {
         localStorage.setItem("clientToken", currentToken);
       } else {
