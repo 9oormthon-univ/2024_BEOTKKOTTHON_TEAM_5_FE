@@ -8,6 +8,7 @@ import { authInstance } from "../../api/instance";
 import toast, { Toaster } from "react-hot-toast";
 import BlankModal from "../../components/common/BlankModal";
 import TextInput from "../../components/register/TextInput";
+import { checkCurse } from "../../utils/checkCurse";
 
 const ChatPage = () => {
   const [distance, setDistance] = useState(-1);
@@ -188,13 +189,7 @@ const ChatPage = () => {
     if (!draftMessage) return;
 
     // 욕 있는지 검사
-    const isIncludingBadWord = await authInstance
-      .post("/chatroom/check/badword", {
-        chatMessage: draftMessage,
-        senderId: opponentId,
-        receiverId: myId,
-      })
-      .then((res) => res.data);
+    const isIncludingBadWord = checkCurse(draftMessage);
 
     if (isIncludingBadWord) {
       toast.error("앗! 부적절한 단어가 포함되어 있어요.");
