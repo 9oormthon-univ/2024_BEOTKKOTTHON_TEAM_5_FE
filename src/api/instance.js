@@ -3,12 +3,12 @@ import { baseURL } from "../constants/baseURL";
 
 export const defaultInstance = axios.create({
   baseURL: baseURL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 export const authInstance = axios.create({
   baseURL: baseURL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 authInstance.interceptors.request.use((config) => {

@@ -27,6 +27,18 @@ const ChatPage = () => {
   const [opponentTelNum, setOpponentTelNum] = useState("");
 
   useEffect(() => {
+    const fetchDistance = async () => {
+      const distance = await authInstance
+        .get(`/gps/distance?id1=${myId}&id2=${opponentId}`)
+        .then((res) => res.data);
+
+      const parseDistance = parseInt(distance);
+      setDistance(parseDistance);
+    };
+    fetchDistance();
+  }, [])
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
     const newClient = Stomp.client("wss://api.dis-tance.com/meet");
 
@@ -141,10 +153,6 @@ const ChatPage = () => {
     });
     setDraftMessage("");
   };
-
-  useEffect(() => {
-    setDistance(200);
-  }, []);
 
   useEffect(() => {
     if (isCallActive) {
