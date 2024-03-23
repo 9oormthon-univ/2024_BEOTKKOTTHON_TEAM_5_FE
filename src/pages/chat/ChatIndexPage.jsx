@@ -34,7 +34,6 @@ const ChatIndexPage = () => {
     } finally {
       setLoading(false);
     }
-
   };
 
   useEffect(() => {
@@ -108,7 +107,10 @@ const ChatIndexPage = () => {
                     <div className="left-section">
                       <ImageContainer>
                         {/* characer에 따라 src 변경 */}
-                        <img src={Characters[chat.memberCharacter]} alt="캐릭터" />
+                        <img
+                          src={Characters[chat.memberCharacter]}
+                          alt="캐릭터"
+                        />
                       </ImageContainer>
 
                       <div className="profile-section">
@@ -121,7 +123,8 @@ const ChatIndexPage = () => {
                       <Time>{formatTime(chat.modifyDt)}</Time>
                       <LeaveButton
                         onClick={() => {
-                          const isLeave = window.confirm("정말로 나가시겠습니까?");
+                          const isLeave =
+                            window.confirm("정말로 나가시겠습니까?");
                           if (isLeave) {
                             handleLeaveChat(chat.chatRoomId);
                           }
@@ -136,7 +139,8 @@ const ChatIndexPage = () => {
               <div>접속중인 대화방이 없어요!</div>
             )}
           </Spacer>
-        </>)}
+        </>
+      )}
     </PagePadding>
   );
 };
@@ -201,6 +205,10 @@ const Profile = styled.div`
 
 const Message = styled.div`
   font-size: 0.75rem;
+  width: 170px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const Time = styled.div`
@@ -241,6 +249,5 @@ const LoaderContainer = styled.div`
   align-items: center;
   z-index: 999;
 `;
-
 
 export default ChatIndexPage;
