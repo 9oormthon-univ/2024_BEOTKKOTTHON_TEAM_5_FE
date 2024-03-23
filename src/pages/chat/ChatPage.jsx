@@ -10,7 +10,7 @@ import BlankModal from "../../components/common/BlankModal";
 import TextInput from "../../components/register/TextInput";
 
 const ChatPage = () => {
-  const [distance, setDistance] = useState(0);
+  const [distance, setDistance] = useState(-1);
   const [isCallActive, setIsCallActive] = useState(false);
   const [opponentTelNum, setOpponentTelNum] = useState("");
   const [reportMessage, setReportMessage] = useState("");
@@ -137,8 +137,10 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length > 10) {
-      setIsCallActive(true);
+    if (!isCallActive) {
+      if (messages.at(-1)?.checkTiKiTaKa) {
+        setIsCallActive(true);
+      }
     }
   }, [messages]);
 
@@ -257,7 +259,9 @@ const ChatPage = () => {
           </BackButton>
           <WrapTitle>
             <div className="title">상대방과의 거리</div>
-            <div className="subtitle">{distance}m</div>
+            <div className="subtitle">
+              {distance === -1 ? "불러오는 중..." : `${distance}m`}
+            </div>
           </WrapTitle>
           <div>
             <CallButton>
