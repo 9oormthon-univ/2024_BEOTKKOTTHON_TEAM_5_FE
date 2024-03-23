@@ -8,6 +8,7 @@ import HeaderPrev from "../../components/common/HeaderPrev";
 import TextInput from "../../components/register/TextInput";
 import Button from "../../components/common/Button";
 import { onGetToken } from "../../firebaseConfig";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const LoginPage = () => {
   // const [isDisabled, setIsDisabled] = useState(true)
   const [loginResult, setLoginResult] = useState();
   const [showWarning, setShowWarning] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const ID_REGEX = /^[a-z0-9]{5,20}$/;
   const PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
@@ -50,7 +53,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
+
 
     if (idTestFlag || pwTestFlag) {
       setShowWarning(true);
@@ -58,6 +61,7 @@ const LoginPage = () => {
     }
 
     try {
+      setLoading(true);
       await onGetToken();
       await login(loginValue);
       setIsLoggedIn(true);
@@ -65,57 +69,66 @@ const LoginPage = () => {
     } catch (err) {
       setShowWarning(true);
       setLoginResult(err.response?.status || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <WrapForm onSubmit={handleSubmit}>
+    <>
+      {loading ? (
+        <LoaderContainer>
+          <ClipLoader color={"#FF625D"} loading={loading} size={50} />
+        </LoaderContainer>
+      ) : (
+        <WrapForm onSubmit={handleSubmit}>
+          <WrapContent>
+            {location.state?.alert && alert("로그인이 필요합니다.")}
+            <HeaderPrev
+              title={
+                <>
+                  <div className="title-big">축제를 200% 즐기기</div>
+                  <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
+                </>
+              }
+              navigateTo={"/"}
+            />
 
-      <WrapContent>
-        {location.state?.alert && alert("로그인이 필요합니다.")}
-        <HeaderPrev
-          title={
-            <>
-              <div className="title-big">축제를 200% 즐기기</div>
-              <div className="title-small">취향에 맞는 프로필을 골라봐요</div>
-            </>
-          }
-          navigateTo={"/"}
-        />
+            <div>
+              <TextInput
+                label="아이디"
+                name="id"
+                type="text"
+                onChange={handleChange}
+                placeholder={"영어, 숫자 조합 5자 이상 20자 이하"}
+              />
+            </div>
 
-        <div>
-          <TextInput
-            label="아이디"
-            name="id"
-            type="text"
-            onChange={handleChange}
-            placeholder={"영어, 숫자 조합 5자 이상 20자 이하"}
-          />
-        </div>
+            <div>
+              <TextInput
+                label="비밀번호"
+                name="password"
+                type="password"
+                onChange={handleChange}
+                placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
+              />
+              {showWarning && loginResult !== 200 && (
+                <Tip>
+                  아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.
+                </Tip>
+              )}
+            </div>
+          </WrapContent>
+          <WrapText>
+            비밀번호를 잊으셨나요?<span>비밀번호 찾기</span>
+          </WrapText>
 
-        <div>
-          <TextInput
-            label="비밀번호"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            placeholder={"영문, 숫자, 특수문자 포함 8자리 이상"}
-          />
-          {showWarning && loginResult !== 200 && (
-            <Tip>
-              아이디 혹은 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.
-            </Tip>
-          )}
-        </div>
-      </WrapContent>
-      <WrapText>
-        비밀번호를 잊으셨나요?<span>비밀번호 찾기</span>
-      </WrapText>
-
-      <Button size="large" type="submit" disabled={isDisabled}>
-        로그인하기
-      </Button>
-    </WrapForm>
+          <Button size="large" type="submit" disabled={isDisabled}>
+            로그인하기
+          </Button>
+        </WrapForm>
+        )}
+    </>
   );
 };
 
@@ -143,4 +156,16 @@ const Tip = styled.small`
   font-size: 12px;
   color: #ff625d;
   font-weight: 700;
+`;
+
+const LoaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 `;

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authInstance } from "../../api/instance";
 import { parseTime } from "../../utils/parseTime";
 import Characters from "../../constants/character";
-
+import ClipLoader from "react-spinners/ClipLoader";
 /**
  * @todo LINE 61: localStorage에 저장된 대화 내역 삭제
  */
@@ -13,20 +13,28 @@ const ChatIndexPage = () => {
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
   const memberId = localStorage.getItem("memberId");
+  const [loading, setLoading] = useState(false);
 
   const fetchChatList = async () => {
-    const res = await authInstance
-      .get("/chatroom")
-      .then((res) => res.data)
-      .then((data) => {
-        const tempResponse = [...data];
-        tempResponse.sort(
-          (a, b) => new Date(b.modifyDt) - new Date(a.modifyDt)
-        );
-        return tempResponse;
-      });
+    try {
+      setLoading(true);
+      const res = await authInstance
+        .get("/chatroom")
+        .then((res) => res.data)
+        .then((data) => {
+          const tempResponse = [...data];
+          tempResponse.sort(
+            (a, b) => new Date(b.modifyDt) - new Date(a.modifyDt)
+          );
+          return tempResponse;
+        });
+      setChatList(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
 
-    setChatList(res);
   };
 
   useEffect(() => {
@@ -70,59 +78,65 @@ const ChatIndexPage = () => {
   return (
     <PagePadding>
       <Header />
-
-      <WrapInboxButton>
-        <InboxButton
-          onClick={() => {
-            navigate("/inbox");
-          }}>
-          <div>요청함</div>
-          <img src="/assets/arrow-pink-right.svg" alt="화살표 아이콘" />
-        </InboxButton>
-      </WrapInboxButton>
-      <Spacer>
-        {chatList.length !== 0 ? (
-          chatList.map((chat) => {
-            return (
-              <ChatRoomContainer
-                key={chat.chatRoomId}
-                to={`/chat/${chat.chatRoomId}`}
-                state={{
-                  myId: memberId,
-                  opponentId: chat.opponentMemberId,
-                  roomId: chat.chatRoomId,
-                }}>
-                <div className="left-section">
-                  <ImageContainer>
-                    {/* characer에 따라 src 변경 */}
-                    <img src={Characters[chat.memberCharacter]} alt="캐릭터" />
-                  </ImageContainer>
-
-                  <div className="profile-section">
-                    <Profile>{chat.roomName}</Profile>
-                    <Message>{chat.lastMessage}</Message>
-                  </div>
-                </div>
-
-                <div className="right-section">
-                  <Time>{formatTime(chat.modifyDt)}</Time>
-                  <LeaveButton
-                    onClick={() => {
-                      const isLeave = window.confirm("정말로 나가시겠습니까?");
-                      if (isLeave) {
-                        handleLeaveChat(chat.chatRoomId);
-                      }
+      {loading ? (
+        <LoaderContainer>
+          <ClipLoader color={"#FF625D"} loading={loading} size={50} />
+        </LoaderContainer>
+      ) : (
+        <>
+          <WrapInboxButton>
+            <InboxButton
+              onClick={() => {
+                navigate("/inbox");
+              }}>
+              <div>요청함</div>
+              <img src="/assets/arrow-pink-right.svg" alt="화살표 아이콘" />
+            </InboxButton>
+          </WrapInboxButton>
+          <Spacer>
+            {chatList.length !== 0 ? (
+              chatList.map((chat) => {
+                return (
+                  <ChatRoomContainer
+                    key={chat.chatRoomId}
+                    to={`/chat/${chat.chatRoomId}`}
+                    state={{
+                      myId: memberId,
+                      opponentId: chat.opponentMemberId,
+                      roomId: chat.chatRoomId,
                     }}>
-                    나가기
-                  </LeaveButton>
-                </div>
-              </ChatRoomContainer>
-            );
-          })
-        ) : (
-          <div>접속중인 대화방이 없어요!</div>
-        )}
-      </Spacer>
+                    <div className="left-section">
+                      <ImageContainer>
+                        {/* characer에 따라 src 변경 */}
+                        <img src={Characters[chat.memberCharacter]} alt="캐릭터" />
+                      </ImageContainer>
+
+                      <div className="profile-section">
+                        <Profile>{chat.roomName}</Profile>
+                        <Message>{chat.lastMessage}</Message>
+                      </div>
+                    </div>
+
+                    <div className="right-section">
+                      <Time>{formatTime(chat.modifyDt)}</Time>
+                      <LeaveButton
+                        onClick={() => {
+                          const isLeave = window.confirm("정말로 나가시겠습니까?");
+                          if (isLeave) {
+                            handleLeaveChat(chat.chatRoomId);
+                          }
+                        }}>
+                        나가기
+                      </LeaveButton>
+                    </div>
+                  </ChatRoomContainer>
+                );
+              })
+            ) : (
+              <div>접속중인 대화방이 없어요!</div>
+            )}
+          </Spacer>
+        </>)}
     </PagePadding>
   );
 };
@@ -215,5 +229,18 @@ const InboxButton = styled.div`
   gap: 8px;
   font-weight: 600;
 `;
+
+const LoaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+`;
+
 
 export default ChatIndexPage;
