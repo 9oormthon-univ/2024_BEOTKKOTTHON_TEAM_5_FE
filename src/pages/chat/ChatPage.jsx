@@ -205,7 +205,7 @@ const ChatPage = () => {
             {isCallActive ? (
               <a href={`tel:${opponentTelNum}`}>
                 <img
-                  src="/assets/Callicon-active.png"
+                  src="/assets/Callicon-Active.png"
                   onClick={() => {}}
                   alt="전화버튼"
                 />
