@@ -6,10 +6,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
 import { authInstance } from "../../api/instance";
 import toast, { Toaster } from "react-hot-toast";
+import BlankModal from "../../components/common/BlankModal";
+import TextInput from "../../components/register/TextInput";
 
 const ChatPage = () => {
   const [distance, setDistance] = useState(0);
   const [isCallActive, setIsCallActive] = useState(false);
+  const [opponentTelNum, setOpponentTelNum] = useState("");
+  const [reportMessage, setReportMessage] = useState("");
+
+  const reportModalRef = useRef();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +30,33 @@ const ChatPage = () => {
 
   const viewportRef = useRef();
 
-  const [opponentTelNum, setOpponentTelNum] = useState("");
+  const openReportModal = () => {
+    reportModalRef.current.open();
+  };
+
+  const closeReportModal = () => {
+    setReportMessage("");
+    reportModalRef.current.close();
+  };
+
+  const handleReportUser = async (e) => {
+    e.preventDefault();
+
+    await authInstance
+      .post("/declare", {
+        declareContent: reportMessage,
+        opponentId,
+      })
+      .then((res) => {
+        alert("신고가 완료되었어요!");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("이미 신고한 사용자예요! 신고는 한 번만 가능해요.");
+      });
+
+    closeReportModal();
+  };
 
   useEffect(() => {
     const fetchDistance = async () => {
@@ -241,17 +273,34 @@ const ChatPage = () => {
               <img src="/assets/leave-button.png" alt="나가기 버튼" />
             </LeaveButton>
           </div>
-          {/* 나가기 버튼 먼저 놓고 */}
-          {/* 나가기 로직 구현 */}
         </TopBar>
 
         <Messages messages={messages} myId={myId} />
         <MessageInput
           value={draftMessage}
+          buttonClickHandler={openReportModal}
           changeHandler={handleChange}
           submitHandler={sendMessage}
         />
       </Container>
+      <BlankModal ref={reportModalRef}>
+        <ModalContent>
+          <TextInput
+            label="사용자 신고하기"
+            placeholder="신고 내용을 입력해주세요."
+            value={reportMessage}
+            onChange={(e) => setReportMessage(e.target.value)}
+          />
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <ReportButton
+              disabled={reportMessage === ""}
+              onClick={handleReportUser}>
+              신고하기
+            </ReportButton>
+            <CancelButton onClick={closeReportModal}>취소하기</CancelButton>
+          </div>
+        </ModalContent>
+      </BlankModal>
     </Wrapper>
   );
 };
@@ -310,6 +359,28 @@ const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ModalContent = styled.div`
+  display: grid;
+  gap: 1rem;
+  width: 250px;
+  padding: 1.25rem;
+`;
+
+const ReportButton = styled.button`
+  background: none;
+  border: none;
+  color: #ff625d;
+
+  &:disabled {
+    color: #e0e0e0;
+  }
+`;
+
+const CancelButton = styled.button`
+  background: none;
+  border: none;
 `;
 
 export default ChatPage;
