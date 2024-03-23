@@ -59,21 +59,8 @@ const NavLayout = () => {
       });
     };
 
-    const checkProfileRegistered = async () => {
-      const isRegistered = await authInstance
-        .get("/member/check/profile")
-        .then((res) => res.data);
-
-      if (!isRegistered) {
-        alert("프로필을 등록해주세요.");
-        navigate("/profile");
-        return; // 프로필 미등록 시 리다이렉션 후 다음 코드는 실행되지 않도록 함수 종료
-      }
-    };
-
     // 로그인 상태가 확인된 후 실행되어야 하는 로직들
     getMemberId();
-    checkProfileRegistered();
 
     if (!navigator.geolocation) {
       setCurLocation({

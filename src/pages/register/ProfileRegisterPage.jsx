@@ -7,11 +7,14 @@ import Button from "../../components/common/Button";
 import { ATTRACTIVENESS, HOBBY } from "../../constants/profile";
 import { authInstance } from "../../api/instance";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { registerDataState } from "../../store/registerDataState";
 
 /**
  * @todo 코드 분리
  */
 const ProfileRegisterPage = () => {
+  const [registerData, setRegisterData] = useRecoilState(registerDataState);
   const [selectedAnimal, setSelectedAnimal] = useState("");
   const [selectedMBTI, setSelectedMBTI] = useState("");
   const [attractiveness, setAttractiveness] = useState([]);
@@ -20,24 +23,47 @@ const ProfileRegisterPage = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setRegisterData((prev) => ({
+      ...prev,
+      memberCharacter: selectedAnimal,
+      mbti: selectedMBTI,
+      memberHobbyDto: hobby.map((value) => ({ hobby: value })),
+      memberTagDto: attractiveness.map((value) => ({ tag: value })),
+    }));
+  }, [selectedAnimal, selectedMBTI, attractiveness, hobby]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await authInstance
-      .post("/member/info", {
+      .post("/member/signup", {
+        loginId: registerData.loginId,
+        password: registerData.password,
+        checkPassword: registerData.checkPassword,
+        gender: registerData.gender,
+        telNum: registerData.telNum,
+        school: registerData.school,
+        college: registerData.college,
+        department: registerData.department,
+        schoolEmail: registerData.schoolEmail,
+        agreeTerms: registerData.agreeTerms,
+        agreePrivacy: registerData.agreePrivacy,
         mbti: selectedMBTI,
         memberCharacter: selectedAnimal,
-        memberHobbyDto: hobby.map((value) => ({ hobby: value })),
-        memberTagDto: attractiveness.map((value) => ({ tag: value })),
+        memberHobbyDto: registerData.memberHobbyDto,
+        memberTagDto: registerData.memberTagDto,
       })
       .then(() => {
-        alert("회원정보 등록이 완료되었습니다.");
-      })
-      .then(() => {
-        navigate("/home");
+        navigate("/register/done", {
+          state: {
+            loginId: registerData.loginId,
+            password: registerData.password,
+          },
+        });
       })
       .catch((error) => {
-        console.error(error);
+        alert("회원정보 등록에 실패했습니다.");
       });
   };
 
@@ -180,7 +206,7 @@ const ProfileRegisterPage = () => {
           </BlankModal>
         </div>
         <Button disabled={isDisabled} onClick={handleSubmit} size="large">
-          시작하기
+          가입 완료하기
         </Button>
       </WrapContent>
     </div>

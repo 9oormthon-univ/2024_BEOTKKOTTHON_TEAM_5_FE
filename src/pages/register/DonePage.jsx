@@ -35,9 +35,9 @@ const DonePage = () => {
           <Button
             size="large"
             onClick={() => {
-              navigate("/register/profile");
+              navigate("/home");
             }}>
-            프로필 설정하기
+            시작하기
           </Button>
         </WrapButton>
       </WrapContent>
