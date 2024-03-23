@@ -137,8 +137,10 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length > 10) {
-      setIsCallActive(true);
+    if (!isCallActive) {
+      if (messages.at(-1).checkTiKiTaKa) {
+        setIsCallActive(true);
+      }
     }
   }, [messages]);
 
