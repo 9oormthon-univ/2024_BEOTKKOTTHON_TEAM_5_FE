@@ -121,16 +121,11 @@ const ChatIndexPage = () => {
 
                     <div className="right-section">
                       <Time>{formatTime(chat.modifyDt)}</Time>
-                      <LeaveButton
-                        onClick={() => {
-                          const isLeave =
-                            window.confirm("정말로 나가시겠습니까?");
-                          if (isLeave) {
-                            handleLeaveChat(chat.chatRoomId);
-                          }
-                        }}>
-                        나가기
-                      </LeaveButton>
+                      {chat.askedCount !== 0 ? (
+                        <UnreadCount>{chat.askedCount}</UnreadCount>
+                      ) : (
+                        <br />
+                      )}
                     </div>
                   </ChatRoomContainer>
                 );
@@ -248,6 +243,15 @@ const LoaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 999;
+`;
+
+const UnreadCount = styled.div`
+  background-color: #ff625d;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 4px 8px;
+  font-size: 0.6rem;
+  font-weight: 600;
 `;
 
 export default ChatIndexPage;
