@@ -4,6 +4,7 @@ import Button from "../../components/common/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isLoggedInState, login } from "../../store/auth";
 import { useSetRecoilState } from "recoil";
+import { onGetToken } from "../../firebaseConfig";
 
 const DonePage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const DonePage = () => {
       login({ id: loginId, password })
         .then(() => {
           setIsLoggedIn(true);
+          onGetToken();
         })
         .catch((err) => console.error(err));
     };

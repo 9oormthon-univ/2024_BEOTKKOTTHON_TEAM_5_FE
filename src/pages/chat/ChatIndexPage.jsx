@@ -37,9 +37,18 @@ const ChatIndexPage = () => {
   };
 
   useEffect(() => {
-    console.log(chatList);
     fetchChatList();
   }, []);
+
+
+
+
+  // useEffect(() => {
+  //   console.log("chatList", chatList);
+  // }, [chatlist])
+
+
+
 
   const formatTime = (time) => {
     const today = new Date();
