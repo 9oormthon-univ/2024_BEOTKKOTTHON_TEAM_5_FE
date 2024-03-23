@@ -24,7 +24,9 @@ const UnivRegisterPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "schoolEmail") { setEmailButtonLabel("메일 중복 확인") }
+    if (name === "schoolEmail") {
+      setEmailButtonLabel("메일 중복 확인");
+    }
     setEmailCertify(false);
     setRegisterData({ ...registerData, [name]: value });
   };
@@ -42,40 +44,8 @@ const UnivRegisterPage = () => {
     setRegisterData((prev) => ({ ...prev, school, college, department }));
   }, [school, college, department]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    await defaultInstance
-      .post("/member/signup", {
-        loginId: registerData.loginId,
-        password: registerData.password,
-        checkPassword: registerData.checkPassword,
-        gender: registerData.gender,
-        telNum: registerData.telNum,
-        school: registerData.school,
-        college: registerData.college,
-        department: registerData.department,
-        schoolEmail: registerData.schoolEmail,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/register/done", {
-            state: {
-              loginId: registerData.loginId,
-              password: registerData.password,
-            },
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const isDisabled =
-    !registerData.agreeTerms ||
-    !registerData.agreePrivacy ||
-    !registerComplete;
+    !registerData.agreeTerms || !registerData.agreePrivacy || !registerComplete;
 
   const emailIsDisabled =
     !registerData.school ||
@@ -85,35 +55,13 @@ const UnivRegisterPage = () => {
     emailCertify;
 
   const UNIV_PLACEHOLDER = "학교를 선택해주세요.";
-  const UNIV_TYPES = [
-    "구름대학교",
-    // "국민대학교",
-    // "서울여자대학교",
-    // "순천향대학교",
-    // "전남대학교",
-    // "한국외국어대학교(글로벌)",
-  ];
+  const UNIV_TYPES = ["구름대학교"];
 
   const COLLEGE_PLACEHOLDER = "단과대학을 선택해주세요.";
-  const COLLEGE_TYPES = [
-    "구름톤2기",
-    // "공과대학",
-    // "인문대학",
-    // "사회과학대학",
-    // "자연과학대학",
-  ];
+  const COLLEGE_TYPES = ["구름톤2기"];
 
   const DEPARTMENT_PLACEHOLDER = "학과를 선택해주세요.";
-  const DEPARTMENT_TYPES = [
-    "기획과",
-    "디자인과",
-    "프론트과",
-    "백엔드과",
-    // "컴퓨터공학과",
-    // "전자공학과",
-    // "경영학과",
-    // "국어국문학과",
-  ];
+  const DEPARTMENT_TYPES = ["기획과", "디자인과", "프론트과", "백엔드과"];
 
   const checkEmail = async () => {
     console.log(registerData.schoolEmail);
@@ -121,34 +69,34 @@ const UnivRegisterPage = () => {
       const res = await defaultInstance.post("/univ/check/email", {
         schoolEmail: registerData.schoolEmail,
       });
-      if(res.data) {
-        alert('사용 가능한 이메일 입니다.');
-        setEmailButtonLabel('메일 보내기');
+      if (res.data) {
+        alert("사용 가능한 이메일 입니다.");
+        setEmailButtonLabel("메일 보내기");
       }
     } catch (error) {
-      alert('사용 불가능한 이메일 입니다.');
+      alert("사용 불가능한 이메일 입니다.");
       console.log(error);
     }
-  }
+  };
   const sendEmail = async () => {
     console.log(registerData.schoolEmail);
     try {
       const res = await defaultInstance.post("/univ/send/email", {
         schoolEmail: registerData.schoolEmail,
       });
-      if(res.data) {
-        alert('인증 번호를 보냈습니다.');
+      if (res.data) {
+        alert("인증 번호를 보냈습니다.");
       }
     } catch (error) {
-      alert('인증에 실패했습니다.');
+      alert("인증에 실패했습니다.");
       console.log(error);
     }
-  }
+  };
 
   const getButtonClickHandler = () => {
-    if (emailButtonLabel === '메일 중복 확인') {
+    if (emailButtonLabel === "메일 중복 확인") {
       checkEmail();
-    } else if (emailButtonLabel === '메일 보내기') {
+    } else if (emailButtonLabel === "메일 보내기") {
       sendEmail();
       setEmailCertify(true);
     } else {
@@ -161,18 +109,18 @@ const UnivRegisterPage = () => {
       const res = await defaultInstance.post("/univ/certificate/email", {
         number: certificationValue,
       });
-      if(res.data) {
+      if (res.data) {
         console.log(res.data);
-        alert('인증되었습니다.');
+        alert("인증되었습니다.");
         setRegisterComplete(true);
       } else {
-        alert('인증에 실패했습니다. 다시 시도해주세요.');
+        alert("인증에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
-      alert('인증에 실패했습니다. 다시 시도해주세요.');
+      alert("인증에 실패했습니다. 다시 시도해주세요.");
       console.log(error);
     }
-  }
+  };
 
   // const handleGetEmailDomain = async () => {
   //   console.log(registerData.school);
@@ -188,7 +136,6 @@ const UnivRegisterPage = () => {
   //     console.log(error);
   //   }
   // }
-
 
   return (
     <WrapContent>
@@ -225,11 +172,11 @@ const UnivRegisterPage = () => {
         type="email"
         buttonLabel={emailButtonLabel}
         buttonDisabled={emailIsDisabled}
-        // value={registerData.schoolEmail}
+        value={registerData.schoolEmail}
         onChange={handleChange}
         buttonClickHandler={getButtonClickHandler}
       />
-      {emailCertify &&
+      {emailCertify && (
         <TextInput
           label="인증번호"
           name="emailCertification"
@@ -239,7 +186,8 @@ const UnivRegisterPage = () => {
           buttonClickHandler={getCertificationHandler}
           timerState={300}
           onTimerEnd={() => setEmailCertify(false)}
-        />}
+        />
+      )}
 
       <WrapCheckbox>
         <Checkbox
@@ -256,8 +204,13 @@ const UnivRegisterPage = () => {
         />
       </WrapCheckbox>
 
-      <Button size="large" disabled={isDisabled} onClick={handleSubmit}>
-        가입 완료하기
+      <Button
+        size="large"
+        disabled={isDisabled}
+        onClick={() => {
+          navigate("/register/profile");
+        }}>
+        프로필 등록하기
       </Button>
     </WrapContent>
   );
