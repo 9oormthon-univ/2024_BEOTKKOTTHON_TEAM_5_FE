@@ -4,12 +4,12 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 navigator.serviceWorker.register("/firebase-messaging-sw.js");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAQoBXJLWLtt-IrmLEx7UZE7zpXnmEc5pY",
-  projectId: "distance-f328d",
-  storageBucket: "distance-f328d.appspot.com",
-  messagingSenderId: "460756816017",
-  appId: "1:460756816017:web:ce857120897defd934af30",
-  measurementId: "G-D5KLVYC8XW",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // firebase 앱 초기화
@@ -18,10 +18,9 @@ const messaging = getMessaging(FBapp);
 
 // client 토큰 발급 받기
 export const onGetToken = async () => {
-  console.log(messaging)
+  console.log(messaging);
   return getToken(messaging, {
-    vapidKey:
-      "BL3TJNMH7nqPV4wLrzYhZOzefyN-WlP5--CzS1RO2WWKACm5b32tv2caLiKdbahJBQDeDpsNwZbGvrZJjajR26E",
+    vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
   })
     .then((currentToken) => {
       if (currentToken) {
@@ -47,7 +46,7 @@ export const onGetToken = async () => {
 // onMessage(messaging, (payload) => {
 //   console.log("Message received. ", payload);
 //   // ...
-  
+
 // });
 
 onMessage(messaging, (payload) => {
