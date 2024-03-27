@@ -31,7 +31,7 @@ jobs:
           echo "REACT_APP_FIREBASE_VAPID_KEY=${{ secrets.REACT_APP_FIREBASE_VAPID_KEY }}" >> .env
 
       - name: Replace environment variables in firebase-messaging-sw.js
-        run: node replaceEnvForSW.js
+        run: node src/replaceEnvForSW.js
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
           REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
