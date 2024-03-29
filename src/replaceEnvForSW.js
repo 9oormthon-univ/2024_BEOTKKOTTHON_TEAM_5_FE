@@ -20,6 +20,7 @@ const envVariables = {
   "%%REACT_APP_FIREBASE_APP_ID%%": process.env.REACT_APP_FIREBASE_APP_ID,
   "%%REACT_APP_FIREBASE_MEASUREMENT_ID%%":
     process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  "%%REACT_APP_FIREBASE_VAPID_KEY%%": process.env.REACT_APP_FIREBASE_VAPID_KEY,
 };
 
 Object.entries(envVariables).forEach(([key, value]) => {

@@ -21,7 +21,7 @@ const messaging = getMessaging(FBapp);
 export const onGetToken = async () => {
   console.log(messaging);
   return getToken(messaging, {
-    vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
+    vapidKey: "%%REACT_APP_FIREBASE_VAPID_KEY%%",
   })
     .then((currentToken) => {
       if (currentToken) {
